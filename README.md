@@ -21,5 +21,5 @@ Source available at: https://github.com/fiskurgit/bbcmicro
 Known issues:
 - Some games will have keyboard issues, ability to remap hardware keys to BBC keys will be in next update
 - App doesn't appear in recent apps list
-- Basic auto-input sometimes drops a character (sync issue due to having two handlers...)
+- Basic auto-input very occasionally drops a character (sync issue due to having two handlers...)
 - File explorer doesn't check filetypes: it'll load anything that doesn't end in .ssd as a text file
