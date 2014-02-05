@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="BeebdroidTheme" parent="android:Theme">
+        <item name="android:windowBackground">@null</item>
+    </style>
+
+    <dimen name="keyboardAreaHeight">168dp</dimen>
+
+    <string name="about_show_next_time">Show this info on startup</string>
+    <string name="ok_button">OK</string>
+    <string name="filename_edit_hint">Filename</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_files">Explorer</string>
+    <string name="action_settings">Settings</string>
+    <string name="settings_remap_label">If using this app with a Bluetooth keyboard you can remap the BBC micro keys here. Select the BBC key from the drop down, hit the key then select Add below. This is useful when playing games.</string>
+    <string name="title_activity_fiskur_about"> About</string>
+
+</resources>

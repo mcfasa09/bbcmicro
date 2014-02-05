@@ -1,0 +1,63 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AboutActivity" >
+
+    <LinearLayout
+        android:id="@+id/logo_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fcfcfc"
+        android:paddingBottom="30dp"
+        android:paddingTop="30dp" >
+
+        <ImageView
+            android:id="@+id/fiskur_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#fcfcfc"
+            android:paddingLeft="15dp"
+            android:src="@drawable/fiskur_logo" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/about_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logo_layout"
+        android:paddingLeft="20dp"
+        android:paddingTop="20dp"
+        android:text="BBC Micro" />
+
+    <TextView
+        android:id="@+id/about_view_web"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/about_view"
+        android:paddingLeft="20dp"
+        android:paddingTop="5dp"
+        android:text="www.fiskur.eu" />
+    
+    <TextView
+        android:id="@+id/thanks_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/about_view_web"
+        android:textSize="12sp"
+        android:paddingLeft="20dp"
+        android:paddingTop="5dp"
+        android:text="Based on Beebdroid by Little Fluffy Toys Ltd." />
+    
+     <TextView
+        android:id="@+id/gnu_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/thanks_view"
+        android:textSize="12sp"
+        android:paddingLeft="20dp"
+        android:paddingTop="5dp"
+        android:text="Licensed under GNU General Public License v2.0\nSource available at: github.com/fiskurgit" />
+
+   
+</RelativeLayout>

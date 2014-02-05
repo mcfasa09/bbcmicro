@@ -1,0 +1,47 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".SettingsActivity" >
+
+    <TextView
+        android:id="@+id/settings_key_remap_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/settings_remap_label" />
+
+    <LinearLayout
+        android:id="@+id/settings_remap_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/settings_key_remap_label"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <Spinner
+            android:id="@+id/settings_bbc_keys_spinner"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content" />
+        
+        <TextView 
+            android:id="@+id/settings_keycode_text_view"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:hint="Keycode"
+            android:text=""/>
+        
+        <Button 
+            android:id="@+id/settings_add_remap_button"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="Add"
+            android:background="#ccc"
+            android:textColor="#fff"/>
+    </LinearLayout>
+
+</RelativeLayout>

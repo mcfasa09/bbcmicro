@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:lft="http://schemas.android.com/apk/res/com.littlefluffytoys.beebdroid"
+    android:id="@+id/root"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#000" >
+
+    <view
+        android:id="@+id/beeb"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        class="com.littlefluffytoys.beebdroid.BeebView" />
+
+    <!-- 
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/keyboardAreaHeight"
+        android:layout_alignParentBottom="true" >
+    </FrameLayout>
+ 	-->
+</RelativeLayout>
