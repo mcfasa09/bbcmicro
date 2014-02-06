@@ -6,6 +6,7 @@ import com.littlefluffytoys.beebdroid.Beebdroid;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -32,6 +33,9 @@ public class SettingsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_settings);
 		
+		getActionBar().setHomeButtonEnabled(true);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		
 		mPrefs = getSharedPreferences(Beebdroid.BBC_MICRO_PREFS, MODE_PRIVATE);
 
 		mBBCKeyLabels = BBCUtils.getInstance().getKeyMapsWithRemap(this);
@@ -47,7 +51,6 @@ public class SettingsActivity extends Activity {
 
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			l("List item clicked");
 			KeyMap clickedKey = mBBCKeyLabels[position];
 			mSelectedScanCode = clickedKey.getScanCode();
 			Intent keyMapIntent = new Intent(SettingsActivity.this, KeyRemapActivity.class);
@@ -83,7 +86,9 @@ public class SettingsActivity extends Activity {
 		return super.onKeyDown(keyCode, event);
 	}
 	
-	private void l(String message){
-		Log.d(TAG, message);
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		finish();
+		return true;
 	}
 }

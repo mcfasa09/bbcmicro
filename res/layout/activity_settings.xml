@@ -20,7 +20,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/settings_key_remap_label"
         android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin" >
     </ListView>
 

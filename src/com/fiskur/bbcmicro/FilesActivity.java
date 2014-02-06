@@ -10,8 +10,14 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import com.littlefluffytoys.beebdroid.Beebdroid;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,6 +36,7 @@ import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 public class FilesActivity extends Activity {
+	private static final String TAG = "FilesActivity";
 	public static final int MODE_SAVE = 1;
 	public static final int MODE_OPEN = 2;
 	public static final String MODE = "mode";
@@ -131,8 +138,10 @@ public class FilesActivity extends Activity {
 				case MODE_OPEN:
 					mFilename = file.getName();
 					if(mFilename.endsWith(".ssd") || mFilename.endsWith(".SSD")){
+						String filePath = file.getPath();
+						savePath(filePath);
 						Intent filepathIntent = new Intent();
-						filepathIntent.putExtra(INTENT_EXTRA_FILEPATH, file.getPath());
+						filepathIntent.putExtra(INTENT_EXTRA_FILEPATH, filePath);
 						FilesActivity.this.setResult(RESULT_FILES_ACTIVITY, filepathIntent);
 						FilesActivity.this.finish();
 					}else{
@@ -147,6 +156,24 @@ public class FilesActivity extends Activity {
 			}
 		}
 	};
+	
+	private void savePath(String path){
+		SharedPreferences prefs = getSharedPreferences(Beebdroid.BBC_MICRO_PREFS, MODE_PRIVATE);
+		String disksStr = prefs.getString(DiskSelectActivity.PREFS_DISKS_JSON_ARRAY, null);
+		try {
+		JSONArray disksJSONArray = null;
+		if(disksStr == null){
+			disksJSONArray = new JSONArray();
+		}else{
+			disksJSONArray = new JSONArray(disksStr);
+		}
+		
+		disksJSONArray.put(path);
+		prefs.edit().putString(DiskSelectActivity.PREFS_DISKS_JSON_ARRAY, disksJSONArray.toString()).commit();
+		} catch (JSONException e) {
+			l(e.toString());
+		}
+	}
 
 	private class OpenFile extends AsyncTask<String, String, String> {
 
@@ -303,5 +330,9 @@ public class FilesActivity extends Activity {
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		FilesActivity.this.finish();
 		return super.onMenuItemSelected(featureId, item);
+	}
+	
+	private void l(String message){
+		Log.d(TAG, message);
 	}
 }

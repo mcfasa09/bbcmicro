@@ -14,6 +14,7 @@ import com.fiskur.bbcmicro.BBCUtils;
 import com.fiskur.bbcmicro.BBCUtils.KeyMap;
 import com.fiskur.bbcmicro.FilesActivity;
 import com.fiskur.bbcmicro.FiskurAboutActivity;
+import com.fiskur.bbcmicro.DiskSelectActivity;
 import com.fiskur.bbcmicro.R;
 import com.fiskur.bbcmicro.SettingsActivity;
 
@@ -58,6 +59,7 @@ public class Beebdroid extends Activity {
 	public static final String BBC_MICRO_PREFS = "fiskur_bbc_miro_prefs";
 	private static final int ACTIVITY_RESULT_FILE_EXPLORER = 9000;
 	private static final int ACTIVITY_RESULT_SETTINGS = 9001;
+	private static final int ACTIVITY_RESULT_LOAD_DISK = 9002;
 	private static final int EMULATOR_CYCLE_MS = 20;
 	private static final int SOFT_UPKEY_WAIT_MS = 50;
 
@@ -476,6 +478,7 @@ public class Beebdroid extends Activity {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
 		case ACTIVITY_RESULT_FILE_EXPLORER:
+		case ACTIVITY_RESULT_LOAD_DISK:
 			if (data == null) {
 				return;
 			}
@@ -558,6 +561,10 @@ public class Beebdroid extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+		case R.id.action_load_disk:
+			Intent loadSavedDiskIntent = new Intent(Beebdroid.this, DiskSelectActivity.class);
+			startActivityForResult(loadSavedDiskIntent, ACTIVITY_RESULT_LOAD_DISK);
+			break;
 		case R.id.action_settings:
 			Intent settingsIntent = new Intent(Beebdroid.this, SettingsActivity.class);
 			startActivityForResult(settingsIntent, ACTIVITY_RESULT_SETTINGS);
