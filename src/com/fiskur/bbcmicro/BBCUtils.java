@@ -9,6 +9,10 @@ import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.littlefluffytoys.beebdroid.Beebdroid;
+
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.KeyEvent;
 
 public class BBCUtils {
@@ -135,10 +139,43 @@ public class BBCUtils {
 		return keyMaps;
 	}
 	
+	public KeyMap[] getKeyMapsWithRemap(Context context){
+		SharedPreferences prefs = context.getSharedPreferences(Beebdroid.BBC_MICRO_PREFS, Context.MODE_PRIVATE);
+		
+		KeyMap[] keyMaps = new KeyMap[mBBCKeyboardMap.size() + mBBCKeyboardShiftMap.size()];
+		int index = 0;
+		for(Character key : mBBCKeyboardMap.keySet()){
+			int bbcKey = mBBCKeyboardMap.get(key);
+			String prefKey = SettingsActivity.PREFS_CHAR_PREFIX + Integer.toHexString(bbcKey);
+			if(prefs.contains(prefKey)){
+				int remappedKeyCode = prefs.getInt(prefKey, -1);
+				keyMaps[index] = new KeyMap(key, bbcKey, remappedKeyCode);
+			}else{
+				keyMaps[index] = new KeyMap(key, bbcKey, -1);
+			}
+			
+			index++;
+		}
+		for(Character key : mBBCKeyboardShiftMap.keySet()){
+			int bbcKey = mBBCKeyboardShiftMap.get(key);
+			String prefKey = SettingsActivity.PREFS_CHAR_PREFIX + Integer.toHexString(bbcKey);
+			if(prefs.contains(prefKey)){
+				int remappedKeyCode = prefs.getInt(prefKey, -1);
+				keyMaps[index] = new KeyMap(key, mBBCKeyboardShiftMap.get(key), remappedKeyCode);
+			}else{
+				keyMaps[index] = new KeyMap(key, mBBCKeyboardShiftMap.get(key), -1);
+			}
+			
+			index++;
+		}
+		
+		return keyMaps;
+	}
+	
 	public class KeyMap{
 		char mKey;
-		int mScanCode;
-		int mRemapCode;
+		int mScanCode = -1;
+		int mRemapCode = -1;
 		
 		public KeyMap(){
 			

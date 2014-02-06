@@ -34,10 +34,10 @@ public class SettingsActivity extends Activity {
 		
 		mPrefs = getSharedPreferences(Beebdroid.BBC_MICRO_PREFS, MODE_PRIVATE);
 
-		mBBCKeyLabels = BBCUtils.getInstance().getKeyMaps();
+		mBBCKeyLabels = BBCUtils.getInstance().getKeyMapsWithRemap(this);
 		
 		mBBCKeyList = (ListView) findViewById(R.id.settings_keymap_list);
-		KeyMapAdapter bbcKeyAdapter = new KeyMapAdapter (this,android.R.layout.simple_list_item_1, mBBCKeyLabels);
+		KeyMapAdapter bbcKeyAdapter = new KeyMapAdapter (this, R.layout.list_row_remap, mBBCKeyLabels);
 		mBBCKeyList.setAdapter(bbcKeyAdapter);
 		
 		mBBCKeyList.setOnItemClickListener(new KeyMapItemClickListener());
@@ -53,6 +53,7 @@ public class SettingsActivity extends Activity {
 			Intent keyMapIntent = new Intent(SettingsActivity.this, KeyRemapActivity.class);
 			keyMapIntent.putExtra(KeyRemapActivity.EXTRA_KEY_STRING, Character.toString(clickedKey.getKey()));
 			keyMapIntent.putExtra(KeyRemapActivity.EXTRA_SCAN_INT, clickedKey.getScanCode());
+			keyMapIntent.putExtra(KeyRemapActivity.EXTRA_SCAN_REMAP_INT, clickedKey.getRemapCode());
 			startActivityForResult(keyMapIntent, ACTIVITY_REMAP);
 		}
 	}
@@ -63,7 +64,13 @@ public class SettingsActivity extends Activity {
 			int remapInt = data.getIntExtra(KeyRemapActivity.RESULT_EXTRA_REMAP_KEY, -1);
 			if(remapInt != -1){
 				mPrefs.edit().putInt(PREFS_CHAR_PREFIX + Integer.toHexString(mSelectedScanCode), remapInt).commit();
+			}else{
+				mPrefs.edit().remove(PREFS_CHAR_PREFIX + Integer.toHexString(mSelectedScanCode)).commit();
 			}
+			mBBCKeyLabels = BBCUtils.getInstance().getKeyMapsWithRemap(this);
+			KeyMapAdapter bbcKeyAdapter = new KeyMapAdapter (this, R.layout.list_row_remap, mBBCKeyLabels);
+			mBBCKeyList.setAdapter(bbcKeyAdapter);
+			
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}

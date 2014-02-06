@@ -24,12 +24,15 @@ import android.media.AudioTrack;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
+import android.text.method.KeyListener;
 import android.util.Log;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
@@ -44,6 +47,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 import android.graphics.Bitmap;
 
 public class Beebdroid extends Activity {
@@ -208,12 +212,15 @@ public class Beebdroid extends Activity {
 	@Override
 	public void onResume() {
 		super.onResume();
+		checkScreenAutoRotate();
+		
 		mBBCMainLoopHandler.postDelayed(bbcEmulatorRunnable, EMULATOR_CYCLE_MS);
 
 		int screenOrientation = getResources().getConfiguration().orientation;
 		if (Configuration.ORIENTATION_PORTRAIT == screenOrientation) {
 			// Portrait -
 			mInvisibleEditText = (EditText) findViewById(R.id.invisible_edit);
+			
 			if (isHardwareKeyboardAvailable()) {
 				// Is this a risky strategy?
 				if(mInvisibleEditText != null){
@@ -224,7 +231,41 @@ public class Beebdroid extends Activity {
 				}
 				return;
 			}
-
+			//Need to check keycodes here - this doesn't work...
+			/*
+			mInvisibleEditText.setKeyListener(new KeyListener() {
+				
+				@Override
+				public boolean onKeyUp(View view, Editable text, int keyCode, KeyEvent event) {
+					l("EditText onKeyUp");
+					Beebdroid.this.onKeyUp(keyCode, event);
+					return true;
+				}
+				
+				@Override
+				public boolean onKeyOther(View view, Editable text, KeyEvent event) {
+					return false;
+				}
+				
+				@Override
+				public boolean onKeyDown(View view, Editable text, int keyCode, KeyEvent event) {
+					l("EditText onKeyDown keyCode: " + keyCode);
+					Beebdroid.this.onKeyDown(keyCode, event);
+					return true;
+				}
+				
+				@Override
+				public int getInputType() {
+					return 0;
+				}
+				
+				@Override
+				public void clearMetaKeyState(View view, Editable content, int states) {
+					l("clearMetaKeyState");
+				}
+			});
+			*/
+			
 			mInvisibleEditText.setOnEditorActionListener(new OnEditorActionListener() {
 
 				@Override
@@ -237,6 +278,7 @@ public class Beebdroid extends Activity {
 				}
 			});
 
+			
 			if (mInvisibleTextWatcher == null) {
 				mInvisibleTextWatcher = new InvisibleTextWatcher();
 			} else {
@@ -244,12 +286,15 @@ public class Beebdroid extends Activity {
 			}
 
 			mInvisibleEditText.addTextChangedListener(mInvisibleTextWatcher);
+			
 			showInvisibleEditTextKeyboard();
 		} else {
 			getActionBar().hide();
 			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 			getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 		}
+		
+		
 	}
 
 	// This runnable drives the native emulation code
@@ -294,7 +339,7 @@ public class Beebdroid extends Activity {
 
 	@Override
 	public boolean onKeyDown(int keycode, KeyEvent event) {
-		l("onKeyDown " + keycode);
+		//l("onKeyDown " + keycode);
 		if (keycode == KeyEvent.KEYCODE_SHIFT_LEFT || keycode == KeyEvent.KEYCODE_SHIFT_RIGHT) {
 			mShiftKeyDown = true;
 		}
@@ -382,7 +427,14 @@ public class Beebdroid extends Activity {
 				char lastChar = s.charAt(s.length() - 1);
 				l("onTextChanged - adding char: " + lastChar);
 				mCharactersList.add(lastChar);
-				mInvisibleEditText.setText("_");
+				
+				//This doesn't fix keyboard issue
+				if(Character.isDigit(lastChar)){
+					mInvisibleEditText.setText("0");
+				}else{
+					mInvisibleEditText.setText("_");
+				}
+				
 				mInvisibleEditText.setSelection(1);
 			}
 			if (s.length() == 0) {
@@ -526,6 +578,12 @@ public class Beebdroid extends Activity {
 		}
 
 		return true;
+	}
+	
+	private void checkScreenAutoRotate(){
+		 if (android.provider.Settings.System.getInt(getContentResolver(),Settings.System.ACCELEROMETER_ROTATION, 0) != 1) {
+		   Toast.makeText(this, "Screen auto-rotate is disabled", Toast.LENGTH_LONG).show();
+		 }
 	}
 
 	private boolean isHardwareKeyboardAvailable() {

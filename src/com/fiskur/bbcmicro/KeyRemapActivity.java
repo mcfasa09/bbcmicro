@@ -19,6 +19,7 @@ public class KeyRemapActivity extends Activity {
 	private TextView mKeyView;
 	private TextView mScanCodeView;
 	private TextView mScanCodeRemapView;
+	private Button mClearRemapButton;
 	private Button mSetRemapButton;
 	
 	int remappedKeyCode = -1;
@@ -45,6 +46,25 @@ public class KeyRemapActivity extends Activity {
 		}
 		
 		mScanCodeRemapView = (TextView) findViewById(R.id.remap_scan_code_remap_text_view);
+		
+		if(getIntent().hasExtra(EXTRA_SCAN_REMAP_INT)){
+			int remapCode = getIntent().getIntExtra(EXTRA_SCAN_REMAP_INT, -1);
+			if(remapCode != -1){
+				mScanCodeRemapView.setText("Remap Code: 0x" + Integer.toHexString(remapCode));
+			}
+		}
+		
+		mClearRemapButton = (Button) findViewById(R.id.remap_clear_button);
+		mClearRemapButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent returnIntent = new Intent();
+				 returnIntent.putExtra(RESULT_EXTRA_REMAP_KEY, -1);
+				 setResult(RESULT_OK,returnIntent);     
+				 finish();
+			}
+		});
 		
 		mSetRemapButton = (Button) findViewById(R.id.remap_set_button);
 		mSetRemapButton.setOnClickListener(new OnClickListener() {

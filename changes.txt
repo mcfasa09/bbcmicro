@@ -1,0 +1,12 @@
+1.1.0 - Keyboard Remapping
+	
+	Fixes:
+		- Added settings screen to enable remapping of hardware to BBC Micro keys
+		- Added Toast popup if screen auto-rotate is disabled	
+		- Fixed occasional NPE when used with Bluetooth/hardware keyboard
+
+	Known Issues:
+		- Soft keyboard returns to default layout after typing a number
+
+
+1.0.0 - First Release
