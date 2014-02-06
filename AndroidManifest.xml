@@ -3,7 +3,7 @@
     package="com.fiskur.bbcmicro"
     android:versionCode="1"
     android:versionName="1.0.0" >
-    
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -21,20 +21,22 @@
         android:icon="@drawable/owl_icon"
         android:label="BBC Micro"
         android:theme="@style/AppTheme" >
-
         <activity
             android:name="com.littlefluffytoys.beebdroid.Beebdroid"
             android:label="BBC Micro" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
                 <action android:name="com.littlefluffytoys.beebdroid.OPEN_DISK" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <data android:scheme="file" />
                 <data android:mimeType="*/*" />
                 <data android:pathPattern=".*\\.ssd" />
@@ -53,5 +55,11 @@
             android:name="com.fiskur.bbcmicro.FiskurAboutActivity"
             android:label="@string/title_activity_fiskur_about" >
         </activity>
+        <activity
+            android:name="com.fiskur.bbcmicro.KeyRemapActivity"
+            android:theme="@android:style/Theme.Dialog"
+            android:label="@string/title_activity_key_remap" >
+        </activity>
     </application>
+
 </manifest>

@@ -1,0 +1,59 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    android:background="#fff"
+    tools:context=".KeyRemapActivity" >
+
+    <TextView
+        android:id="@+id/remap_key_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:text="A"
+        android:textSize="14sp"
+        android:textColor="#000"
+         />
+    
+   <TextView
+        android:id="@+id/remap_scan_code_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:gravity="left"
+        android:text="0x12"
+        android:textSize="14sp"
+        android:textColor="#000"
+         />
+   
+    <TextView
+        android:id="@+id/remap_scan_code_remap_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:gravity="left"
+        android:text="Remap Code: "
+        android:textSize="14sp"
+        android:textColor="#000"
+         />
+    
+    <Button 
+        android:id="@+id/remap_set_button"
+        android:layout_marginTop="10dp"
+        android:text="Save"
+        android:padding="10dp"
+        android:textSize="20sp"
+        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:textColor="#fff"
+        android:background="#ffc83a"/>
+    
+    
+    
+
+</LinearLayout>

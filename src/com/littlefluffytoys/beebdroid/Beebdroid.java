@@ -6,9 +6,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.zip.ZipInputStream;
 
 import com.fiskur.bbcmicro.BBCUtils;
+import com.fiskur.bbcmicro.BBCUtils.KeyMap;
 import com.fiskur.bbcmicro.FilesActivity;
 import com.fiskur.bbcmicro.FiskurAboutActivity;
 import com.fiskur.bbcmicro.R;
@@ -23,6 +26,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -47,6 +51,7 @@ public class Beebdroid extends Activity {
 	private static final String TAG = "Beebdroid";
 
 	// Constants
+	public static final String BBC_MICRO_PREFS = "fiskur_bbc_miro_prefs";
 	private static final int ACTIVITY_RESULT_FILE_EXPLORER = 9000;
 	private static final int ACTIVITY_RESULT_SETTINGS = 9001;
 	private static final int EMULATOR_CYCLE_MS = 20;
@@ -96,6 +101,9 @@ public class Beebdroid extends Activity {
 	private EditText mInvisibleEditText = null;
 	private InvisibleTextWatcher mInvisibleTextWatcher;
 	private boolean mShiftKeyDown;
+	
+	//Hardware keyboard remapping
+	private Map<Integer, Integer> mRemapMap = null;
 
 	// Audio
 	private boolean mAudioPlaying;
@@ -208,8 +216,12 @@ public class Beebdroid extends Activity {
 			mInvisibleEditText = (EditText) findViewById(R.id.invisible_edit);
 			if (isHardwareKeyboardAvailable()) {
 				// Is this a risky strategy?
-				ViewGroup manager = (ViewGroup) mInvisibleEditText.getParent();
-				manager.removeView(mInvisibleEditText);
+				if(mInvisibleEditText != null){
+					ViewGroup manager = (ViewGroup) mInvisibleEditText.getParent();
+					if(manager.findViewById(R.id.invisible_edit) != null){
+						manager.removeView(mInvisibleEditText);
+					}
+				}
 				return;
 			}
 
@@ -286,7 +298,15 @@ public class Beebdroid extends Activity {
 		if (keycode == KeyEvent.KEYCODE_SHIFT_LEFT || keycode == KeyEvent.KEYCODE_SHIFT_RIGHT) {
 			mShiftKeyDown = true;
 		}
-		bbcKeyEvent(BBCUtils.lookupKeycode(mShiftKeyDown, keycode), mShiftKeyDown ? 1 : 0, 1);
+		int bbcKeycode;
+		if(mRemapMap != null && mRemapMap.containsKey(keycode)){
+			l("Using remap for key: " + keycode);
+			bbcKeycode = mRemapMap.get(keycode);
+		}else{
+			bbcKeycode = BBCUtils.lookupKeycode(mShiftKeyDown, keycode);
+		}
+
+		bbcKeyEvent(bbcKeycode, mShiftKeyDown ? 1 : 0, 1);
 		return super.onKeyDown(keycode, event);
 	}
 
@@ -295,7 +315,14 @@ public class Beebdroid extends Activity {
 		if (keycode == KeyEvent.KEYCODE_SHIFT_LEFT || keycode == KeyEvent.KEYCODE_SHIFT_RIGHT) {
 			mShiftKeyDown = false;
 		}
-		bbcKeyEvent(BBCUtils.lookupKeycode(mShiftKeyDown, keycode), mShiftKeyDown ? 1 : 0, 0);
+		int bbcKeycode;
+		if(mRemapMap != null && mRemapMap.containsKey(keycode)){
+			bbcKeycode = mRemapMap.get(keycode);
+		}else{
+			bbcKeycode = BBCUtils.lookupKeycode(mShiftKeyDown, keycode);
+		}
+
+		bbcKeyEvent(bbcKeycode, mShiftKeyDown ? 1 : 0, 0);
 		return super.onKeyUp(keycode, event);
 	}
 
@@ -423,7 +450,20 @@ public class Beebdroid extends Activity {
 	}
 
 	private void initKeyboardRemapping() {
-		// TODO - set up keyCode remapping from shared prefs or greebdao...
+		SharedPreferences prefs = getSharedPreferences(BBC_MICRO_PREFS, MODE_PRIVATE);
+		KeyMap[] keys = mBBCUtils.getKeyMaps();
+		mRemapMap = new HashMap<Integer, Integer>();
+		for(KeyMap key : keys){
+			int bbcKeyCode = key.getScanCode();
+			String prefKey = SettingsActivity.PREFS_CHAR_PREFIX + Integer.toHexString(bbcKeyCode);
+			if(prefs.contains(prefKey)){
+				int remappedKeyCode = prefs.getInt(prefKey, -1);
+				if(remappedKeyCode != -1){
+					l("Found remapping: " + key.getScanCode() + " is remapped to: " + remappedKeyCode);
+					mRemapMap.put(remappedKeyCode, bbcKeyCode);
+				}
+			}
+		}
 	}
 
 	private void processBasicSourceCode() {
@@ -466,12 +506,10 @@ public class Beebdroid extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		/*
-		 * case R.id.action_settings: Intent settingsIntent = new
-		 * Intent(Beebdroid.this, SettingsActivity.class);
-		 * startActivityForResult(settingsIntent, ACTIVITY_RESULT_SETTINGS);
-		 * break;
-		 */
+		case R.id.action_settings:
+			Intent settingsIntent = new Intent(Beebdroid.this, SettingsActivity.class);
+			startActivityForResult(settingsIntent, ACTIVITY_RESULT_SETTINGS);
+			break;
 		case R.id.action_hide_actionbar:
 			if (getActionBar().isShowing()) {
 				getActionBar().hide();

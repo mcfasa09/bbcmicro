@@ -9,13 +9,13 @@
         android:orderInCategory="120"
         android:showAsAction="never"
         android:title="Hide Action Bar"/>
-    <!-- 
+     
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="130"
         android:showAsAction="never"
         android:title="Settings"/>
-    -->
+    
     <item
         android:id="@+id/action_about"
         android:orderInCategory="140"

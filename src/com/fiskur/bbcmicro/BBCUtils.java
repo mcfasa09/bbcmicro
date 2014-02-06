@@ -121,6 +121,60 @@ public class BBCUtils {
 		return bbcKeylabels;
 	}
 	
+	public KeyMap[] getKeyMaps(){
+		KeyMap[] keyMaps = new KeyMap[mBBCKeyboardMap.size() + mBBCKeyboardShiftMap.size()];
+		int index = 0;
+		for(Character key : mBBCKeyboardMap.keySet()){
+			keyMaps[index] = new KeyMap(key, mBBCKeyboardMap.get(key), -1);
+			index++;
+		}
+		for(Character key : mBBCKeyboardShiftMap.keySet()){
+			keyMaps[index] = new KeyMap(key, mBBCKeyboardShiftMap.get(key), -1);
+			index++;
+		}
+		return keyMaps;
+	}
+	
+	public class KeyMap{
+		char mKey;
+		int mScanCode;
+		int mRemapCode;
+		
+		public KeyMap(){
+			
+		}
+		
+		public KeyMap(char key, int scanCode, int remapCode){
+			mKey = key;
+			mScanCode = scanCode;
+			mRemapCode = remapCode;
+		}
+		
+		public void setChar(char key){
+			mKey = key;
+		}
+		
+		public char getKey(){
+			return mKey;
+		}
+		
+		public void setScanCode(int scanCode){
+			mScanCode = scanCode;
+		}
+		
+		public int getScanCode(){
+			return mScanCode;
+		}
+		
+		public void setRemapCode(int remapCode){
+			mRemapCode = remapCode;
+		}
+		
+		public int getRemapCode(){
+			return mRemapCode;
+		}
+	}
+	
 	public int getShiftScanCode(char c){
 		if(mBBCKeyboardShiftMap.containsKey(c)){
 			return mBBCKeyboardShiftMap.get(c);
