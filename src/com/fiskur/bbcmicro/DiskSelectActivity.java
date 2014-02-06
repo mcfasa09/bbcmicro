@@ -3,8 +3,6 @@ package com.fiskur.bbcmicro;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import com.littlefluffytoys.beebdroid.Beebdroid;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,7 +14,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.littlefluffytoys.beebdroid.Beebdroid;
 
 public class DiskSelectActivity extends Activity implements OnItemClickListener {
 	private static final String TAG = "DiskSelectActivity";
@@ -27,7 +26,6 @@ public class DiskSelectActivity extends Activity implements OnItemClickListener 
 	private SharedPreferences mPrefs;
 	private String[] mPaths;
 	
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,8 +35,7 @@ public class DiskSelectActivity extends Activity implements OnItemClickListener 
 		String disksStr = mPrefs.getString(PREFS_DISKS_JSON_ARRAY, null);
 		
 		mDiskList = (ListView) findViewById(R.id.disk_select_list);
-		
-		
+
 		if(disksStr == null){
 			mNoDiskLabel = (TextView) findViewById(R.id.no_disks_available_label);
 			mNoDiskLabel.setVisibility(View.VISIBLE);

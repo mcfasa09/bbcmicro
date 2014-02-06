@@ -1,19 +1,20 @@
 package com.fiskur.bbcmicro;
 
-import com.fiskur.bbcmicro.BBCUtils.KeyMap;
-import com.littlefluffytoys.beebdroid.Beebdroid;
-
+import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.app.Activity;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.widget.Toast;
+
+import com.fiskur.bbcmicro.BBCUtils.KeyMap;
+import com.littlefluffytoys.beebdroid.Beebdroid;
 
 public class SettingsActivity extends Activity {
 	
@@ -87,8 +88,27 @@ public class SettingsActivity extends Activity {
 	}
 	
 	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.settings, menu);
+		return true;
+	}
+	
+	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		finish();
+		switch (item.getItemId()) {
+			case R.id.action_disk_popup_shortcut:
+				Intent setPopupShortcutIntent = new Intent(SettingsActivity.this, SetShortcutActivity.class);
+				startActivity(setPopupShortcutIntent);
+				break;
+			case R.id.action_wipe:
+				Toast.makeText(SettingsActivity.this, "All saved disks and keymappings wiped", Toast.LENGTH_LONG).show();
+				mPrefs.edit().clear().commit();
+				finish();
+				break;
+				default:
+					finish();
+		}
+		
 		return true;
 	}
 }

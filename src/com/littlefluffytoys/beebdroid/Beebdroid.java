@@ -16,6 +16,7 @@ import com.fiskur.bbcmicro.FilesActivity;
 import com.fiskur.bbcmicro.FiskurAboutActivity;
 import com.fiskur.bbcmicro.DiskSelectActivity;
 import com.fiskur.bbcmicro.R;
+import com.fiskur.bbcmicro.SetShortcutActivity;
 import com.fiskur.bbcmicro.SettingsActivity;
 
 import android.app.Activity;
@@ -107,6 +108,7 @@ public class Beebdroid extends Activity {
 	private EditText mInvisibleEditText = null;
 	private InvisibleTextWatcher mInvisibleTextWatcher;
 	private boolean mShiftKeyDown;
+	private int mShortcutKeycode = -1;
 	
 	//Hardware keyboard remapping
 	private Map<Integer, Integer> mRemapMap = null;
@@ -140,7 +142,6 @@ public class Beebdroid extends Activity {
 		beebView = (BeebView) findViewById(R.id.beeb);
 
 		if (isHardwareKeyboardAvailable()) {
-			// Do nothing
 			l("Using physical keyboard");
 			initKeyboardRemapping();
 		} else {
@@ -224,6 +225,8 @@ public class Beebdroid extends Activity {
 			mInvisibleEditText = (EditText) findViewById(R.id.invisible_edit);
 			
 			if (isHardwareKeyboardAvailable()) {
+
+				
 				// Is this a risky strategy?
 				if(mInvisibleEditText != null){
 					ViewGroup manager = (ViewGroup) mInvisibleEditText.getParent();
@@ -296,7 +299,11 @@ public class Beebdroid extends Activity {
 			getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 		}
 		
-		
+		//See if a popup shortcut has been set
+		SharedPreferences prefs = getSharedPreferences(BBC_MICRO_PREFS, MODE_PRIVATE);
+		if(prefs.contains(SetShortcutActivity.PREFS_POPUP_SHORTCUT_KEYCODE)){
+			mShortcutKeycode = prefs.getInt(SetShortcutActivity.PREFS_POPUP_SHORTCUT_KEYCODE, -1);
+		}
 	}
 
 	// This runnable drives the native emulation code
@@ -341,7 +348,12 @@ public class Beebdroid extends Activity {
 
 	@Override
 	public boolean onKeyDown(int keycode, KeyEvent event) {
-		//l("onKeyDown " + keycode);
+		l("onKeyDown " + keycode);
+		if(keycode == mShortcutKeycode){
+			l("showLoadDiskPopup()");
+			showLoadDiskPopup();
+			return true;
+		}
 		if (keycode == KeyEvent.KEYCODE_SHIFT_LEFT || keycode == KeyEvent.KEYCODE_SHIFT_RIGHT) {
 			mShiftKeyDown = true;
 		}
@@ -359,6 +371,9 @@ public class Beebdroid extends Activity {
 
 	@Override
 	public boolean onKeyUp(int keycode, KeyEvent event) {
+		if(keycode == mShortcutKeycode){
+			return true;
+		}
 		if (keycode == KeyEvent.KEYCODE_SHIFT_LEFT || keycode == KeyEvent.KEYCODE_SHIFT_RIGHT) {
 			mShiftKeyDown = false;
 		}
@@ -453,7 +468,6 @@ public class Beebdroid extends Activity {
 				mInvisibleEditText.setSelection(1);
 			}
 		}
-
 	}
 
 	private void l(String message) {
@@ -483,15 +497,11 @@ public class Beebdroid extends Activity {
 				return;
 			}
 			if (data.hasExtra(FilesActivity.INTENT_EXTRA_CONTENTS)) {
-				l("intent has string extra");
 				final String basicString = data.getStringExtra(FilesActivity.INTENT_EXTRA_CONTENTS);
-				l("Basic string:\n" + basicString);
 				mBasicSource = basicString;
 				processBasicSourceCode();
 			} else if (data.hasExtra(FilesActivity.INTENT_EXTRA_FILEPATH)) {
-				l("intent has filepath extra");
 				String filePath = data.getStringExtra(FilesActivity.INTENT_EXTRA_FILEPATH);
-				l("Disk image to load: " + filePath);
 				loadLocalDisk(filePath, true);
 			}
 
@@ -561,9 +571,11 @@ public class Beebdroid extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+		case R.id.action_reset:
+			bbcBreak(0);
+			break;
 		case R.id.action_load_disk:
-			Intent loadSavedDiskIntent = new Intent(Beebdroid.this, DiskSelectActivity.class);
-			startActivityForResult(loadSavedDiskIntent, ACTIVITY_RESULT_LOAD_DISK);
+			showLoadDiskPopup();
 			break;
 		case R.id.action_settings:
 			Intent settingsIntent = new Intent(Beebdroid.this, SettingsActivity.class);
@@ -585,6 +597,11 @@ public class Beebdroid extends Activity {
 		}
 
 		return true;
+	}
+	
+	private void showLoadDiskPopup(){
+		Intent loadSavedDiskIntent = new Intent(Beebdroid.this, DiskSelectActivity.class);
+		startActivityForResult(loadSavedDiskIntent, ACTIVITY_RESULT_LOAD_DISK);
 	}
 	
 	private void checkScreenAutoRotate(){

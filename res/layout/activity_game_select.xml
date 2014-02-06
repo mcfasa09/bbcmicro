@@ -21,7 +21,9 @@
    	<ListView
    	    android:id="@+id/disk_select_list"
    	    android:layout_width="match_parent"
-   	    android:layout_height="wrap_content" >
+   	    android:layout_height="wrap_content"
+   	    android:drawSelectorOnTop="false"
+   	    android:listSelector="@android:color/darker_gray" >
    	    
    	    
    	</ListView>

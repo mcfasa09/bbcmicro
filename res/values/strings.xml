@@ -18,5 +18,7 @@
     <string name="title_activity_key_remap">Set Hardware Key</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_game_select">Select Disk</string>
+    <string name="title_activity_set_shortcut">Set Disk Load Shortcut</string>
+    <string name="set_shortcut_label">Type a key on your hardware keyboard that will launch the disk chooser popup</string>
 
 </resources>

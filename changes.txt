@@ -1,6 +1,14 @@
+1.2.0 - Previous Disks Popup
+	
+	Changes:
+		- New menu item to quickly select previously loaded disks
+		- Keyboard shortcut to change disks easily from a Bluetooth keyboard
+		- Added wipe option in settings screen, deletes all key mappings and saved disks
+
+
 1.1.0 - Keyboard Remapping
 	
-	Fixes:
+	Changes:
 		- Added settings screen to enable remapping of hardware to BBC Micro keys
 		- Added Toast popup if screen auto-rotate is disabled	
 		- Fixed occasional NPE when used with Bluetooth/hardware keyboard
