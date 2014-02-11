@@ -45,6 +45,7 @@ public class DiskSelectActivity extends Activity implements OnItemClickListener 
 			try {
 				JSONArray disksJSONArray = new JSONArray(disksStr);
 				int numberDisks = disksJSONArray.length();
+				
 				String[] titles = new String[numberDisks];
 				mPaths = new String[numberDisks];
 				for(int i = 0 ; i < numberDisks ; i++){

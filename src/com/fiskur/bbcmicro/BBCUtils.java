@@ -36,8 +36,9 @@ public class BBCUtils {
 		mBBCKeyboardShiftMap = new HashMap<Character, Integer>();
 		
 		//Other keys
-		mBBCKeyboardOtherMap.put("Escape", 0x70);
+		//mBBCKeyboardOtherMap.put("Escape", 0x70);//TODO - support escape
 		mBBCKeyboardOtherMap.put("Shift", 0x100);
+		mBBCKeyboardOtherMap.put("Caps Lock", 0x40);
 		mBBCKeyboardOtherMap.put("Break", 0xaa);
 		mBBCKeyboardOtherMap.put("Control", 0x01);
 		mBBCKeyboardOtherMap.put("Up Cursor", 0x39);
