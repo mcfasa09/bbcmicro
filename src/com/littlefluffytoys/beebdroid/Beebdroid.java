@@ -32,9 +32,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
-import android.text.method.KeyListener;
 import android.util.Log;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
@@ -109,6 +107,7 @@ public class Beebdroid extends Activity {
 	private InvisibleTextWatcher mInvisibleTextWatcher;
 	private boolean mShiftKeyDown;
 	private int mShortcutKeycode = -1;
+	private boolean mDiskLoaded = false;
 	
 	//Hardware keyboard remapping
 	private Map<Integer, Integer> mRemapMap = null;
@@ -119,12 +118,14 @@ public class Beebdroid extends Activity {
 	private byte[] mAudioBuffer;
 
 	// Basic String from file
-	String mBasicSource;
+	private boolean mProcessingBasic = false;
+	private long mStartBasicInput;
+	private String mBasicSource;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		getActionBar().setTitle(null);
 
 		int screenOrientation = getResources().getConfiguration().orientation;
@@ -185,7 +186,7 @@ public class Beebdroid extends Activity {
 							}
 						}, SOFT_UPKEY_WAIT_MS);
 					}
-					if (mBasicSource != null && mBasicSource.length() > 0) {
+					if (mProcessingBasic && mBasicSource != null && mBasicSource.length() > 0) {
 						processBasicSourceCode();
 					}
 
@@ -210,6 +211,9 @@ public class Beebdroid extends Activity {
 			mAudioBuffer = prev.mAudioBuffer;
 			bbcInit(mBBCModel.mem, mBBCModel.roms, mAudioBuffer, 0);
 		}
+		
+		
+
 	}
 
 	@Override
@@ -394,7 +398,9 @@ public class Beebdroid extends Activity {
 		Uri dataUri = intent.getData();
 
 		if (dataUri != null) {
-			if (dataUri.getScheme().equals("file")) {
+			if (dataUri.getScheme().equals("basic")) {
+				l("Load basic file");
+			}else if (dataUri.getScheme().equals("file")) {
 				ZipInputStream in = null;
 				try {
 					InputStream input = new FileInputStream(dataUri.getPath());
@@ -499,12 +505,13 @@ public class Beebdroid extends Activity {
 			if (data.hasExtra(FilesActivity.INTENT_EXTRA_CONTENTS)) {
 				final String basicString = data.getStringExtra(FilesActivity.INTENT_EXTRA_CONTENTS);
 				mBasicSource = basicString;
+				mProcessingBasic = true;
+				mStartBasicInput = System.currentTimeMillis();
 				processBasicSourceCode();
 			} else if (data.hasExtra(FilesActivity.INTENT_EXTRA_FILEPATH)) {
 				String filePath = data.getStringExtra(FilesActivity.INTENT_EXTRA_FILEPATH);
 				loadLocalDisk(filePath, true);
 			}
-
 			break;
 		case ACTIVITY_RESULT_SETTINGS:
 			initKeyboardRemapping();
@@ -524,7 +531,7 @@ public class Beebdroid extends Activity {
 			if(prefs.contains(prefKey)){
 				int remappedKeyCode = prefs.getInt(prefKey, -1);
 				if(remappedKeyCode != -1){
-					l("Found remapping: " + key.getScanCode() + " is remapped to: " + remappedKeyCode);
+					l("Found remapping: " + key.getKeyString() + " - " + key.getScanCode() + " is remapped to: " + remappedKeyCode);
 					mRemapMap.put(remappedKeyCode, bbcKeyCode);
 				}
 			}
@@ -536,14 +543,30 @@ public class Beebdroid extends Activity {
 		character = Character.toLowerCase(character);
 		mCharactersList.add(character);
 		mBasicSource = mBasicSource.substring(1, mBasicSource.length());
+		if(mBasicSource.length() == 0){
+			mProcessingBasic = false;
+			long basicInputMS = System.currentTimeMillis() - mStartBasicInput;
+			l("Basic loading took " + (basicInputMS/1000) + "seconds");
+		}
 	}
 
 	private void loadLocalDisk(String path, boolean bootIt) {
 		mDiskImageByteBuffer = mBBCUtils.loadFile(new File(path));
+		mDiskLoaded = true;
 		if (bootIt) {
 			bbcBreak(0);
 		}
 		bbcLoadDisc(mDiskImageByteBuffer, 1);
+	}
+	
+	@Override
+	public void onBackPressed() {
+		if(mDiskLoaded){
+			//TODO - handle escape (key needs to be remapped?)
+			super.onBackPressed();
+		}else{
+			super.onBackPressed();
+		}
 	}
 
 	// Native JNI Callback
@@ -572,6 +595,8 @@ public class Beebdroid extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_reset:
+			mBasicSource = "";
+			mDiskLoaded = false;
 			bbcBreak(0);
 			break;
 		case R.id.action_load_disk:

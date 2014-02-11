@@ -16,6 +16,7 @@ import android.content.SharedPreferences;
 import android.view.KeyEvent;
 
 public class BBCUtils {
+	private static Map<String, Integer> mBBCKeyboardOtherMap;
 	private static Map<Character, Integer> mBBCKeyboardMap;
 	private static Map<Character, Integer> mBBCKeyboardShiftMap;
 	private static BBCUtils instance = null;
@@ -30,8 +31,31 @@ public class BBCUtils {
 	}
 	
 	private BBCUtils(){
+		mBBCKeyboardOtherMap = new HashMap<String, Integer>();
 		mBBCKeyboardMap = new HashMap<Character, Integer>();
 		mBBCKeyboardShiftMap = new HashMap<Character, Integer>();
+		
+		//Other keys
+		mBBCKeyboardOtherMap.put("Escape", 0x70);
+		mBBCKeyboardOtherMap.put("Shift", 0x100);
+		mBBCKeyboardOtherMap.put("Break", 0xaa);
+		mBBCKeyboardOtherMap.put("Control", 0x01);
+		mBBCKeyboardOtherMap.put("Up Cursor", 0x39);
+		mBBCKeyboardOtherMap.put("Down Cursor", 0x29);
+		mBBCKeyboardOtherMap.put("Left Cursor", 0x19);
+		mBBCKeyboardOtherMap.put("Right Cursor", 0x79);
+		mBBCKeyboardOtherMap.put("F0", 0x20);
+		mBBCKeyboardOtherMap.put("F1", 0x71);
+		mBBCKeyboardOtherMap.put("F2", 0x72);
+		mBBCKeyboardOtherMap.put("F3", 0x73);
+		mBBCKeyboardOtherMap.put("F4", 0x14);
+		mBBCKeyboardOtherMap.put("F5", 0x74);
+		mBBCKeyboardOtherMap.put("F6", 0x75);
+		mBBCKeyboardOtherMap.put("F7", 0x16);
+		mBBCKeyboardOtherMap.put("F8", 0x76);
+		mBBCKeyboardOtherMap.put("F9", 0x77);
+		
+		
 		//Numbers
 		mBBCKeyboardMap.put('0', 0x27);
 		mBBCKeyboardMap.put('1', 0x30);
@@ -109,25 +133,14 @@ public class BBCUtils {
 		mBBCKeyboardShiftMap.put('=', 0x17);//- + shift
 	
 	}
-	
-	public String[] getBBCKeyLabels(){
-		
-		String[] bbcKeylabels = new String[mBBCKeyboardMap.size() + mBBCKeyboardShiftMap.size()];
-		int index = 0;
-		for(Character key : mBBCKeyboardMap.keySet()){
-			bbcKeylabels[index] = "" + key;
-			index++;
-		}
-		for(Character key : mBBCKeyboardShiftMap.keySet()){
-			bbcKeylabels[index] = "" + key;
-			index++;
-		}
-		return bbcKeylabels;
-	}
-	
+
 	public KeyMap[] getKeyMaps(){
-		KeyMap[] keyMaps = new KeyMap[mBBCKeyboardMap.size() + mBBCKeyboardShiftMap.size()];
+		KeyMap[] keyMaps = new KeyMap[mBBCKeyboardOtherMap.size() +  mBBCKeyboardMap.size() + mBBCKeyboardShiftMap.size()];
 		int index = 0;
+		for(String key : mBBCKeyboardOtherMap.keySet()){
+			keyMaps[index] = new KeyMap('∆', key, mBBCKeyboardOtherMap.get(key), -1);
+			index++;
+		}
 		for(Character key : mBBCKeyboardMap.keySet()){
 			keyMaps[index] = new KeyMap(key, mBBCKeyboardMap.get(key), -1);
 			index++;
@@ -142,8 +155,19 @@ public class BBCUtils {
 	public KeyMap[] getKeyMapsWithRemap(Context context){
 		SharedPreferences prefs = context.getSharedPreferences(Beebdroid.BBC_MICRO_PREFS, Context.MODE_PRIVATE);
 		
-		KeyMap[] keyMaps = new KeyMap[mBBCKeyboardMap.size() + mBBCKeyboardShiftMap.size()];
+		KeyMap[] keyMaps = new KeyMap[mBBCKeyboardOtherMap.size() +  mBBCKeyboardMap.size() + mBBCKeyboardShiftMap.size()];
 		int index = 0;
+		for(String key : mBBCKeyboardOtherMap.keySet()){
+			int bbcKey = mBBCKeyboardOtherMap.get(key);
+			String prefKey = SettingsActivity.PREFS_CHAR_PREFIX + Integer.toHexString(bbcKey);
+			if(prefs.contains(prefKey)){
+				int remappedKeyCode = prefs.getInt(prefKey, -1);
+				keyMaps[index] = new KeyMap('∆', key, bbcKey, remappedKeyCode);
+			}else{
+				keyMaps[index] = new KeyMap('∆', key, bbcKey, -1);
+			}
+			index++;
+		}
 		for(Character key : mBBCKeyboardMap.keySet()){
 			int bbcKey = mBBCKeyboardMap.get(key);
 			String prefKey = SettingsActivity.PREFS_CHAR_PREFIX + Integer.toHexString(bbcKey);
@@ -173,6 +197,7 @@ public class BBCUtils {
 	}
 	
 	public class KeyMap{
+		String mKeyLabel = null;
 		char mKey;
 		int mScanCode = -1;
 		int mRemapCode = -1;
@@ -187,12 +212,31 @@ public class BBCUtils {
 			mRemapCode = remapCode;
 		}
 		
+		public KeyMap(char key, String keyLabel, int scanCode, int remapCode){
+			mKey = key;
+			mKeyLabel = keyLabel;
+			mScanCode = scanCode;
+			mRemapCode = remapCode;
+		}
+		
 		public void setChar(char key){
 			mKey = key;
 		}
 		
 		public char getKey(){
 			return mKey;
+		}
+		
+		public String getKeyLabel(){
+			return mKeyLabel;
+		}
+		
+		public String getKeyString(){
+			if(mKeyLabel != null){
+				return mKeyLabel;
+			}else{
+				return Character.toString(mKey);
+			}
 		}
 		
 		public void setScanCode(int scanCode){

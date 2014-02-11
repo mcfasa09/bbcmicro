@@ -39,6 +39,7 @@
 
                 <data android:scheme="file" />
                 <data android:mimeType="*/*" />
+                <data android:pathPattern=".*\\.bas" />
                 <data android:pathPattern=".*\\.ssd" />
                 <data android:host="*" />
             </intent-filter>

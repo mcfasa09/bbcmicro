@@ -48,7 +48,7 @@ public class KeyMapAdapter extends ArrayAdapter<BBCUtils.KeyMap> {
 		ViewHolder holder = (ViewHolder) row.getTag();
 		KeyMap map = mData[position];
 		int scanCode = map.getScanCode();
-		String key = "" + map.getKey();
+		String key = map.getKeyString();
 		if(Integer.toHexString(scanCode).equals("49")){
 			key = "Enter";
 		}else if(Integer.toHexString(scanCode).equals("62")){

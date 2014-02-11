@@ -55,7 +55,7 @@ public class SettingsActivity extends Activity {
 			KeyMap clickedKey = mBBCKeyLabels[position];
 			mSelectedScanCode = clickedKey.getScanCode();
 			Intent keyMapIntent = new Intent(SettingsActivity.this, KeyRemapActivity.class);
-			keyMapIntent.putExtra(KeyRemapActivity.EXTRA_KEY_STRING, Character.toString(clickedKey.getKey()));
+			keyMapIntent.putExtra(KeyRemapActivity.EXTRA_KEY_STRING, clickedKey.getKeyString());
 			keyMapIntent.putExtra(KeyRemapActivity.EXTRA_SCAN_INT, clickedKey.getScanCode());
 			keyMapIntent.putExtra(KeyRemapActivity.EXTRA_SCAN_REMAP_INT, clickedKey.getRemapCode());
 			startActivityForResult(keyMapIntent, ACTIVITY_REMAP);

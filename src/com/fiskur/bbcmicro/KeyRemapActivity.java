@@ -85,4 +85,9 @@ public class KeyRemapActivity extends Activity {
 		mScanCodeRemapView.setText("Remap Code: 0x" + Integer.toHexString(remappedKeyCode));
 		return super.onKeyDown(keyCode, event);
 	}
+	
+	@Override
+	public void onBackPressed() {
+		//super.onBackPressed();
+	}
 }

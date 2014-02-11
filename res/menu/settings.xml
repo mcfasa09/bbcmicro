@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-        <item
+    <item
         android:id="@+id/action_disk_popup_shortcut"
         android:orderInCategory="90"
         android:showAsAction="never"
-        android:title="Set disk popup shortcut"/>
+        android:title="Set disk popup shortcut"/>      
     <item
         android:id="@+id/action_wipe"
         android:orderInCategory="100"
