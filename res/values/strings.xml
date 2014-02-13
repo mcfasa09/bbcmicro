@@ -6,8 +6,6 @@
     </style>
 
     <dimen name="keyboardAreaHeight">168dp</dimen>
-
-    <string name="about_show_next_time">Show this info on startup</string>
     <string name="ok_button">OK</string>
     <string name="filename_edit_hint">Filename</string>
     <string name="title_activity_settings">Settings</string>

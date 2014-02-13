@@ -25,6 +25,7 @@ import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.drive.Drive;
 import com.google.android.gms.drive.DriveFile;
+import com.google.android.gms.drive.DriveFolder;
 import com.google.android.gms.drive.DriveId;
 import com.google.android.gms.drive.DriveApi.ContentsResult;
 import com.google.android.gms.drive.OpenFileActivityBuilder;
@@ -141,6 +142,7 @@ public class Beebdroid extends Activity {
 	//Google Drive
 	private GoogleDriveListener mDriveHandler;
 	private GoogleApiClient mGoogleApiClient;
+	private DriveFolder mLastDriveFolder;
 	private static final int REQUEST_CODE_OPENER = 9763;
 	private static final int RESOLVE_CONNECTION_REQUEST_CODE = 9876;
 	private String mDriveFileName;
@@ -532,10 +534,11 @@ public class Beebdroid extends Activity {
 				if(driveId != null){
 					mProgressBar.setVisibility(View.VISIBLE);
 					DriveFile driveFile = Drive.DriveApi.getFile(mGoogleApiClient, driveId);
+					mLastDriveFolder = Drive.DriveApi.getFolder(mGoogleApiClient, driveId);
 					
-					//This is bad:
+					//This is bad - synchronous call on event thread:
 					mDriveFileName = driveFile.getMetadata(mGoogleApiClient).await().getMetadata().getTitle();
-					l("FILENAME: " + mDriveFileName);
+
 					driveFile.openContents(mGoogleApiClient, DriveFile.MODE_READ_ONLY, mDriveHandler).addResultCallback(mDriveHandler);
 				}else{
 					Toast.makeText(Beebdroid.this, "Google Drive error: no DriveFile ", Toast.LENGTH_LONG).show();
@@ -671,7 +674,12 @@ public class Beebdroid extends Activity {
 	
 	private void launchGoogleDrive(){
 		if (mGoogleApiClient == null) {
-			mGoogleApiClient = new GoogleApiClient.Builder(this).addApi(Drive.API).addScope(Drive.SCOPE_FILE).addConnectionCallbacks(mDriveHandler).addOnConnectionFailedListener(mDriveHandler).build();
+			GoogleApiClient.Builder builder = new GoogleApiClient.Builder(this);
+			builder.addApi(Drive.API);
+			builder.addScope(Drive.SCOPE_FILE);
+			builder.addConnectionCallbacks(mDriveHandler);
+			builder.addOnConnectionFailedListener(mDriveHandler);
+			mGoogleApiClient = builder.build();
 		}
 		if(mGoogleApiClient.isConnected()){
 			mDriveHandler.showPicker();
@@ -689,6 +697,12 @@ public class Beebdroid extends Activity {
 		public void showPicker(){
 			OpenFileActivityBuilder activityBuilder = Drive.DriveApi.newOpenFileActivityBuilder();
 			activityBuilder.setMimeType(new String[] { "application/octet-stream", "application/zip", "text/plain" });
+			
+			//This doesn't work...
+			if(mLastDriveFolder != null){
+				activityBuilder.setActivityStartFolder(mLastDriveFolder.getDriveId());
+			}
+			
 			IntentSender intentSender = activityBuilder.build(mGoogleApiClient);
 			try {
 				startIntentSenderForResult(intentSender, REQUEST_CODE_OPENER, null, 0, 0, 0);
@@ -737,7 +751,6 @@ public class Beebdroid extends Activity {
 			
 			if(mDriveFileName.toLowerCase(Locale.getDefault()).endsWith(".txt") || mDriveFileName.toLowerCase(Locale.getDefault()).endsWith(".bas")){
 				//Assume it a Basic text file
-				
 				try {
 					InputStream is = contentsResult.getContents().getInputStream();
 					while ((len = is.read(buffer)) != -1) {
