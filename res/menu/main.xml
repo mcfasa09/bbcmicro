@@ -1,14 +1,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item
-        android:id="@+id/action_files"
-        android:orderInCategory="100"
+        android:id="@+id/action_google_drive"
+        android:orderInCategory="90"
         android:showAsAction="never"
-        android:title="Load"/>
-    <item
-        android:id="@+id/action_load_disk"
-        android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="Load Previous"/>
+        android:title="Google Drive"/>
     <item
         android:id="@+id/action_hide_actionbar"
         android:orderInCategory="120"

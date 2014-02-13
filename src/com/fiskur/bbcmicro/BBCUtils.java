@@ -11,6 +11,7 @@ import java.util.Map;
 
 import com.littlefluffytoys.beebdroid.Beebdroid;
 
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.KeyEvent;
@@ -401,6 +402,14 @@ public class BBCUtils {
 			e.printStackTrace();
 			return null;
 		}
+		return buff;
+	}
+	
+	public ByteBuffer loadBytes(byte[] bytes){
+		int size = bytes.length;
+		ByteBuffer buff = ByteBuffer.allocateDirect(size);
+		buff.put(bytes);
+		buff.position(0);
 		return buff;
 	}
 	
