@@ -3,7 +3,7 @@
         android:id="@+id/action_google_drive"
         android:orderInCategory="90"
         android:showAsAction="never"
-        android:title="Google Drive"/>
+        android:title="Open File"/>
     <item
         android:id="@+id/action_hide_actionbar"
         android:orderInCategory="120"

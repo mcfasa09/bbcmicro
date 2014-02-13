@@ -59,6 +59,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
@@ -143,6 +144,7 @@ public class Beebdroid extends Activity {
 	private static final int REQUEST_CODE_OPENER = 9763;
 	private static final int RESOLVE_CONNECTION_REQUEST_CODE = 9876;
 	private String mDriveFileName;
+	private ProgressBar mProgressBar;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -164,6 +166,8 @@ public class Beebdroid extends Activity {
 
 		mBBCUtils = BBCUtils.getInstance();
 
+		mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
+		mProgressBar.setMax(100);
 		beebView = (BeebView) findViewById(R.id.beeb);
 
 		if (isHardwareKeyboardAvailable()) {
@@ -526,6 +530,7 @@ public class Beebdroid extends Activity {
 				DriveId driveId = (DriveId) data.getParcelableExtra(OpenFileActivityBuilder.EXTRA_RESPONSE_DRIVE_ID);
 				
 				if(driveId != null){
+					mProgressBar.setVisibility(View.VISIBLE);
 					DriveFile driveFile = Drive.DriveApi.getFile(mGoogleApiClient, driveId);
 					
 					//This is bad:
@@ -780,20 +785,15 @@ public class Beebdroid extends Activity {
 				loadByteArray(diskContents, true);
 			}
 			
-			/*
-			 if (dataUri.getLastPathSegment().endsWith(".zip")) {
-						in = new ZipInputStream(input);
-						in.getNextEntry();
-						input = in;
-					}
-			 */
-			
+			mProgressBar.setProgress(0);
+			mProgressBar.setVisibility(View.GONE);
 		}
 
 		@Override
 		public void onProgress(long bytesDownloaded, long bytesExpected) {
 			int progress = (int) (bytesDownloaded * 100 / bytesExpected);
 			l(String.format("Loading progress: %d percent", progress));
+			mProgressBar.setProgress(progress);
 		}
 	}
 }
