@@ -25,5 +25,5 @@ Build Instructions
 ==================
 
 - First import the Beebdroid project into Eclipse (Import > Existing Code Into Workspace)
-- Inside the Beebdroid folder there is also a sub directory holding the Google Play Library, also import that project
+- Inside the Beebdroid folder there is also a sub directory holding the Google Play Library, import that project too
 - Check that Beebdroid references the Google Play Library project, and that both project APIs are set to the latest (currently 19)
