@@ -22,7 +22,6 @@
         android:icon="@drawable/owl_icon"
         android:label="BBC Micro"
         android:theme="@style/AppTheme" >
-        
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -52,22 +51,31 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.fiskur.bbcmicro.SettingsActivity"
+            android:name=".SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity>
         <activity
-            android:name="com.fiskur.bbcmicro.FiskurAboutActivity"
+            android:name=".FiskurAboutActivity"
             android:label="@string/title_activity_fiskur_about" >
         </activity>
         <activity
-            android:name="com.fiskur.bbcmicro.KeyRemapActivity"
+            android:name=".KeyRemapActivity"
             android:label="@string/title_activity_key_remap"
             android:theme="@android:style/Theme.Dialog" >
         </activity>
         <activity
-            android:name="com.fiskur.bbcmicro.SetShortcutActivity"
+            android:name=".SetShortcutActivity"
             android:label="@string/title_activity_set_shortcut"
             android:theme="@android:style/Theme.Dialog" >
+        </activity>
+        <activity
+            android:name=".ExplorerActivity"
+            android:label="@string/title_activity_explorer" >
+        </activity>
+        <activity
+        	android:name=".DiskSelectActivity"
+           	android:label="@string/title_activity_game_select"
+            android:theme="@android:style/Theme.Dialog">
         </activity>
     </application>
 

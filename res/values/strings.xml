@@ -6,6 +6,7 @@
     </style>
 
     <dimen name="keyboardAreaHeight">168dp</dimen>
+
     <string name="ok_button">OK</string>
     <string name="filename_edit_hint">Filename</string>
     <string name="title_activity_settings">Settings</string>
@@ -23,5 +24,6 @@
     <!-- Keyboard Remap Activity -->
     <string name="keyboard_remap_label">Remap one key to another on your Bluetooth keyboard.</string>
     <string name="title_activity_google_drive">GoogleDriveActivity</string>
+    <string name="title_activity_explorer">File Explorer</string>
 
 </resources>
