@@ -1,6 +1,5 @@
 package com.littlefluffytoys.beebdroid;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -8,31 +7,17 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.zip.ZipInputStream;
 
 import com.fiskur.bbcmicro.BBCUtils;
 import com.fiskur.bbcmicro.BBCUtils.KeyMap;
+import com.fiskur.bbcmicro.DiskSelectActivity;
 import com.fiskur.bbcmicro.ExplorerActivity;
 import com.fiskur.bbcmicro.FiskurAboutActivity;
 import com.fiskur.bbcmicro.R;
 import com.fiskur.bbcmicro.SetShortcutActivity;
 import com.fiskur.bbcmicro.SettingsActivity;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
-import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
-import com.google.android.gms.drive.Drive;
-import com.google.android.gms.drive.DriveFile;
-import com.google.android.gms.drive.DriveFolder;
-import com.google.android.gms.drive.DriveId;
-import com.google.android.gms.drive.DriveApi.ContentsResult;
-import com.google.android.gms.drive.OpenFileActivityBuilder;
-import com.google.android.gms.drive.DriveFile.DownloadProgressListener;
-import com.google.android.gms.drive.DriveFile.OnContentsOpenedCallback;
-
 import android.app.Activity;
 import android.media.AudioFormat;
 import android.media.AudioManager;
@@ -43,9 +28,7 @@ import android.os.Handler;
 import android.provider.Settings;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.content.SharedPreferences;
-import android.content.IntentSender.SendIntentException;
 import android.content.res.Configuration;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -76,7 +59,6 @@ public class Beebdroid extends Activity {
 	private static final int ACTIVITY_RESULT_FILE_EXPLORER = 9000;
 	private static final int ACTIVITY_RESULT_SETTINGS = 9001;
 	private static final int ACTIVITY_RESULT_LOAD_DISK = 9002;
-	private static final int ACTIVITY_RESULT_GOOGLE_DRIVE = 9003;
 	private static final int EMULATOR_CYCLE_MS = 20;
 	private static final int SOFT_UPKEY_WAIT_MS = 50;
 
@@ -382,7 +364,8 @@ public class Beebdroid extends Activity {
 		if(keycode == mShortcutKeycode){
 			l("showLoadDiskPopup()");
 			//launchGoogleDrive();
-			
+			Intent loadDiskIntent = new Intent(Beebdroid.this, DiskSelectActivity.class);
+			startActivityForResult(loadDiskIntent, ACTIVITY_RESULT_LOAD_DISK);
 			return true;
 		}
 		if (keycode == KeyEvent.KEYCODE_SHIFT_LEFT || keycode == KeyEvent.KEYCODE_SHIFT_RIGHT) {
@@ -561,6 +544,12 @@ public class Beebdroid extends Activity {
 //			break;
 		case ACTIVITY_RESULT_SETTINGS:
 			initKeyboardRemapping();
+			break;
+		case ACTIVITY_RESULT_LOAD_DISK:
+			if(data != null && data.hasExtra(DiskSelectActivity.INTENT_EXTRA_FILEPATH)){
+				String filePath = data.getStringExtra(DiskSelectActivity.INTENT_EXTRA_FILEPATH);
+				loadLocalDisk(filePath, true);
+			}
 			break;
 		default:
 			l("onActivityResult - unrecognised");

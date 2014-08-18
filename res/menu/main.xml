@@ -5,11 +5,6 @@
         android:showAsAction="never"
         android:title="Open from file"/>
     <item
-        android:id="@+id/action_google_drive"
-        android:orderInCategory="90"
-        android:showAsAction="never"
-        android:title="Open from Google Drive"/>
-    <item
         android:id="@+id/action_hide_actionbar"
         android:orderInCategory="120"
         android:showAsAction="never"
