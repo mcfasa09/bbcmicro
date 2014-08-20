@@ -22,7 +22,6 @@
         android:icon="@drawable/owl_icon"
         android:label="BBC Micro"
         android:theme="@style/AppTheme" >
-
         <activity
             android:name="com.littlefluffytoys.beebdroid.Beebdroid"
             android:exported="true"
@@ -70,9 +69,13 @@
             android:label="@string/title_activity_explorer" >
         </activity>
         <activity
-        	android:name=".DiskSelectActivity"
-           	android:label="@string/title_activity_game_select"
-            android:theme="@android:style/Theme.Dialog">
+            android:name=".DiskSelectActivity"
+            android:label="@string/title_activity_game_select"
+            android:theme="@android:style/Theme.Dialog" >
+        </activity>
+        <activity
+            android:name=".CatlogueActivity"
+            android:label="@string/title_activity_catlogue" >
         </activity>
     </application>
 

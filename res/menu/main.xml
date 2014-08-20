@@ -1,9 +1,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-        <item
+    <item
         android:id="@+id/action_open_local"
         android:orderInCategory="80"
         android:showAsAction="never"
-        android:title="Open from file"/>
+        android:title="Open File"/>
+    <item
+        android:id="@+id/action_web_catalogue"
+        android:orderInCategory="90"
+        android:showAsAction="never"
+        android:title="Open Web Catalogue"/>
     <item
         android:id="@+id/action_hide_actionbar"
         android:orderInCategory="120"

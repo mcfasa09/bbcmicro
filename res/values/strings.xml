@@ -25,5 +25,6 @@
     <string name="keyboard_remap_label">Remap one key to another on your Bluetooth keyboard.</string>
     <string name="title_activity_google_drive">GoogleDriveActivity</string>
     <string name="title_activity_explorer">File Explorer</string>
+    <string name="title_activity_catlogue">Web Catlogue</string>
 
 </resources>

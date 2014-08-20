@@ -12,6 +12,7 @@ import java.util.zip.ZipInputStream;
 
 import com.fiskur.bbcmicro.BBCUtils;
 import com.fiskur.bbcmicro.BBCUtils.KeyMap;
+import com.fiskur.bbcmicro.CatlogueActivity;
 import com.fiskur.bbcmicro.DiskSelectActivity;
 import com.fiskur.bbcmicro.ExplorerActivity;
 import com.fiskur.bbcmicro.FiskurAboutActivity;
@@ -57,8 +58,9 @@ public class Beebdroid extends Activity {
 	// Constants
 	public static final String BBC_MICRO_PREFS = "fiskur_bbc_miro_prefs";
 	private static final int ACTIVITY_RESULT_FILE_EXPLORER = 9000;
-	private static final int ACTIVITY_RESULT_SETTINGS = 9001;
-	private static final int ACTIVITY_RESULT_LOAD_DISK = 9002;
+	private static final int ACTIVITY_RESULT_WEB_CATALOGUE = 9001;
+	private static final int ACTIVITY_RESULT_SETTINGS = 9002;
+	private static final int ACTIVITY_RESULT_LOAD_DISK = 9003;
 	private static final int EMULATOR_CYCLE_MS = 20;
 	private static final int SOFT_UPKEY_WAIT_MS = 50;
 
@@ -363,9 +365,10 @@ public class Beebdroid extends Activity {
 		l("onKeyDown " + keycode);
 		if(keycode == mShortcutKeycode){
 			l("showLoadDiskPopup()");
-			//launchGoogleDrive();
-			Intent loadDiskIntent = new Intent(Beebdroid.this, DiskSelectActivity.class);
-			startActivityForResult(loadDiskIntent, ACTIVITY_RESULT_LOAD_DISK);
+//			Intent loadDiskIntent = new Intent(Beebdroid.this, DiskSelectActivity.class);
+//			startActivityForResult(loadDiskIntent, ACTIVITY_RESULT_LOAD_DISK);
+			Intent webCatalogueIntent = new Intent(Beebdroid.this, CatlogueActivity.class);
+			startActivityForResult(webCatalogueIntent, ACTIVITY_RESULT_WEB_CATALOGUE);
 			return true;
 		}
 		if (keycode == KeyEvent.KEYCODE_SHIFT_LEFT || keycode == KeyEvent.KEYCODE_SHIFT_RIGHT) {
@@ -641,6 +644,10 @@ public class Beebdroid extends Activity {
 		case R.id.action_open_local:
 			Intent fileExplorerIntent = new Intent(Beebdroid.this, ExplorerActivity.class);
 			startActivityForResult(fileExplorerIntent, ACTIVITY_RESULT_FILE_EXPLORER);
+			break;
+		case R.id.action_web_catalogue:
+			Intent webCatalogueIntent = new Intent(Beebdroid.this, CatlogueActivity.class);
+			startActivityForResult(webCatalogueIntent, ACTIVITY_RESULT_WEB_CATALOGUE);
 			break;
 		case R.id.action_reset:
 			mBasicSource = "";
