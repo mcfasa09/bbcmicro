@@ -8,7 +8,6 @@ This project uses the emulation of Beebdroid (which is Open Source) but fixes se
 To get the best out of this app you need a Bluetooth keyboard. Without a hardware keyboard the standard Android soft-keyboard is displayed but it does have some issues and is no good for playing games.
 For the complete BBC Micro experience add a Bluetooth Keyboard and a Slimport HDMI adapter; the app runs in fullscreen mode when in landscape.
 
-- Use Google Drive to open .zip & .ssd disk images and basic text files.
 - Auto-boots .ssd files loaded from the file explorer.
 - Remap Bluetooth keyboard keys to match BBC Micro layout
 - Set a shortcut key to easily launch Google Drive disk picker from a Bluetooth keyboard (in the overflow menu in key settings screen).
