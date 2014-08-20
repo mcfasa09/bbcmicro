@@ -1,9 +1,24 @@
 package com.fiskur.bbcmicro;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+
+import com.android.volley.Request.Method;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.Response.Listener;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -15,11 +30,14 @@ import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 @SuppressLint("SetJavaScriptEnabled")
-public class CatlogueActivity extends Activity {
-	
-	String mSaveDirStr = Environment.getExternalStorageDirectory() + "/FirskurBBCMicro/"; 
+public class CatlogueActivity extends Activity implements Listener<byte[]> {
+	public static final String EXTRA_ZIP_PATH = "com.fiskur.bbcmicro.EXTRA_ZIP_PATH";
+	private RequestQueue mQueue;
+	private String mFilename;
+	private String mSaveDirStr = Environment.getExternalStorageDirectory() + "/FirskurBBCMicro/"; 
 	private WebView mWebView;
 
 	@Override
@@ -36,7 +54,6 @@ public class CatlogueActivity extends Activity {
 			getActionBar().setDisplayHomeAsUpEnabled(true);
 		}
 
-		
 		mWebView = (WebView) findViewById(R.id.web_view);
 		mWebView.setBackgroundColor(Color.argb(1, 0, 0, 0));
 		WebSettings webSettings = mWebView.getSettings();
@@ -53,7 +70,20 @@ public class CatlogueActivity extends Activity {
 	    		return false;
 	    	}else{
 	    		Log.d("CatlogueActivity", "Download .zip: " + url);
-	    		checkSaveDirectory();
+	    		mFilename = url.substring(url.lastIndexOf('/') + 1, url.length());
+	    		l("Filename is: " + mFilename);
+	    		ByteRequest byteReq = new ByteRequest(Method.GET, url, CatlogueActivity.this, new ErrorListener() {
+
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						l("Error downloading byte[]: " + error.toString());
+						showError("Error downloading disk: " + error.getMessage());
+					}
+				});
+	    		if(mQueue == null){
+	    			mQueue = Volley.newRequestQueue(CatlogueActivity.this);
+	    		}
+	    		mQueue.add(byteReq);
 	    		return false;
 	    	}
 	    }
@@ -94,4 +124,33 @@ public class CatlogueActivity extends Activity {
 	private void l(String message){
 		Log.d("CATACT", ">> " + message);
 	}
+
+	@Override
+	public void onResponse(byte[] response) {
+		l("Returned byte[] size: " + response.length);
+		checkSaveDirectory();
+		try {
+			saveFile(mSaveDirStr + mFilename, response);
+			Intent zipDownloadedIntent = new Intent();
+			zipDownloadedIntent.putExtra(EXTRA_ZIP_PATH, mSaveDirStr + mFilename);
+			setResult(RESULT_OK, zipDownloadedIntent);
+			CatlogueActivity.this.finish();
+		} catch (IOException e) {
+			showError("Could not save disk: " + e.toString());
+		}
+	}
+	
+	private void showError(String message){
+		l("ERROR: " + message) ;
+		Toast.makeText(CatlogueActivity.this, message, Toast.LENGTH_LONG).show();
+	}
+	
+	public void saveFile(String fileName, byte[] data) throws IOException{
+			l("Saving " + data.length + " bytes into " + fileName);
+		  FileOutputStream out = new FileOutputStream(fileName);
+		  out.write(data);
+		  out.close();
+		}
+	
+	
 }

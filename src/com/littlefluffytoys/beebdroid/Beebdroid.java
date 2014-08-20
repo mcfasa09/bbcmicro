@@ -510,6 +510,35 @@ public class Beebdroid extends Activity {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
+		case ACTIVITY_RESULT_WEB_CATALOGUE:
+			if (data == null) {
+				return;
+			}
+			if(data.hasExtra(CatlogueActivity.EXTRA_ZIP_PATH)){
+				String zipPath = data.getStringExtra(CatlogueActivity.EXTRA_ZIP_PATH);
+				ZipInputStream in = null;
+				try {
+					InputStream input = new FileInputStream(zipPath);
+						in = new ZipInputStream(input);
+						in.getNextEntry();
+						input = in;
+					byte[] diskBytes = BBCUtils.readInputStream(input);
+					mDiskImageByteBuffer = ByteBuffer.allocateDirect(diskBytes.length);
+					mDiskImageByteBuffer.put(diskBytes);
+					bbcLoadDisc(mDiskImageByteBuffer, 1);
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					if (in != null) {
+						try {
+							in.close();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+			break;
 		case ACTIVITY_RESULT_FILE_EXPLORER:
 			if (data == null) {
 				return;
