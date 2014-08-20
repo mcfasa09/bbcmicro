@@ -8,7 +8,6 @@ This project uses the emulation of Beebdroid (which is Open Source) but fixes se
 To get the best out of this app you need a Bluetooth keyboard. Without a hardware keyboard the standard Android soft-keyboard is displayed but it does have some issues and is no good for playing games.
 For the complete BBC Micro experience add a Bluetooth Keyboard and a Slimport HDMI adapter; the app runs in fullscreen mode when in landscape.
 
-- Use Google Drive to open .zip & .ssd disk images and basic text files.
 - Auto-boots .ssd files loaded from the file explorer.
 - Remap Bluetooth keyboard keys to match BBC Micro layout
 - Set a shortcut key to easily launch Google Drive disk picker from a Bluetooth keyboard (in the overflow menu in key settings screen).
@@ -19,10 +18,3 @@ For the complete BBC Micro experience add a Bluetooth Keyboard and a Slimport HD
 We've removed all the controller code/logic from the Beebdroid source and made it much simpler to navigate. The aim of this project was to run a 30 year old Basic program (more info here: http://fiskur.eu/?p=127) but the app is very usable and has some advantages to Beebdroid (plus plenty of disadvantages) so we're releasing it here, note that it's only been tested on a Nexus 4 and a Nexus 5.
 
 Released under the GNU General Public License v2.0: http://www.gnu.org/licenses/gpl-2.0.html 
-
-Build Instructions
-==================
-
-- First import the project into Eclipse (Import > Existing Code Into Workspace)
-- Inside the folder there is also a sub directory holding the Google Play Library, import that project too
-- Check that the project references the Google Play Library project, and that both project APIs are set to the latest (currently 19)
