@@ -18,10 +18,3 @@ For the complete BBC Micro experience add a Bluetooth Keyboard and a Slimport HD
 We've removed all the controller code/logic from the Beebdroid source and made it much simpler to navigate. The aim of this project was to run a 30 year old Basic program (more info here: http://fiskur.eu/?p=127) but the app is very usable and has some advantages to Beebdroid (plus plenty of disadvantages) so we're releasing it here, note that it's only been tested on a Nexus 4 and a Nexus 5.
 
 Released under the GNU General Public License v2.0: http://www.gnu.org/licenses/gpl-2.0.html 
-
-Build Instructions
-==================
-
-- First import the project into Eclipse (Import > Existing Code Into Workspace)
-- Inside the folder there is also a sub directory holding the Google Play Library, import that project too
-- Check that the project references the Google Play Library project, and that both project APIs are set to the latest (currently 19)
