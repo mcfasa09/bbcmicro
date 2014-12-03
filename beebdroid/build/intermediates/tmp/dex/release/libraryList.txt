@@ -1,0 +1,6 @@
+/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/build/intermediates/pre-dexed/release/classes-3fe1977d911ce399cd7e2bc452f0a8d110d0206b.jar
+/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/build/intermediates/pre-dexed/release/classes-589f29fc7954f3bf043cca9695af39e89bb0e1b4.jar
+/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/build/intermediates/pre-dexed/release/classes-9e74c05800f0e52e4f4cc8b7d8e1081e4767c141.jar
+/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/build/intermediates/pre-dexed/release/internal_impl-21.0.0-a67b176406d600babe35a5efe40feccddb0f111c.jar
+/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/build/intermediates/pre-dexed/release/support-annotations-21.0.0-e869a2cf20849bab669b59e263061293a1ed462d.jar
+/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/build/intermediates/classes/release

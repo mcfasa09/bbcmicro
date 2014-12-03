@@ -1,7 +1,10 @@
 package com.fiskur.bbcmicro;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -9,7 +12,7 @@ import android.widget.TextView;
 import android.app.Activity;
 import android.content.Intent;
 
-public class KeyRemapActivity extends Activity {
+public class KeyRemapActivity extends ActionBarActivity {
 
 	public static final String EXTRA_KEY_STRING = "key_remap_extra";
 	public static final String EXTRA_SCAN_INT = "key_scancode_extra";
@@ -23,13 +26,18 @@ public class KeyRemapActivity extends Activity {
 	private Button mSetRemapButton;
 	
 	int remappedKeyCode = -1;
-	
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.activity_key_remap);
+
+        Toolbar toolbar = (Toolbar)findViewById(R.id.material_toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		mKeyView = (TextView) findViewById(R.id.remap_key_text_view);
 
@@ -90,4 +98,10 @@ public class KeyRemapActivity extends Activity {
 	public void onBackPressed() {
 		//super.onBackPressed();
 	}
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        finish();
+        return true;
+    }
 }

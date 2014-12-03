@@ -1,6 +1,5 @@
 package com.fiskur.bbcmicro;
 
-
 import com.littlefluffytoys.beebdroid.Beebdroid;
 
 import android.os.Bundle;
@@ -35,9 +34,7 @@ public class SetShortcutActivity extends Activity {
 		}else{
 			mShortcutLabel.setText("0x" + Integer.toHexString(mShortcutKeycode));
 		}
-		
-		
-		
+
 		mClearButton = (Button) findViewById(R.id.shortcut_clear_button);
 		mClearButton.setOnClickListener(new OnClickListener() {
 			

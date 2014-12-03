@@ -16,6 +16,13 @@
         <dex dex="/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/build/intermediates/pre-dexed/debug/classes-589f29fc7954f3bf043cca9695af39e89bb0e1b4.jar" />
     </item>
     <item
+        jar="/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/build/intermediates/exploded-aar/com.afollestad/material-dialogs/0.3.0/classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="4523a57658d80bf5ad025858f1730d435e5699b4">
+        <dex dex="/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/build/intermediates/pre-dexed/debug/classes-77b4135a32f388aa228a5d597d3260f263ecf9d0.jar" />
+    </item>
+    <item
         jar="/Users/jonathan.fisher/Development/Android23/sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.0/support-annotations-21.0.0.jar"
         jumboMode="false"
         revision="21.1.1"

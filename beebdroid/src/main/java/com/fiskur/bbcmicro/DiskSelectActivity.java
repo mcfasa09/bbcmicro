@@ -25,7 +25,6 @@ public class DiskSelectActivity extends Activity implements OnItemClickListener 
 	private ListView mDiskList;
 	private SharedPreferences mPrefs;
 	private String[] mPaths;
-	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
