@@ -20,10 +20,15 @@ import com.fiskur.bbcmicro.BBCUtils.KeyMap;
 import com.littlefluffytoys.beebdroid.Beebdroid;
 
 public class SettingsActivity extends ActionBarActivity {
-	
+    public static final String PREFS_POPUP_SHORTCUT_KEYCODE = "bbcmicro_popup_shortcut_keycode";
+    public static final String PREFS_CHAR_PREFIX = "remap_char_int_";
+	private static final int MODE_LIST = 0;
+    private static final int MODE_REMAP_DIALOG = 1;
+    private static final int MODE_SHORTCUT_DIALOG = 2;
+    private int mMode = MODE_LIST;
 	private static final String TAG = "SettingsActivity";
 	private static final int ACTIVITY_REMAP = 0;
-	public static final String PREFS_CHAR_PREFIX = "remap_char_int_";
+
 	private ListView mBBCKeyList;
 	private KeyMap[] mBBCKeyLabels;
 
@@ -32,6 +37,12 @@ public class SettingsActivity extends ActionBarActivity {
     private MaterialDialog mDialog;
 	private int mSelectedScanCode;
 	private SharedPreferences mPrefs;
+
+    private TextView mShortcutKeyView = null;
+    private TextView mKeyView = null;
+    private TextView mScanCodeView = null;
+    private TextView mScanCodeRemapView = null;
+    private int remappedKeyCode = -1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +60,7 @@ public class SettingsActivity extends ActionBarActivity {
 		mBBCKeyLabels = BBCUtils.getInstance().getKeyMapsWithRemap(this);
 		
 		mBBCKeyList = (ListView) findViewById(R.id.settings_keymap_list);
-		KeyMapAdapter bbcKeyAdapter = new KeyMapAdapter (this, R.layout.list_row_remap, mBBCKeyLabels);
+		KeyMapAdapter bbcKeyAdapter = new KeyMapAdapter(this, R.layout.list_row_remap, mBBCKeyLabels);
 		mBBCKeyList.setAdapter(bbcKeyAdapter);
 		
 		mBBCKeyList.setOnItemClickListener(new KeyMapItemClickListener());
@@ -59,14 +70,6 @@ public class SettingsActivity extends ActionBarActivity {
 
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//			KeyMap clickedKey = mBBCKeyLabels[position];
-//			mSelectedScanCode = clickedKey.getScanCode();
-//			Intent keyMapIntent = new Intent(SettingsActivity.this, KeyRemapActivity.class);
-//			keyMapIntent.putExtra(KeyRemapActivity.EXTRA_KEY_STRING, clickedKey.getKeyString());
-//			keyMapIntent.putExtra(KeyRemapActivity.EXTRA_SCAN_INT, clickedKey.getScanCode());
-//			keyMapIntent.putExtra(KeyRemapActivity.EXTRA_SCAN_REMAP_INT, clickedKey.getRemapCode());
-//			startActivityForResult(keyMapIntent, ACTIVITY_REMAP);
-
             KeyMap clickedKey = mBBCKeyLabels[position];
             mSelectedScanCode = clickedKey.getScanCode();
 
@@ -78,6 +81,7 @@ public class SettingsActivity extends ActionBarActivity {
                     .callback(new MaterialDialog.Callback(){
                         @Override
                         public void onPositive(MaterialDialog materialDialog) {
+
                             if(remappedKeyCode != -1){
                                 mPrefs.edit().putInt(PREFS_CHAR_PREFIX + Integer.toHexString(mSelectedScanCode), remappedKeyCode).commit();
                             }else{
@@ -88,11 +92,17 @@ public class SettingsActivity extends ActionBarActivity {
                             KeyMapAdapter bbcKeyAdapter = new KeyMapAdapter (SettingsActivity.this, R.layout.list_row_remap, mBBCKeyLabels);
                             mBBCKeyList.setAdapter(bbcKeyAdapter);
                             remappedKeyCode = -1;
+                            mMode = MODE_LIST;
                         }
 
                         @Override
                         public void onNegative(MaterialDialog materialDialog) {
-                            //do nothing
+                            mPrefs.edit().remove(PREFS_CHAR_PREFIX + Integer.toHexString(mSelectedScanCode)).commit();
+                            mBBCKeyLabels = BBCUtils.getInstance().getKeyMapsWithRemap(SettingsActivity.this);
+                            KeyMapAdapter bbcKeyAdapter = new KeyMapAdapter (SettingsActivity.this, R.layout.list_row_remap, mBBCKeyLabels);
+                            mBBCKeyList.setAdapter(bbcKeyAdapter);
+                            remappedKeyCode = -1;
+                            mMode = MODE_LIST;
                         }
                     })
                     .build();
@@ -104,54 +114,34 @@ public class SettingsActivity extends ActionBarActivity {
             mScanCodeView = TextView.class.cast(dialogContainer.findViewById(R.id.remap_scan_code_text_view));
             mScanCodeView.setText("Key Code: 0x" + Integer.toHexString(clickedKey.getScanCode()));
             mScanCodeRemapView = TextView.class.cast(dialogContainer.findViewById(R.id.remap_scan_code_remap_text_view));
-
+            mMode = MODE_REMAP_DIALOG;
             mDialog.show();
 		}
 	}
 
-    private TextView mKeyView = null;
-    private TextView mScanCodeView = null;
-    private TextView mScanCodeRemapView = null;
-    int remappedKeyCode = -1;
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(mDialog.isShowing()){
-            remappedKeyCode = keyCode;
-            if(mScanCodeRemapView != null) {
-                mScanCodeRemapView.setText("Remap Code: 0x" + Integer.toHexString(remappedKeyCode));
+        if(MODE_REMAP_DIALOG == mMode) {
+            if (mDialog != null && mDialog.isShowing()) {
+                remappedKeyCode = keyCode;
+                if (mScanCodeRemapView != null) {
+                    mScanCodeRemapView.setText("Remap Code: 0x" + Integer.toHexString(remappedKeyCode));
+                }
+                return true;
+            }
+        }else if(MODE_SHORTCUT_DIALOG == mMode){
+            if (mDialog != null && mDialog.isShowing()) {
+                remappedKeyCode = keyCode;
+                if (mShortcutKeyView != null) {
+                    mShortcutKeyView.setText("Remap Code: 0x" + Integer.toHexString(remappedKeyCode));
+                }
+                return true;
             }
         }
 
         return super.onKeyDown(keyCode, event);
     }
-	
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if(data != null && data.hasExtra(KeyRemapActivity.RESULT_EXTRA_REMAP_KEY)){
 
-			int remapInt = data.getIntExtra(KeyRemapActivity.RESULT_EXTRA_REMAP_KEY, -1);
-			if(remapInt != -1){
-				mPrefs.edit().putInt(PREFS_CHAR_PREFIX + Integer.toHexString(mSelectedScanCode), remapInt).commit();
-			}else{
-				mPrefs.edit().remove(PREFS_CHAR_PREFIX + Integer.toHexString(mSelectedScanCode)).commit();
-			}
-
-			mBBCKeyLabels = BBCUtils.getInstance().getKeyMapsWithRemap(this);
-			KeyMapAdapter bbcKeyAdapter = new KeyMapAdapter (this, R.layout.list_row_remap, mBBCKeyLabels);
-			mBBCKeyList.setAdapter(bbcKeyAdapter);
-		}
-		super.onActivityResult(requestCode, resultCode, data);
-	}
-	
-//	@Override
-//	public boolean onKeyDown(int keyCode, KeyEvent event) {
-//		if(mKeyCodeView != null){
-//			mKeyCodeView.setText(Integer.toBinaryString(keyCode));
-//		}
-//		return super.onKeyDown(keyCode, event);
-//	}
-	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.settings, menu);
@@ -164,6 +154,33 @@ public class SettingsActivity extends ActionBarActivity {
 			case R.id.action_disk_popup_shortcut:
                 Intent setPopupShortcutIntent = new Intent(SettingsActivity.this, SetShortcutActivity.class);
                 startActivity(setPopupShortcutIntent);
+
+                mDialog = new MaterialDialog.Builder(SettingsActivity.this)
+                        .title(R.string.title_activity_key_remap)
+                        .customView(R.layout.dialog_shorcut_key)
+                        .positiveText("Save")
+                        .negativeText("Clear")
+                        .callback(new MaterialDialog.Callback(){
+                            @Override
+                            public void onPositive(MaterialDialog materialDialog) {
+                                mPrefs.edit().putInt(PREFS_POPUP_SHORTCUT_KEYCODE, remappedKeyCode).commit();
+                                mMode = MODE_LIST;
+                            }
+
+                            @Override
+                            public void onNegative(MaterialDialog materialDialog) {
+                                mMode = MODE_LIST;
+                            }
+                        })
+                        .build();
+
+                View dialogContainer = mDialog.getCustomView();
+
+                mShortcutKeyView = TextView.class.cast(dialogContainer.findViewById(R.id.shortcut_keycode_label));
+                mShortcutKeyView.setText("No shortcut set");
+
+                mMode = MODE_SHORTCUT_DIALOG;
+                mDialog.show();
 				break;
 			case R.id.action_wipe:
                 Toast.makeText(SettingsActivity.this, "All saved disks and keymappings wiped", Toast.LENGTH_LONG).show();

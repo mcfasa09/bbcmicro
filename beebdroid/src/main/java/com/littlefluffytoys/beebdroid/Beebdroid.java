@@ -274,8 +274,8 @@ public class Beebdroid extends ActionBarActivity {
 		
 		//See if a popup shortcut has been set
 		SharedPreferences prefs = getSharedPreferences(BBC_MICRO_PREFS, MODE_PRIVATE);
-		if(prefs.contains(SetShortcutActivity.PREFS_POPUP_SHORTCUT_KEYCODE)){
-			mShortcutKeycode = prefs.getInt(SetShortcutActivity.PREFS_POPUP_SHORTCUT_KEYCODE, -1);
+		if(prefs.contains(SettingsActivity.PREFS_POPUP_SHORTCUT_KEYCODE)){
+			mShortcutKeycode = prefs.getInt(SettingsActivity.PREFS_POPUP_SHORTCUT_KEYCODE, -1);
 		}
 	}
 

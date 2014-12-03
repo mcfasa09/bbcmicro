@@ -7,24 +7,28 @@
     
     <TextView 
         android:id="@+id/list_row_charcter_label"
-        android:layout_width="60dp"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Enter"/>
+        android:gravity="left"
+        android:text="Enter"
+        android:textStyle="bold"
+        android:textSize="18dp"/>
     
    <TextView 
         android:id="@+id/list_row_keycode_label"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Keycode: 0xff"/>
+       android:gravity="left"
+        android:text="Keycode: 0xff"
+       android:textSize="16dp"/>
         
     <TextView 
         android:id="@+id/list_row_keycode_remap_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Remap: none"/>
+        android:gravity="right"
+        android:text="Remap: none"
+        android:textSize="16dp"/>
 
 </LinearLayout>
 <!-- From: file:/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/src/main/res/layout/list_row_remap.xml -->

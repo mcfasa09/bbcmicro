@@ -498,11 +498,11 @@ public final class R {
 		public static final int abc_search_dropdown_item_icons_2line = 0x7f030014;
 		public static final int abc_search_view = 0x7f030015;
 		public static final int abc_simple_dropdown_hint = 0x7f030016;
-		public static final int md_dialog = 0x7f030025;
-		public static final int md_listitem = 0x7f030026;
-		public static final int md_listitem_multichoice = 0x7f030027;
-		public static final int md_listitem_singlechoice = 0x7f030028;
-		public static final int support_simple_spinner_dropdown_item = 0x7f030029;
+		public static final int md_dialog = 0x7f030026;
+		public static final int md_listitem = 0x7f030027;
+		public static final int md_listitem_multichoice = 0x7f030028;
+		public static final int md_listitem_singlechoice = 0x7f030029;
+		public static final int support_simple_spinner_dropdown_item = 0x7f03002a;
 	}
 	public static final class string {
 		public static final int abc_action_bar_home_description = 0x7f0a0000;

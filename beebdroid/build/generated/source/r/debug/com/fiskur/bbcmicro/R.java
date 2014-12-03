@@ -1618,13 +1618,14 @@ containing a value of this type.
         public static final int activity_set_shortcut=0x7f030020;
         public static final int activity_settings=0x7f030021;
         public static final int dialog_key_remap=0x7f030022;
-        public static final int list_row_disk=0x7f030023;
-        public static final int list_row_remap=0x7f030024;
-        public static final int md_dialog=0x7f030025;
-        public static final int md_listitem=0x7f030026;
-        public static final int md_listitem_multichoice=0x7f030027;
-        public static final int md_listitem_singlechoice=0x7f030028;
-        public static final int support_simple_spinner_dropdown_item=0x7f030029;
+        public static final int dialog_shorcut_key=0x7f030023;
+        public static final int list_row_disk=0x7f030024;
+        public static final int list_row_remap=0x7f030025;
+        public static final int md_dialog=0x7f030026;
+        public static final int md_listitem=0x7f030027;
+        public static final int md_listitem_multichoice=0x7f030028;
+        public static final int md_listitem_singlechoice=0x7f030029;
+        public static final int support_simple_spinner_dropdown_item=0x7f03002a;
     }
     public static final class menu {
         public static final int main=0x7f0c0000;
