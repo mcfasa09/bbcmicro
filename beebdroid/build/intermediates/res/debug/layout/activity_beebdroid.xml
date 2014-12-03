@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:lft="http://schemas.android.com/apk/res/com.littlefluffytoys.beebdroid"
+    android:id="@+id/root"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#000"
+    android:orientation="vertical" >
+    
+    <ProgressBar 
+        android:id="@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#000"
+        android:layout_marginTop="-6dp" 
+        android:visibility="gone"
+        style="@android:style/Widget.Holo.ProgressBar.Horizontal"
+        />
+
+    <view
+        class="com.littlefluffytoys.beebdroid.BeebView" 
+        android:id="@+id/beeb"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="272"
+        />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="168"
+        android:background="#ff000000"
+        android:paddingTop="10dp" >
+        <EditText 
+            android:id="@+id/invisible_edit"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:text="_"
+            android:inputType="textNoSuggestions"
+            android:imeOptions="actionNone"
+            android:alpha="0"/>
+    </RelativeLayout>
+
+
+</LinearLayout><!-- From: file:/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/src/main/res/layout/activity_beebdroid.xml -->

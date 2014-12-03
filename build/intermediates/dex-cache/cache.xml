@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/build/intermediates/exploded-aar/BBCMicroMaterialAndroidStudioProject/volley/unspecified/classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="c4f5c152efe3ee108f3c3d32fc714830856771f2">
+        <dex dex="/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/build/intermediates/pre-dexed/debug/classes-589f29fc7954f3bf043cca9695af39e89bb0e1b4.jar" />
+    </item>
+
+</items>

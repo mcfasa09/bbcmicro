@@ -1,0 +1,2 @@
+/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/build/intermediates/pre-dexed/debug/classes-589f29fc7954f3bf043cca9695af39e89bb0e1b4.jar
+/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/build/intermediates/classes/debug
