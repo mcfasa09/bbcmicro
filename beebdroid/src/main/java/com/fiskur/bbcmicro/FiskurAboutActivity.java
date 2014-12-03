@@ -1,21 +1,25 @@
 package com.fiskur.bbcmicro;
 
 import android.os.Bundle;
-import android.app.Activity;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.view.MenuItem;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
+import android.view.MenuItem;
 
-public class FiskurAboutActivity extends Activity {
+public class FiskurAboutActivity extends ActionBarActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_fiskur_about);
+
+        Toolbar toolbar = (Toolbar)findViewById(R.id.material_toolbar);
+        setSupportActionBar(toolbar);
 		
-		getActionBar().setHomeButtonEnabled(true);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		try {
 			PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -26,10 +30,10 @@ public class FiskurAboutActivity extends Activity {
 			e.printStackTrace();
 		}
 	}
-	
-	@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		finish();
-		return true;
-	}
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        finish();
+        return super.onOptionsItemSelected(item);
+    }
 }

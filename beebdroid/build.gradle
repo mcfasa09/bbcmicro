@@ -1,12 +1,16 @@
 apply plugin: 'com.android.application'
 
+dependencies{
+    compile 'com.android.support:appcompat-v7:21.0.+'
+}
+
 android {
-    compileSdkVersion 19
+    compileSdkVersion 21
     buildToolsVersion "21.1.1"
 
     defaultConfig {
         applicationId "com.fiskur.bbcmicro"
-        minSdkVersion 14
+        minSdkVersion 11
         targetSdkVersion 19
     }
 

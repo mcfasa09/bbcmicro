@@ -1,13 +1,8 @@
 package com.fiskur.bbcmicro;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 import com.android.volley.Request.Method;
 import com.android.volley.RequestQueue;
@@ -17,12 +12,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,7 +29,7 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 @SuppressLint("SetJavaScriptEnabled")
-public class CatlogueActivity extends Activity implements Listener<byte[]> {
+public class CatlogueActivity extends ActionBarActivity implements Listener<byte[]> {
 	public static final String EXTRA_ZIP_PATH = "com.fiskur.bbcmicro.EXTRA_ZIP_PATH";
 	private RequestQueue mQueue;
 	private String mFilename;
@@ -44,14 +40,17 @@ public class CatlogueActivity extends Activity implements Listener<byte[]> {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_catlogue);
+
+        Toolbar toolbar = (Toolbar)findViewById(R.id.material_toolbar);
+        setSupportActionBar(toolbar);
 		
 		if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-		    getActionBar().hide();
+		    getSupportActionBar().hide();
 			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 			getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 		}else{
-			getActionBar().setHomeButtonEnabled(true);
-			getActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		}
 
 		mWebView = (WebView) findViewById(R.id.web_view);
@@ -146,11 +145,9 @@ public class CatlogueActivity extends Activity implements Listener<byte[]> {
 	}
 	
 	public void saveFile(String fileName, byte[] data) throws IOException{
-			l("Saving " + data.length + " bytes into " + fileName);
-		  FileOutputStream out = new FileOutputStream(fileName);
-		  out.write(data);
-		  out.close();
-		}
-	
-	
+        l("Saving " + data.length + " bytes into " + fileName);
+        FileOutputStream out = new FileOutputStream(fileName);
+        out.write(data);
+        out.close();
+    }
 }

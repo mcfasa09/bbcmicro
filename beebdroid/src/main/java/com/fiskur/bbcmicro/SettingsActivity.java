@@ -1,9 +1,10 @@
 package com.fiskur.bbcmicro;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,7 +17,7 @@ import android.widget.Toast;
 import com.fiskur.bbcmicro.BBCUtils.KeyMap;
 import com.littlefluffytoys.beebdroid.Beebdroid;
 
-public class SettingsActivity extends Activity {
+public class SettingsActivity extends ActionBarActivity {
 	
 	private static final String TAG = "SettingsActivity";
 	private static final int ACTIVITY_REMAP = 0;
@@ -33,9 +34,12 @@ public class SettingsActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_settings);
-		
-		getActionBar().setHomeButtonEnabled(true);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Toolbar toolbar = (Toolbar)findViewById(R.id.material_toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		mPrefs = getSharedPreferences(Beebdroid.BBC_MICRO_PREFS, MODE_PRIVATE);
 
@@ -94,19 +98,19 @@ public class SettingsActivity extends Activity {
 	}
 	
 	@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.action_disk_popup_shortcut:
-				Intent setPopupShortcutIntent = new Intent(SettingsActivity.this, SetShortcutActivity.class);
-				startActivity(setPopupShortcutIntent);
+                Intent setPopupShortcutIntent = new Intent(SettingsActivity.this, SetShortcutActivity.class);
+                startActivity(setPopupShortcutIntent);
 				break;
 			case R.id.action_wipe:
-				Toast.makeText(SettingsActivity.this, "All saved disks and keymappings wiped", Toast.LENGTH_LONG).show();
-				mPrefs.edit().clear().commit();
-				finish();
+                Toast.makeText(SettingsActivity.this, "All saved disks and keymappings wiped", Toast.LENGTH_LONG).show();
+                mPrefs.edit().clear().commit();
+                finish();
 				break;
-				default:
-					finish();
+            default:
+                finish();
 		}
 		
 		return true;

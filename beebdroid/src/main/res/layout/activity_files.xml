@@ -4,6 +4,16 @@
     android:layout_height="match_parent"
 android:gravity="top"
     tools:context=".FilesActivity" >
+
+    <android.support.v7.widget.Toolbar
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/material_toolbar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:minHeight="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
     
     <TableLayout
         android:id="@+id/filename_table"
@@ -11,6 +21,7 @@ android:gravity="top"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:background="@color/button_bar_background"
+        android:layout_below="@+id/material_toolbar"
         android:gravity="top"
         android:padding="0dp"
         android:stretchColumns="*"

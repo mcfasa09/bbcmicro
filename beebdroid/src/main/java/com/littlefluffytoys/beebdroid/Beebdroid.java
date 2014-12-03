@@ -31,6 +31,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -51,7 +53,7 @@ import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 import android.graphics.Bitmap;
 
-public class Beebdroid extends Activity {
+public class Beebdroid extends ActionBarActivity {
 
 	private static final String TAG = "Beebdroid";
 
@@ -123,33 +125,25 @@ public class Beebdroid extends Activity {
 	private boolean mProcessingBasic = false;
 	private long mStartBasicInput;
 	private String mBasicSource;
-	
-	//Google Drive
-//	private GoogleDriveListener mDriveHandler;
-//	private GoogleApiClient mGoogleApiClient;
-//	private DriveFolder mLastDriveFolder;
-//	private static final int REQUEST_CODE_OPENER = 9763;
-//	private static final int RESOLVE_CONNECTION_REQUEST_CODE = 9876;
-//	private String mDriveFileName;
+
 	private ProgressBar mProgressBar;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-		getActionBar().setTitle(null);
-		
-		//mDriveHandler = new GoogleDriveListener();
 
-		int screenOrientation = getResources().getConfiguration().orientation;
+        setContentView(R.layout.activity_beebdroid);
 
-		if (Configuration.ORIENTATION_LANDSCAPE == screenOrientation) {
-			getActionBar().hide();
-			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-			getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-		}
+        Toolbar toolbar = (Toolbar)findViewById(R.id.material_toolbar);
+        setSupportActionBar(toolbar);
 
-		setContentView(R.layout.activity_beebdroid);
+        int screenOrientation = getResources().getConfiguration().orientation;
+        if (Configuration.ORIENTATION_LANDSCAPE == screenOrientation) {
+            getSupportActionBar().hide();
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        }
 
 		mBBCUtils = BBCUtils.getInstance();
 
@@ -250,40 +244,6 @@ public class Beebdroid extends Activity {
 				}
 				return;
 			}
-			//Need to check keycodes here - this doesn't work...
-			/*
-			mInvisibleEditText.setKeyListener(new KeyListener() {
-				
-				@Override
-				public boolean onKeyUp(View view, Editable text, int keyCode, KeyEvent event) {
-					l("EditText onKeyUp");
-					Beebdroid.this.onKeyUp(keyCode, event);
-					return true;
-				}
-				
-				@Override
-				public boolean onKeyOther(View view, Editable text, KeyEvent event) {
-					return false;
-				}
-				
-				@Override
-				public boolean onKeyDown(View view, Editable text, int keyCode, KeyEvent event) {
-					l("EditText onKeyDown keyCode: " + keyCode);
-					Beebdroid.this.onKeyDown(keyCode, event);
-					return true;
-				}
-				
-				@Override
-				public int getInputType() {
-					return 0;
-				}
-				
-				@Override
-				public void clearMetaKeyState(View view, Editable content, int states) {
-					l("clearMetaKeyState");
-				}
-			});
-			*/
 			
 			mInvisibleEditText.setOnEditorActionListener(new OnEditorActionListener() {
 
@@ -297,7 +257,6 @@ public class Beebdroid extends Activity {
 				}
 			});
 
-			
 			if (mInvisibleTextWatcher == null) {
 				mInvisibleTextWatcher = new InvisibleTextWatcher();
 			} else {
@@ -308,7 +267,7 @@ public class Beebdroid extends Activity {
 			
 			showInvisibleEditTextKeyboard();
 		} else {
-			getActionBar().hide();
+			getSupportActionBar().hide();
 			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 			getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 		}
@@ -441,10 +400,10 @@ public class Beebdroid extends Activity {
 		}
 	}
 
-	@Override
-	public Object onRetainNonConfigurationInstance() {
-		return this;
-	}
+//	@Override
+//	public Object onRetainNonConfigurationInstance() {
+//		return this;
+//	}
 
 	private class InvisibleTextWatcher implements TextWatcher {
 
@@ -691,10 +650,10 @@ public class Beebdroid extends Activity {
 			startActivityForResult(settingsIntent, ACTIVITY_RESULT_SETTINGS);
 			break;
 		case R.id.action_hide_actionbar:
-			if (getActionBar().isShowing()) {
-				getActionBar().hide();
+			if (getSupportActionBar().isShowing()) {
+				getSupportActionBar().hide();
 			} else {
-				getActionBar().show();
+				getSupportActionBar().show();
 			}
 			break;
 		case R.id.action_about:

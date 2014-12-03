@@ -15,11 +15,12 @@ import org.json.JSONException;
 
 import com.littlefluffytoys.beebdroid.Beebdroid;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -35,7 +36,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
-public class ExplorerActivity extends Activity {
+public class ExplorerActivity extends ActionBarActivity {
 	private static final String TAG = "FilesActivity";
 	public static final int MODE_SAVE = 1;
 	public static final int MODE_OPEN = 2;
@@ -65,7 +66,11 @@ public class ExplorerActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_files);
 
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.material_toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		mMode = getIntent().getIntExtra(MODE, MODE_OPEN);
 
@@ -326,11 +331,11 @@ public class ExplorerActivity extends Activity {
 		mFilesList.setAdapter(fileList);
 	}
 
-	@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		ExplorerActivity.this.finish();
-		return super.onMenuItemSelected(featureId, item);
-	}
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        finish();
+        return super.onOptionsItemSelected(item);
+    }
 	
 	private void l(String message){
 		Log.d(TAG, message);
