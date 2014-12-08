@@ -16,10 +16,9 @@ import com.fiskur.bbcmicro.CatlogueActivity;
 import com.fiskur.bbcmicro.DiskSelectActivity;
 import com.fiskur.bbcmicro.ExplorerActivity;
 import com.fiskur.bbcmicro.FiskurAboutActivity;
+import com.fiskur.bbcmicro.L;
 import com.fiskur.bbcmicro.R;
-import com.fiskur.bbcmicro.SetShortcutActivity;
 import com.fiskur.bbcmicro.SettingsActivity;
-import android.app.Activity;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
@@ -151,7 +150,7 @@ public class Beebdroid extends ActionBarActivity {
 		mProgressBar.setMax(100);
 		beebView = (BeebView) findViewById(R.id.beeb);
 
-		if (isHardwareKeyboardAvailable()) {
+		if (Configuration.ORIENTATION_LANDSCAPE == screenOrientation || isHardwareKeyboardAvailable()) {
 			l("Using physical keyboard");
 			initKeyboardRemapping();
 		} else {
@@ -225,6 +224,7 @@ public class Beebdroid extends ActionBarActivity {
 	@Override
 	public void onResume() {
 		super.onResume();
+        L.l("onResume()");
 		checkScreenAutoRotate();
 		
 		mBBCMainLoopHandler.postDelayed(bbcEmulatorRunnable, EMULATOR_CYCLE_MS);
@@ -324,8 +324,6 @@ public class Beebdroid extends ActionBarActivity {
 		l("onKeyDown " + keycode);
 		if(keycode == mShortcutKeycode){
 			l("showLoadDiskPopup()");
-//			Intent loadDiskIntent = new Intent(Beebdroid.this, DiskSelectActivity.class);
-//			startActivityForResult(loadDiskIntent, ACTIVITY_RESULT_LOAD_DISK);
 			Intent webCatalogueIntent = new Intent(Beebdroid.this, CatlogueActivity.class);
 			startActivityForResult(webCatalogueIntent, ACTIVITY_RESULT_WEB_CATALOGUE);
 			return true;
@@ -515,24 +513,6 @@ public class Beebdroid extends ActionBarActivity {
 				loadLocalDisk(filePath, true);
 			}
 			break;
-//		case REQUEST_CODE_OPENER:
-//			if(data != null){
-//				DriveId driveId = (DriveId) data.getParcelableExtra(OpenFileActivityBuilder.EXTRA_RESPONSE_DRIVE_ID);
-//				
-//				if(driveId != null){
-//					mProgressBar.setVisibility(View.VISIBLE);
-//					DriveFile driveFile = Drive.DriveApi.getFile(mGoogleApiClient, driveId);
-//					mLastDriveFolder = Drive.DriveApi.getFolder(mGoogleApiClient, driveId);
-//					
-//					//This is bad - synchronous call on event thread:
-//					mDriveFileName = driveFile.getMetadata(mGoogleApiClient).await().getMetadata().getTitle();
-//
-//					driveFile.openContents(mGoogleApiClient, DriveFile.MODE_READ_ONLY, mDriveHandler).addResultCallback(mDriveHandler);
-//				}else{
-//					Toast.makeText(Beebdroid.this, "Google Drive error: no DriveFile ", Toast.LENGTH_LONG).show();
-//				}
-//			}
-//			break;
 		case ACTIVITY_RESULT_SETTINGS:
 			initKeyboardRemapping();
 			break;
@@ -548,6 +528,10 @@ public class Beebdroid extends ActionBarActivity {
 	}
 
 	private void initKeyboardRemapping() {
+        L.l("initKeyboardRemapping()");
+        if(mInvisibleEditText != null) {
+            mInvisibleEditText.setVisibility(View.GONE);
+        }
 		SharedPreferences prefs = getSharedPreferences(BBC_MICRO_PREFS, MODE_PRIVATE);
 		KeyMap[] keys = mBBCUtils.getKeyMaps();
 		mRemapMap = new HashMap<Integer, Integer>();
@@ -642,9 +626,6 @@ public class Beebdroid extends ActionBarActivity {
 			mDiskLoaded = false;
 			bbcBreak(0);
 			break;
-//		case R.id.action_google_drive:
-//			launchGoogleDrive();
-//			break;
 		case R.id.action_settings:
 			Intent settingsIntent = new Intent(Beebdroid.this, SettingsActivity.class);
 			startActivityForResult(settingsIntent, ACTIVITY_RESULT_SETTINGS);
@@ -671,144 +652,8 @@ public class Beebdroid extends ActionBarActivity {
 	}
 
 	private boolean isHardwareKeyboardAvailable() {
-		return getResources().getConfiguration().keyboard != Configuration.KEYBOARD_NOKEYS;
+        boolean hasHardwareKeys = getResources().getConfiguration().keyboard != Configuration.KEYBOARD_NOKEYS;
+        L.l("hasHardwareKeys = " + hasHardwareKeys);
+		return hasHardwareKeys;
 	}
-	
-//	private void launchGoogleDrive(){
-//		if (mGoogleApiClient == null) {
-//			GoogleApiClient.Builder builder = new GoogleApiClient.Builder(this);
-//			builder.addApi(Drive.API);
-//			builder.addScope(Drive.SCOPE_FILE);
-//			builder.addConnectionCallbacks(mDriveHandler);
-//			builder.addOnConnectionFailedListener(mDriveHandler);
-//			mGoogleApiClient = builder.build();
-//		}
-//		if(mGoogleApiClient.isConnected()){
-//			mDriveHandler.showPicker();
-//		}else{
-//			mGoogleApiClient.connect();
-//		}
-//	}
-	
-//	private class GoogleDriveListener implements ConnectionCallbacks, OnConnectionFailedListener, DownloadProgressListener, OnContentsOpenedCallback{
-//		
-//		GoogleDriveListener(){
-//
-//		}
-//		
-//		public void showPicker(){
-//			OpenFileActivityBuilder activityBuilder = Drive.DriveApi.newOpenFileActivityBuilder();
-//			activityBuilder.setMimeType(new String[] { "application/octet-stream", "application/zip", "text/plain" });
-//			
-//			//This doesn't work...
-//			if(mLastDriveFolder != null){
-//				activityBuilder.setActivityStartFolder(mLastDriveFolder.getDriveId());
-//			}
-//			
-//			IntentSender intentSender = activityBuilder.build(mGoogleApiClient);
-//			try {
-//				startIntentSenderForResult(intentSender, REQUEST_CODE_OPENER, null, 0, 0, 0);
-//			} catch (SendIntentException e) {
-//				l("Unable to send intent");
-//			}
-//		}
-//
-//		@Override
-//		public void onConnected(Bundle bundle) {
-//			showPicker();
-//		}
-//
-//		@Override
-//		public void onDisconnected() {
-//			
-//		}
-//
-//		@Override
-//		public void onConnectionFailed(ConnectionResult connectionResult) {
-//			l("onConnectionFailed");
-//			if (connectionResult.hasResolution()) {
-//				try {
-//					l("Trying to resolve issue...");
-//					connectionResult.startResolutionForResult(Beebdroid.this, RESOLVE_CONNECTION_REQUEST_CODE);
-//				} catch (IntentSender.SendIntentException e) {
-//					l("SendIntentException: " + e.getMessage());
-//				}
-//			} else {
-//				GooglePlayServicesUtil.getErrorDialog(connectionResult.getErrorCode(), Beebdroid.this, 0).show();
-//			}
-//		}
-//
-//		@Override
-//		public void onOpen(ContentsResult contentsResult) {
-//			if (!contentsResult.getStatus().isSuccess()) {
-//				Toast.makeText(Beebdroid.this, "Error retrieving disk", Toast.LENGTH_LONG).show();
-//				return;
-//			}
-//
-//			ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
-//
-//			int bufferSize = 1024;
-//			byte[] buffer = new byte[bufferSize];
-//			int len = 0;
-//			
-//			if(mDriveFileName.toLowerCase(Locale.getDefault()).endsWith(".txt") || mDriveFileName.toLowerCase(Locale.getDefault()).endsWith(".bas")){
-//				//Assume it a Basic text file
-//				try {
-//					InputStream is = contentsResult.getContents().getInputStream();
-//					while ((len = is.read(buffer)) != -1) {
-//						byteBuffer.write(buffer, 0, len);
-//					}
-//				} catch (IOException e) {
-//					l(e.toString());
-//					Toast.makeText(Beebdroid.this, "Error loading disk: " + e.toString(), Toast.LENGTH_LONG).show();
-//				}
-//				
-//				byte[] txtFileContents = byteBuffer.toByteArray();
-//				mBasicSource = new String(txtFileContents);
-//				mProcessingBasic = true;
-//				mStartBasicInput = System.currentTimeMillis();
-//				processBasicSourceCode();
-//			}else if(mDriveFileName.toLowerCase(Locale.getDefault()).endsWith(".zip")){
-//				//Assume it's a zipped disk
-//				InputStream is = contentsResult.getContents().getInputStream();
-//				ZipInputStream zipIn = new ZipInputStream(is);
-//				try {
-//					zipIn.getNextEntry();
-//					is = zipIn;
-//					while ((len = is.read(buffer)) != -1) {
-//						byteBuffer.write(buffer, 0, len);
-//					}
-//				} catch (IOException e) {
-//					l(e.toString());
-//					Toast.makeText(Beebdroid.this, "Error unzipping disk: " + e.toString(), Toast.LENGTH_LONG).show();
-//				}
-//				byte[] diskContents = byteBuffer.toByteArray();
-//				loadByteArray(diskContents, true);
-//			}else{
-//				//Assume it's a disk
-//				try {
-//					InputStream is = contentsResult.getContents().getInputStream();
-//					while ((len = is.read(buffer)) != -1) {
-//						byteBuffer.write(buffer, 0, len);
-//					}
-//				} catch (IOException e) {
-//					l(e.toString());
-//					Toast.makeText(Beebdroid.this, "Error loading disk: " + e.toString(), Toast.LENGTH_LONG).show();
-//				}
-//				
-//				byte[] diskContents = byteBuffer.toByteArray();
-//				loadByteArray(diskContents, true);
-//			}
-//			
-//			mProgressBar.setProgress(0);
-//			mProgressBar.setVisibility(View.GONE);
-//		}
-//
-//		@Override
-//		public void onProgress(long bytesDownloaded, long bytesExpected) {
-//			int progress = (int) (bytesDownloaded * 100 / bytesExpected);
-//			l(String.format("Loading progress: %d percent", progress));
-//			mProgressBar.setProgress(progress);
-//		}
-//	}
 }

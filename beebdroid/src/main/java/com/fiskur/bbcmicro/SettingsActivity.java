@@ -1,8 +1,7 @@
 package com.fiskur.bbcmicro;
 
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -22,10 +21,6 @@ import com.littlefluffytoys.beebdroid.Beebdroid;
 public class SettingsActivity extends ActionBarActivity {
     public static final String PREFS_POPUP_SHORTCUT_KEYCODE = "bbcmicro_popup_shortcut_keycode";
     public static final String PREFS_CHAR_PREFIX = "remap_char_int_";
-	private static final int MODE_LIST = 0;
-    private static final int MODE_REMAP_DIALOG = 1;
-    private static final int MODE_SHORTCUT_DIALOG = 2;
-    private int mMode = MODE_LIST;
 	private static final String TAG = "SettingsActivity";
 	private static final int ACTIVITY_REMAP = 0;
 
@@ -92,7 +87,6 @@ public class SettingsActivity extends ActionBarActivity {
                             KeyMapAdapter bbcKeyAdapter = new KeyMapAdapter (SettingsActivity.this, R.layout.list_row_remap, mBBCKeyLabels);
                             mBBCKeyList.setAdapter(bbcKeyAdapter);
                             remappedKeyCode = -1;
-                            mMode = MODE_LIST;
                         }
 
                         @Override
@@ -102,7 +96,6 @@ public class SettingsActivity extends ActionBarActivity {
                             KeyMapAdapter bbcKeyAdapter = new KeyMapAdapter (SettingsActivity.this, R.layout.list_row_remap, mBBCKeyLabels);
                             mBBCKeyList.setAdapter(bbcKeyAdapter);
                             remappedKeyCode = -1;
-                            mMode = MODE_LIST;
                         }
                     })
                     .build();
@@ -114,33 +107,27 @@ public class SettingsActivity extends ActionBarActivity {
             mScanCodeView = TextView.class.cast(dialogContainer.findViewById(R.id.remap_scan_code_text_view));
             mScanCodeView.setText("Key Code: 0x" + Integer.toHexString(clickedKey.getScanCode()));
             mScanCodeRemapView = TextView.class.cast(dialogContainer.findViewById(R.id.remap_scan_code_remap_text_view));
-            mMode = MODE_REMAP_DIALOG;
+
+            int remapCode = mPrefs.getInt(PREFS_CHAR_PREFIX + Integer.toHexString(mSelectedScanCode), -1);
+            if(remapCode == -1){
+                mScanCodeRemapView.setText("Remap Code: none");
+            }else{
+                mScanCodeRemapView.setText("Remap Code: 0x" + Integer.toHexString(remapCode));
+            }
+
+            mDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                @Override
+                public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                    L.l("Key Code: 0x" + Integer.toHexString(keyCode));
+                    remappedKeyCode = keyCode;
+                    mScanCodeRemapView.setText("Remap Code: 0x" + Integer.toHexString(remappedKeyCode));
+                    return false;
+                }
+            });
+
             mDialog.show();
 		}
 	}
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(MODE_REMAP_DIALOG == mMode) {
-            if (mDialog != null && mDialog.isShowing()) {
-                remappedKeyCode = keyCode;
-                if (mScanCodeRemapView != null) {
-                    mScanCodeRemapView.setText("Remap Code: 0x" + Integer.toHexString(remappedKeyCode));
-                }
-                return true;
-            }
-        }else if(MODE_SHORTCUT_DIALOG == mMode){
-            if (mDialog != null && mDialog.isShowing()) {
-                remappedKeyCode = keyCode;
-                if (mShortcutKeyView != null) {
-                    mShortcutKeyView.setText("Remap Code: 0x" + Integer.toHexString(remappedKeyCode));
-                }
-                return true;
-            }
-        }
-
-        return super.onKeyDown(keyCode, event);
-    }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -152,9 +139,6 @@ public class SettingsActivity extends ActionBarActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.action_disk_popup_shortcut:
-                Intent setPopupShortcutIntent = new Intent(SettingsActivity.this, SetShortcutActivity.class);
-                startActivity(setPopupShortcutIntent);
-
                 mDialog = new MaterialDialog.Builder(SettingsActivity.this)
                         .title(R.string.title_activity_key_remap)
                         .customView(R.layout.dialog_shorcut_key)
@@ -164,12 +148,11 @@ public class SettingsActivity extends ActionBarActivity {
                             @Override
                             public void onPositive(MaterialDialog materialDialog) {
                                 mPrefs.edit().putInt(PREFS_POPUP_SHORTCUT_KEYCODE, remappedKeyCode).commit();
-                                mMode = MODE_LIST;
                             }
 
                             @Override
                             public void onNegative(MaterialDialog materialDialog) {
-                                mMode = MODE_LIST;
+                                mPrefs.edit().remove(PREFS_POPUP_SHORTCUT_KEYCODE).commit();
                             }
                         })
                         .build();
@@ -177,9 +160,24 @@ public class SettingsActivity extends ActionBarActivity {
                 View dialogContainer = mDialog.getCustomView();
 
                 mShortcutKeyView = TextView.class.cast(dialogContainer.findViewById(R.id.shortcut_keycode_label));
-                mShortcutKeyView.setText("No shortcut set");
+                int shortcut = mPrefs.getInt(PREFS_POPUP_SHORTCUT_KEYCODE, -1);
+                if(shortcut == -1){
+                    mShortcutKeyView.setText("No shortcut set");
+                }else{
+                    mShortcutKeyView.setText("Key Code: 0x" + Integer.toHexString(shortcut));
+                }
 
-                mMode = MODE_SHORTCUT_DIALOG;
+
+                mDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                    @Override
+                    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                        L.l("Key Code: 0x" + Integer.toHexString(keyCode));
+                        remappedKeyCode = keyCode;
+                        mShortcutKeyView.setText("Key Code: 0x" + Integer.toHexString(keyCode));
+                        return false;
+                    }
+                });
+
                 mDialog.show();
 				break;
 			case R.id.action_wipe:

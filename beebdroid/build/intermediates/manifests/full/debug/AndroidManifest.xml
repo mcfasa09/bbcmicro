@@ -61,11 +61,6 @@
             android:theme="@android:style/Theme.Dialog" >
         </activity>
         <activity
-            android:name="com.fiskur.bbcmicro.SetShortcutActivity"
-            android:label="@string/title_activity_set_shortcut"
-            android:theme="@android:style/Theme.Dialog" >
-        </activity>
-        <activity
             android:name="com.fiskur.bbcmicro.ExplorerActivity"
             android:label="@string/title_activity_explorer" >
         </activity>

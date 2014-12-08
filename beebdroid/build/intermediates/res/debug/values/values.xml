@@ -233,7 +233,7 @@
     <string name="ok_button">OK</string>
     <string name="set_shortcut_label">Type a key on your hardware keyboard that will launch the disk chooser popup</string>
     <string name="settings_remap_label">If using this app with a Bluetooth keyboard you can remap the BBC micro keys here. Select the BBC key from the list then type the hardware key when the popup displays.</string>
-    <string name="title_activity_catlogue">Web Catlogue</string>
+    <string name="title_activity_catlogue">Web Catalogue</string>
     <string name="title_activity_explorer">File Explorer</string>
     <string name="title_activity_files">Explorer</string>
     <string name="title_activity_fiskur_about"> About</string>
@@ -241,7 +241,7 @@
     <string name="title_activity_google_drive">GoogleDriveActivity</string>
     <string name="title_activity_key_remap">Set Hardware Key</string>
     <string name="title_activity_keyboard_remap">KeyboardRemapActivity</string>
-    <string name="title_activity_set_shortcut">Set Disk Load Shortcut</string>
+    <string name="title_activity_set_shortcut">Set Web Catalog shortcut key</string>
     <string name="title_activity_settings">Settings</string>
     <!-- From: file:/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/src/main/res/values/styles.xml -->
     <eat-comment/>

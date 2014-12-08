@@ -22,7 +22,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -38,7 +40,7 @@ public class CatlogueActivity extends ActionBarActivity implements Listener<byte
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.activity_catlogue);
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.material_toolbar);
@@ -59,10 +61,22 @@ public class CatlogueActivity extends ActionBarActivity implements Listener<byte
 		webSettings.setJavaScriptEnabled(true);
 		
 		mWebView.setWebViewClient(new CatalogueWebViewClient());
+        mWebView.setWebChromeClient(new WebChromeClient(){
+            public void onProgressChanged(WebView view, int progress) {
+                CatlogueActivity.this.setTitle("Loading...");
+                //CatlogueActivity.this.setProgress(progress * 100);
+                if(progress == 100) {
+                    CatlogueActivity.this.setTitle("Web Catalogue");
+                }
+            }
+        });
 		mWebView.loadUrl("http://fiskur.eu/apps/bbcmicrocat/android.php");
+
+        super.onCreate(savedInstanceState);
 	}
 	
 	private class CatalogueWebViewClient extends WebViewClient {
+
 	    @Override
 	    public boolean shouldOverrideUrlLoading(WebView view, String url) {
 	    	if(!url.endsWith(".zip")){

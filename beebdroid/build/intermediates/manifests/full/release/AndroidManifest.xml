@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.fiskur.bbcmicro"
-    android:versionCode="9"
-    android:versionName="2.1.0" >
+    android:versionCode="12"
+    android:versionName="2.2.1" >
 
     <uses-sdk
-        android:minSdkVersion="11"
+        android:minSdkVersion="14"
         android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -58,11 +58,6 @@
         <activity
             android:name="com.fiskur.bbcmicro.KeyRemapActivity"
             android:label="@string/title_activity_key_remap"
-            android:theme="@android:style/Theme.Dialog" >
-        </activity>
-        <activity
-            android:name="com.fiskur.bbcmicro.SetShortcutActivity"
-            android:label="@string/title_activity_set_shortcut"
             android:theme="@android:style/Theme.Dialog" >
         </activity>
         <activity

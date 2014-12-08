@@ -161,6 +161,20 @@
         <item name="android:dropDownSelector">?attr/listChoiceBackgroundIndicator</item>
         <item name="android:popupBackground">@drawable/abc_popup_background_mtrl_mult</item>
     </style>
+    <!-- From: file:/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/build/intermediates/exploded-aar/com.afollestad/material-dialogs/0.3.0/res/values-v11/values.xml -->
+    <eat-comment/>
+    <style name="MD_Dark" parent="android:Theme.Holo.Dialog">
+        <item name="md_divider">@color/md_divider_white</item>
+        <item name="md_selector">@drawable/md_selector_dark</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+    <style name="MD_Light" parent="android:Theme.Holo.Light.Dialog">
+        <item name="md_divider">@color/md_divider_black</item>
+        <item name="md_selector">@drawable/md_selector</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+    <!-- From: file:/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values-v11/values.xml -->
+    <eat-comment/>
     <style name="Platform.AppCompat" parent="android:Theme.Holo">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionBar">false</item>
