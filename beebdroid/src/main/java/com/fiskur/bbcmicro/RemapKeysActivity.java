@@ -18,10 +18,11 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.fiskur.bbcmicro.BBCUtils.KeyMap;
 import com.littlefluffytoys.beebdroid.Beebdroid;
 
-public class SettingsActivity extends ActionBarActivity {
+public class RemapKeysActivity extends ActionBarActivity {
+    public static final String EXTRA_GAME_TITLE = "com.fiskur.bbcmicro.KEYMAP_GAME_TITLE";
     public static final String PREFS_POPUP_SHORTCUT_KEYCODE = "bbcmicro_popup_shortcut_keycode";
     public static final String PREFS_CHAR_PREFIX = "remap_char_int_";
-	private static final String TAG = "SettingsActivity";
+	private static final String TAG = "RemapKeysActivity";
 	private static final int ACTIVITY_REMAP = 0;
 
 	private ListView mBBCKeyList;
@@ -39,6 +40,8 @@ public class SettingsActivity extends ActionBarActivity {
     private TextView mScanCodeRemapView = null;
     private int remappedKeyCode = -1;
 
+    private String mGameTitle = null;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -49,8 +52,13 @@ public class SettingsActivity extends ActionBarActivity {
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		
-		mPrefs = getSharedPreferences(Beebdroid.BBC_MICRO_PREFS, MODE_PRIVATE);
+
+        if(getIntent().getExtras().containsKey(EXTRA_GAME_TITLE)){
+            mGameTitle = getIntent().getStringExtra(EXTRA_GAME_TITLE);
+            mPrefs = getSharedPreferences(Beebdroid.BBC_MICRO_PREFS + mGameTitle.toUpperCase(), MODE_PRIVATE);
+        }else{
+            mPrefs = getSharedPreferences(Beebdroid.BBC_MICRO_PREFS, MODE_PRIVATE);
+        }
 
 		mBBCKeyLabels = BBCUtils.getInstance().getKeyMapsWithRemap(this);
 		
@@ -68,7 +76,7 @@ public class SettingsActivity extends ActionBarActivity {
             KeyMap clickedKey = mBBCKeyLabels[position];
             mSelectedScanCode = clickedKey.getScanCode();
 
-            mDialog = new MaterialDialog.Builder(SettingsActivity.this)
+            mDialog = new MaterialDialog.Builder(RemapKeysActivity.this)
                     .title(R.string.title_activity_key_remap)
                     .customView(R.layout.dialog_key_remap)
                     .positiveText("Save")
@@ -83,8 +91,8 @@ public class SettingsActivity extends ActionBarActivity {
                                 mPrefs.edit().remove(PREFS_CHAR_PREFIX + Integer.toHexString(mSelectedScanCode)).commit();
                             }
 
-                            mBBCKeyLabels = BBCUtils.getInstance().getKeyMapsWithRemap(SettingsActivity.this);
-                            KeyMapAdapter bbcKeyAdapter = new KeyMapAdapter (SettingsActivity.this, R.layout.list_row_remap, mBBCKeyLabels);
+                            mBBCKeyLabels = BBCUtils.getInstance().getKeyMapsWithRemap(RemapKeysActivity.this);
+                            KeyMapAdapter bbcKeyAdapter = new KeyMapAdapter (RemapKeysActivity.this, R.layout.list_row_remap, mBBCKeyLabels);
                             mBBCKeyList.setAdapter(bbcKeyAdapter);
                             remappedKeyCode = -1;
                         }
@@ -92,8 +100,8 @@ public class SettingsActivity extends ActionBarActivity {
                         @Override
                         public void onNegative(MaterialDialog materialDialog) {
                             mPrefs.edit().remove(PREFS_CHAR_PREFIX + Integer.toHexString(mSelectedScanCode)).commit();
-                            mBBCKeyLabels = BBCUtils.getInstance().getKeyMapsWithRemap(SettingsActivity.this);
-                            KeyMapAdapter bbcKeyAdapter = new KeyMapAdapter (SettingsActivity.this, R.layout.list_row_remap, mBBCKeyLabels);
+                            mBBCKeyLabels = BBCUtils.getInstance().getKeyMapsWithRemap(RemapKeysActivity.this);
+                            KeyMapAdapter bbcKeyAdapter = new KeyMapAdapter (RemapKeysActivity.this, R.layout.list_row_remap, mBBCKeyLabels);
                             mBBCKeyList.setAdapter(bbcKeyAdapter);
                             remappedKeyCode = -1;
                         }
@@ -139,7 +147,7 @@ public class SettingsActivity extends ActionBarActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.action_disk_popup_shortcut:
-                mDialog = new MaterialDialog.Builder(SettingsActivity.this)
+                mDialog = new MaterialDialog.Builder(RemapKeysActivity.this)
                         .title(R.string.title_activity_key_remap)
                         .customView(R.layout.dialog_shorcut_key)
                         .positiveText("Save")
@@ -181,7 +189,7 @@ public class SettingsActivity extends ActionBarActivity {
                 mDialog.show();
 				break;
 			case R.id.action_wipe:
-                Toast.makeText(SettingsActivity.this, "All saved disks and keymappings wiped", Toast.LENGTH_LONG).show();
+                Toast.makeText(RemapKeysActivity.this, "All saved disks and keymappings wiped", Toast.LENGTH_LONG).show();
                 mPrefs.edit().clear().commit();
                 finish();
 				break;

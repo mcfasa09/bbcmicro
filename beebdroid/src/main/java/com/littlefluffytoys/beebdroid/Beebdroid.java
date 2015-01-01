@@ -18,7 +18,8 @@ import com.fiskur.bbcmicro.ExplorerActivity;
 import com.fiskur.bbcmicro.FiskurAboutActivity;
 import com.fiskur.bbcmicro.L;
 import com.fiskur.bbcmicro.R;
-import com.fiskur.bbcmicro.SettingsActivity;
+import com.fiskur.bbcmicro.RemapKeysActivity;
+
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
@@ -26,14 +27,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
@@ -41,14 +39,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 import android.graphics.Bitmap;
 
@@ -58,14 +50,14 @@ public class Beebdroid extends ActionBarActivity {
 
     private boolean mShowingToolbar = false;
     private Menu mMenu = null;
+    private String mGameTitle = null;
 
-	public static final String BBC_MICRO_PREFS = "fiskur_bbc_miro_prefs";
+	public static final String BBC_MICRO_PREFS = "fiskur_bbc_micro_prefs";
 	private static final int ACTIVITY_RESULT_FILE_EXPLORER = 9000;
 	private static final int ACTIVITY_RESULT_WEB_CATALOGUE = 9001;
 	private static final int ACTIVITY_RESULT_SETTINGS = 9002;
 	private static final int ACTIVITY_RESULT_LOAD_DISK = 9003;
 	private static final int EMULATOR_CYCLE_MS = 20;
-
 
 	// JNI interface
 	public native void bbcInit(ByteBuffer mem, ByteBuffer roms, byte[] audiob, int flags);
@@ -191,8 +183,8 @@ public class Beebdroid extends ActionBarActivity {
 
 		//See if a popup shortcut has been set
 		SharedPreferences prefs = getSharedPreferences(BBC_MICRO_PREFS, MODE_PRIVATE);
-		if(prefs.contains(SettingsActivity.PREFS_POPUP_SHORTCUT_KEYCODE)){
-			mShortcutKeycode = prefs.getInt(SettingsActivity.PREFS_POPUP_SHORTCUT_KEYCODE, -1);
+		if(prefs.contains(RemapKeysActivity.PREFS_POPUP_SHORTCUT_KEYCODE)){
+			mShortcutKeycode = prefs.getInt(RemapKeysActivity.PREFS_POPUP_SHORTCUT_KEYCODE, -1);
 		}
 	}
 
@@ -346,6 +338,7 @@ public class Beebdroid extends ActionBarActivity {
 					mDiskImageByteBuffer = ByteBuffer.allocateDirect(diskBytes.length);
 					mDiskImageByteBuffer.put(diskBytes);
 					bbcLoadDisc(mDiskImageByteBuffer, 1);
+                    mDiskLoaded = true;
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {
@@ -391,21 +384,35 @@ public class Beebdroid extends ActionBarActivity {
 
 	private void initKeyboardRemapping() {
         L.l("initKeyboardRemapping()");
-		SharedPreferences prefs = getSharedPreferences(BBC_MICRO_PREFS, MODE_PRIVATE);
-		KeyMap[] keys = mBBCUtils.getKeyMaps();
-		mRemapMap = new HashMap<Integer, Integer>();
-		for(KeyMap key : keys){
-			int bbcKeyCode = key.getScanCode();
-			String prefKey = SettingsActivity.PREFS_CHAR_PREFIX + Integer.toHexString(bbcKeyCode);
-			if(prefs.contains(prefKey)){
-				int remappedKeyCode = prefs.getInt(prefKey, -1);
-				if(remappedKeyCode != -1){
-					l("Found remapping: " + key.getKeyString() + " - " + key.getScanCode() + " is remapped to: " + remappedKeyCode);
-					mRemapMap.put(remappedKeyCode, bbcKeyCode);
-				}
-			}
-		}
+
+        if(mDiskLoaded &&  mGameTitle != null){
+            SharedPreferences gamePrefs = getSharedPreferences(BBC_MICRO_PREFS + mGameTitle.toUpperCase(), MODE_PRIVATE);
+            if(!gamePrefs.getAll().isEmpty()){
+                initKeyMapping(gamePrefs);
+            }else{
+                initKeyMapping(getSharedPreferences(BBC_MICRO_PREFS, MODE_PRIVATE));
+            }
+        }else {
+            initKeyMapping(getSharedPreferences(BBC_MICRO_PREFS, MODE_PRIVATE));
+        }
 	}
+
+    private void initKeyMapping(SharedPreferences prefs){
+        KeyMap[] keys = mBBCUtils.getKeyMaps();
+        mRemapMap = new HashMap<Integer, Integer>();
+        for (KeyMap key : keys) {
+            int bbcKeyCode = key.getScanCode();
+            String prefKey = RemapKeysActivity.PREFS_CHAR_PREFIX + Integer.toHexString(bbcKeyCode);
+            if (prefs.contains(prefKey)) {
+                int remappedKeyCode = prefs.getInt(prefKey, -1);
+                if (remappedKeyCode != -1) {
+                    l("Found remapping: " + key.getKeyString() + " - " + key.getScanCode() + " is remapped to: " + remappedKeyCode);
+                    mRemapMap.put(remappedKeyCode, bbcKeyCode);
+                }
+            }
+        }
+    }
+
 
 	private void loadLocalDisk(String path, boolean bootIt) {
 		mDiskImageByteBuffer = mBBCUtils.loadFile(new File(path));
@@ -462,9 +469,9 @@ public class Beebdroid extends ActionBarActivity {
         if(mMenu == null){
             return;
         }
-        String diskName = zipPath.substring(zipPath.lastIndexOf("/") + 1, zipPath.indexOf(".zip"));
+        mGameTitle = zipPath.substring(zipPath.lastIndexOf("/") + 1, zipPath.indexOf(".zip"));
         MenuItem gameMappingMenuItem = mMenu.findItem(R.id.action_game_mapping);
-        gameMappingMenuItem.setTitle("" + diskName + " Key Mapping");
+        gameMappingMenuItem.setTitle("" + mGameTitle + " Key Mapping");
     }
 
 	@Override
@@ -483,11 +490,12 @@ public class Beebdroid extends ActionBarActivity {
 			bbcBreak(0);
 			break;
 		case R.id.action_global_mapping:
-			Intent globalMappingIntent = new Intent(Beebdroid.this, SettingsActivity.class);
+			Intent globalMappingIntent = new Intent(Beebdroid.this, RemapKeysActivity.class);
 			startActivityForResult(globalMappingIntent, ACTIVITY_RESULT_SETTINGS);
 			break;
         case R.id.action_game_mapping:
-            Intent gameMappingIntent = new Intent(Beebdroid.this, SettingsActivity.class);
+            Intent gameMappingIntent = new Intent(Beebdroid.this, RemapKeysActivity.class);
+            gameMappingIntent.putExtra(RemapKeysActivity.EXTRA_GAME_TITLE, mGameTitle);
             startActivityForResult(gameMappingIntent, ACTIVITY_RESULT_SETTINGS);
             break;
 		case R.id.action_hide_actionbar:

@@ -161,7 +161,7 @@ public class BBCUtils {
 		int index = 0;
 		for(String key : mBBCKeyboardOtherMap.keySet()){
 			int bbcKey = mBBCKeyboardOtherMap.get(key);
-			String prefKey = SettingsActivity.PREFS_CHAR_PREFIX + Integer.toHexString(bbcKey);
+			String prefKey = RemapKeysActivity.PREFS_CHAR_PREFIX + Integer.toHexString(bbcKey);
 			if(prefs.contains(prefKey)){
 				int remappedKeyCode = prefs.getInt(prefKey, -1);
 				keyMaps[index] = new KeyMap('∆', key, bbcKey, remappedKeyCode);
@@ -172,7 +172,7 @@ public class BBCUtils {
 		}
 		for(Character key : mBBCKeyboardMap.keySet()){
 			int bbcKey = mBBCKeyboardMap.get(key);
-			String prefKey = SettingsActivity.PREFS_CHAR_PREFIX + Integer.toHexString(bbcKey);
+			String prefKey = RemapKeysActivity.PREFS_CHAR_PREFIX + Integer.toHexString(bbcKey);
 			if(prefs.contains(prefKey)){
 				int remappedKeyCode = prefs.getInt(prefKey, -1);
 				keyMaps[index] = new KeyMap(key, bbcKey, remappedKeyCode);
@@ -184,7 +184,7 @@ public class BBCUtils {
 		}
 		for(Character key : mBBCKeyboardShiftMap.keySet()){
 			int bbcKey = mBBCKeyboardShiftMap.get(key);
-			String prefKey = SettingsActivity.PREFS_CHAR_PREFIX + Integer.toHexString(bbcKey);
+			String prefKey = RemapKeysActivity.PREFS_CHAR_PREFIX + Integer.toHexString(bbcKey);
 			if(prefs.contains(prefKey)){
 				int remappedKeyCode = prefs.getInt(prefKey, -1);
 				keyMaps[index] = new KeyMap(key, mBBCKeyboardShiftMap.get(key), remappedKeyCode);

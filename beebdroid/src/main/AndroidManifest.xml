@@ -48,7 +48,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name=".RemapKeysActivity"
             android:label="@string/title_activity_settings" >
         </activity>
         <activity
