@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/volley/src/main/assets"/></dataSet><dataSet config="release"><source path="/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/volley/src/release/assets"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="/Users/primer/Documents/github/BBCMicro/bbcmicro/volley/src/main/assets"/></dataSet><dataSet config="release"><source path="/Users/primer/Documents/github/BBCMicro/bbcmicro/volley/src/release/assets"/></dataSet></merger>

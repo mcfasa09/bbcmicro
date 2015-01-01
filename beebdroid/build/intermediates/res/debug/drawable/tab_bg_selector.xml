@@ -12,4 +12,4 @@
 	<item android:state_focused="true" android:state_selected="true"
 		android:state_pressed="false" android:drawable="@android:color/transparent" />
 </selector>
-<!-- From: file:/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/src/main/res/drawable/tab_bg_selector.xml -->
+<!-- From: file:/Users/primer/Documents/github/BBCMicro/bbcmicro/beebdroid/src/main/res/drawable/tab_bg_selector.xml -->

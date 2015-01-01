@@ -199,7 +199,7 @@ public class BBCUtils {
 	}
 	
 	public class KeyMap{
-		String mKeyLabel = null;
+		public String mKeyLabel = null;
 		char mKey;
 		int mScanCode = -1;
 		int mRemapCode = -1;

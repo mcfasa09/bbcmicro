@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BBCMicroMaterialAndroidStudioProject.iml" filepath="$PROJECT_DIR$/BBCMicroMaterialAndroidStudioProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bbcmicro.iml" filepath="$PROJECT_DIR$/bbcmicro.iml" />
       <module fileurl="file://$PROJECT_DIR$/beebdroid/beebdroid.iml" filepath="$PROJECT_DIR$/beebdroid/beebdroid.iml" />
       <module fileurl="file://$PROJECT_DIR$/volley/volley.iml" filepath="$PROJECT_DIR$/volley/volley.iml" />
     </modules>

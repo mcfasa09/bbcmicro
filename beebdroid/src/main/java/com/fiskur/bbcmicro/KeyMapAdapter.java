@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.util.Arrays;
+import java.util.Comparator;
+
 public class KeyMapAdapter extends ArrayAdapter<BBCUtils.KeyMap> {
 	private static final String TAG = "KeyMapAdapter";
 	private int mLayoutResourceId;    
@@ -26,6 +29,13 @@ public class KeyMapAdapter extends ArrayAdapter<BBCUtils.KeyMap> {
 		super(context, layoutResourceId, data);
 		mLayoutResourceId = layoutResourceId;
 		mData = data;
+
+        Arrays.sort(mData, new Comparator<BBCUtils.KeyMap>() {
+            @Override
+            public int compare(BBCUtils.KeyMap entry1, BBCUtils.KeyMap entry2) {
+                return entry1.getKeyString().compareTo(entry2.getKeyString());
+            }
+        });
 		
 		mInflater = ((Activity)context).getLayoutInflater();
 	}
@@ -47,7 +57,7 @@ public class KeyMapAdapter extends ArrayAdapter<BBCUtils.KeyMap> {
 		int scanCode = map.getScanCode();
 		String key = map.getKeyString();
 		if(Integer.toHexString(scanCode).equals("49")){
-			key = "Enter";
+			key = "Return";
 		}else if(Integer.toHexString(scanCode).equals("62")){
 			key = "Space";
 		}

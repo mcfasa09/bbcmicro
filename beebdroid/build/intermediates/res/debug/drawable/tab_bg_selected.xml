@@ -4,4 +4,4 @@
 	<gradient android:startColor="#A8A800" android:centerColor="#7F7F7F"
 		android:endColor="#696969" android:angle="-90" />
 </shape>
-<!-- From: file:/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/src/main/res/drawable/tab_bg_selected.xml -->
+<!-- From: file:/Users/primer/Documents/github/BBCMicro/bbcmicro/beebdroid/src/main/res/drawable/tab_bg_selected.xml -->

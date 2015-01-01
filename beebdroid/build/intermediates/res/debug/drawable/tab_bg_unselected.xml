@@ -3,4 +3,4 @@
 	android:shape="rectangle">
 	<gradient android:startColor="#5C5C5C" android:centerColor="#424242"
 		android:endColor="#222222" android:angle="-90" />
-</shape><!-- From: file:/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/src/main/res/drawable/tab_bg_unselected.xml -->
+</shape><!-- From: file:/Users/primer/Documents/github/BBCMicro/bbcmicro/beebdroid/src/main/res/drawable/tab_bg_unselected.xml -->

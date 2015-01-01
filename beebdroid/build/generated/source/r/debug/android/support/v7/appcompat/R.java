@@ -56,10 +56,10 @@ public final class R {
 		public static final int barSize = 0x7f010028;
 		public static final int buttonBarButtonStyle = 0x7f01007e;
 		public static final int buttonBarStyle = 0x7f01007d;
-		public static final int buttonGravity = 0x7f0100ad;
 		public static final int closeIcon = 0x7f010037;
 		public static final int closeItemLayout = 0x7f01001e;
-		public static final int collapseIcon = 0x7f0100ae;
+		public static final int collapseContentDescription = 0x7f0100ae;
+		public static final int collapseIcon = 0x7f0100ad;
 		public static final int color = 0x7f010022;
 		public static final int colorAccent = 0x7f01009e;
 		public static final int colorButtonNormal = 0x7f0100a2;
@@ -369,7 +369,6 @@ public final class R {
 		public static final int activity_chooser_view_content = 0x7f080025;
 		public static final int always = 0x7f080016;
 		public static final int beginning = 0x7f080013;
-		public static final int bottom = 0x7f08001b;
 		public static final int checkbox = 0x7f08002d;
 		public static final int collapseActionView = 0x7f080017;
 		public static final int decor_content_parent = 0x7f080033;
@@ -413,7 +412,6 @@ public final class R {
 		public static final int submit_area = 0x7f080040;
 		public static final int tabMode = 0x7f08000b;
 		public static final int title = 0x7f08002b;
-		public static final int top = 0x7f08001e;
 		public static final int up = 0x7f080008;
 		public static final int useLogo = 0x7f080012;
 		public static final int withText = 0x7f08001a;
@@ -464,6 +462,7 @@ public final class R {
 		public static final int abc_searchview_description_voice = 0x7f0a000c;
 		public static final int abc_shareactionprovider_share_with = 0x7f0a000d;
 		public static final int abc_shareactionprovider_share_with_application = 0x7f0a000e;
+		public static final int abc_toolbar_collapse_description = 0x7f0a000f;
 	}
 	public static final class style {
 		public static final int Base_TextAppearance_AppCompat = 0x7f0b0001;
@@ -940,8 +939,8 @@ public final class R {
 		public static final int[] Toolbar = { 0x010100af, 0x01010140, 0x7f010005, 0x7f010008, 0x7f010018, 0x7f010019, 0x7f01001a, 0x7f01001b, 0x7f01001d, 0x7f0100a4, 0x7f0100a5, 0x7f0100a6, 0x7f0100a7, 0x7f0100a8, 0x7f0100a9, 0x7f0100aa, 0x7f0100ab, 0x7f0100ac, 0x7f0100ad, 0x7f0100ae, 0x7f0100af, 0x7f0100b0 };
 		public static final int Toolbar_android_gravity = 0;
 		public static final int Toolbar_android_minHeight = 1;
-		public static final int Toolbar_buttonGravity = 18;
-		public static final int Toolbar_collapseIcon = 19;
+		public static final int Toolbar_collapseContentDescription = 19;
+		public static final int Toolbar_collapseIcon = 18;
 		public static final int Toolbar_contentInsetEnd = 5;
 		public static final int Toolbar_contentInsetLeft = 6;
 		public static final int Toolbar_contentInsetRight = 7;

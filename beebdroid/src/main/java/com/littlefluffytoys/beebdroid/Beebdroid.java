@@ -56,6 +56,8 @@ public class Beebdroid extends ActionBarActivity {
 
 	private static final String TAG = "Beebdroid";
 
+    private boolean mShowingToolbar = false;
+
 	// Constants
 	public static final String BBC_MICRO_PREFS = "fiskur_bbc_miro_prefs";
 	private static final int ACTIVITY_RESULT_FILE_EXPLORER = 9000;
@@ -63,7 +65,6 @@ public class Beebdroid extends ActionBarActivity {
 	private static final int ACTIVITY_RESULT_SETTINGS = 9002;
 	private static final int ACTIVITY_RESULT_LOAD_DISK = 9003;
 	private static final int EMULATOR_CYCLE_MS = 20;
-	private static final int SOFT_UPKEY_WAIT_MS = 50;
 
 	// JNI interface
 	public native void bbcInit(ByteBuffer mem, ByteBuffer roms, byte[] audiob, int flags);
@@ -103,11 +104,7 @@ public class Beebdroid extends ActionBarActivity {
 
 	// Keyboard
 	private KeyCharacterMap map = KeyCharacterMap.load(0);
-	private Handler mSoftKeyboardHandler;
-	private long mSoftKeyboardUpdateMS = 120;
 	private ArrayList<Character> mCharactersList = new ArrayList<Character>();
-	private EditText mInvisibleEditText = null;
-	private InvisibleTextWatcher mInvisibleTextWatcher;
 	private boolean mShiftKeyDown;
 	private int mShortcutKeycode = -1;
 	private boolean mDiskLoaded = false;
@@ -119,11 +116,6 @@ public class Beebdroid extends ActionBarActivity {
 	private boolean mAudioPlaying;
 	private AudioTrack mAudioTrack;
 	private byte[] mAudioBuffer;
-
-	// Basic String from file
-	private boolean mProcessingBasic = false;
-	private long mStartBasicInput;
-	private String mBasicSource;
 
 	private ProgressBar mProgressBar;
 
@@ -139,9 +131,6 @@ public class Beebdroid extends ActionBarActivity {
 
         int screenOrientation = getResources().getConfiguration().orientation;
         if (Configuration.ORIENTATION_LANDSCAPE == screenOrientation) {
-            getSupportActionBar().hide();
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         }
 
 		mBBCUtils = BBCUtils.getInstance();
@@ -150,63 +139,24 @@ public class Beebdroid extends ActionBarActivity {
 		mProgressBar.setMax(100);
 		beebView = (BeebView) findViewById(R.id.beeb);
 
-		if (Configuration.ORIENTATION_LANDSCAPE == screenOrientation || isHardwareKeyboardAvailable()) {
-			l("Using physical keyboard");
-			initKeyboardRemapping();
-		} else {
-			l("Using soft keyboard");
+        beebView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(getSupportActionBar().isShowing()){
+                    hideToolbar();
+                }else{
+                    showToolbar();
+                }
+            }
+        });
 
-			beebView.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					showInvisibleEditTextKeyboard();
-				}
-			});
-
-			// Inject a single character key-down into the BBC emulator - then
-			// 50ms
-			// later inject the key-up event
-			mSoftKeyboardHandler = new Handler();
-			mSoftKeyboardHandler.postDelayed(new Runnable() {
-
-				@Override
-				public void run() {
-					if (mCharactersList.size() > 0) {
-						char character = mCharactersList.remove(0);
-
-						final int shiftScanCode = mBBCUtils.getShiftScanCode(character);
-						final int shiftDown;
-						final int scanCode;
-						if (shiftScanCode != -1) {
-							scanCode = shiftScanCode;
-							shiftDown = 1;
-						} else {
-							scanCode = mBBCUtils.getScanCode(character);
-							shiftDown = 0;
-						}
-
-						bbcKeyEvent(scanCode, shiftDown, 1);
-
-						mSoftKeyboardHandler.postDelayed(new Runnable() {
-							@Override
-							public void run() {
-								bbcKeyEvent(scanCode, shiftDown, 0);
-							}
-						}, SOFT_UPKEY_WAIT_MS);
-					}
-					if (mProcessingBasic && mBasicSource != null && mBasicSource.length() > 0) {
-						processBasicSourceCode();
-					}
-
-					mSoftKeyboardHandler.postDelayed(this, mSoftKeyboardUpdateMS);
-				}
-			}, mSoftKeyboardUpdateMS);
-		}
+        initKeyboardRemapping();
 
 		// TODO - move this whole class into a Fragment and use new mechanism to
 		// restore state - getLastNonConfigurationInstance is deprecated.
-		Beebdroid prev = (Beebdroid) getLastNonConfigurationInstance();
+		Beebdroid prev = (Beebdroid) getLastCustomNonConfigurationInstance();
 		if (prev == null) {
+            L.l("No prev Beebdroid instance");
 			mAudioBuffer = new byte[2000 * 2];
 			mAudioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, 31250, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, 16384, AudioTrack.MODE_STREAM);
 			mBBCModel = new Model();
@@ -214,11 +164,14 @@ public class Beebdroid extends ActionBarActivity {
 			bbcInit(mBBCModel.mem, mBBCModel.roms, mAudioBuffer, 1);
 			processDiskViaIntent();
 		} else {
+            L.l("Beebdroid instance found - reloading state");
 			mBBCModel = prev.mBBCModel;
 			mAudioTrack = prev.mAudioTrack;
 			mAudioBuffer = prev.mAudioBuffer;
 			bbcInit(mBBCModel.mem, mBBCModel.roms, mAudioBuffer, 0);
 		}
+
+        isHardwareKeyboardAvailable();
 	}
 
 	@Override
@@ -226,52 +179,15 @@ public class Beebdroid extends ActionBarActivity {
 		super.onResume();
         L.l("onResume()");
 		checkScreenAutoRotate();
+
+        if(mShowingToolbar){
+            showToolbar();
+        }else{
+            hideToolbar();
+        }
 		
 		mBBCMainLoopHandler.postDelayed(bbcEmulatorRunnable, EMULATOR_CYCLE_MS);
 
-		int screenOrientation = getResources().getConfiguration().orientation;
-		if (Configuration.ORIENTATION_PORTRAIT == screenOrientation) {
-			// Portrait -
-			mInvisibleEditText = (EditText) findViewById(R.id.invisible_edit);
-			
-			if (isHardwareKeyboardAvailable()) {
-				// Is this a risky strategy?
-				if(mInvisibleEditText != null){
-					ViewGroup manager = (ViewGroup) mInvisibleEditText.getParent();
-					if(manager.findViewById(R.id.invisible_edit) != null){
-						manager.removeView(mInvisibleEditText);
-					}
-				}
-				return;
-			}
-			
-			mInvisibleEditText.setOnEditorActionListener(new OnEditorActionListener() {
-
-				@Override
-				public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-					if (EditorInfo.IME_NULL == actionId) {
-						mCharactersList.add('\n');
-					}
-
-					return false;
-				}
-			});
-
-			if (mInvisibleTextWatcher == null) {
-				mInvisibleTextWatcher = new InvisibleTextWatcher();
-			} else {
-				mInvisibleEditText.removeTextChangedListener(mInvisibleTextWatcher);
-			}
-
-			mInvisibleEditText.addTextChangedListener(mInvisibleTextWatcher);
-			
-			showInvisibleEditTextKeyboard();
-		} else {
-			getSupportActionBar().hide();
-			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-			getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-		}
-		
 		//See if a popup shortcut has been set
 		SharedPreferences prefs = getSharedPreferences(BBC_MICRO_PREFS, MODE_PRIVATE);
 		if(prefs.contains(SettingsActivity.PREFS_POPUP_SHORTCUT_KEYCODE)){
@@ -301,24 +217,6 @@ public class Beebdroid extends ActionBarActivity {
 		}
 	};
 
-	/**
-	 * Attempt to show the soft keyboard.
-	 */
-	private void showInvisibleEditTextKeyboard() {
-		if (mInvisibleEditText == null) {
-			return;
-		}
-		mInvisibleEditText.requestFocus();
-		mInvisibleEditText.postDelayed(new Runnable() {
-
-			@Override
-			public void run() {
-				InputMethodManager keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-				keyboard.showSoftInput(mInvisibleEditText, 0);
-			}
-		}, 200);
-	}
-
 	@Override
 	public boolean onKeyDown(int keycode, KeyEvent event) {
 		l("onKeyDown " + keycode);
@@ -333,7 +231,7 @@ public class Beebdroid extends ActionBarActivity {
 		}
 		int bbcKeycode;
 		if(mRemapMap != null && mRemapMap.containsKey(keycode)){
-			l("Using remap for key: " + keycode);
+			//l("Using remap for key: " + keycode);
 			bbcKeycode = mRemapMap.get(keycode);
 		}else{
 			bbcKeycode = BBCUtils.lookupKeycode(mShiftKeyDown, keycode);
@@ -398,53 +296,10 @@ public class Beebdroid extends ActionBarActivity {
 		}
 	}
 
-//	@Override
-//	public Object onRetainNonConfigurationInstance() {
-//		return this;
-//	}
-
-	private class InvisibleTextWatcher implements TextWatcher {
-
-		@Override
-		public void afterTextChanged(Editable s) {
-		}
-
-		@Override
-		public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-		}
-
-		@Override
-		public void onTextChanged(CharSequence s, int start, int before, int count) {
-			l("onTextChanged: " + s);
-			if (s.length() > 1) {
-				char lastChar = s.charAt(s.length() - 1);
-				l("onTextChanged - adding char: " + lastChar);
-				mCharactersList.add(lastChar);
-				
-				//This doesn't fix keyboard issue
-				if(Character.isDigit(lastChar)){
-					mInvisibleEditText.setText("0");
-				}else{
-					mInvisibleEditText.setText("_");
-				}
-				
-				mInvisibleEditText.setSelection(1);
-			}
-			if (s.length() == 0) {
-				// send backspace command
-				l("onTextChanged delete action");
-				bbcKeyEvent(BBCUtils.BeebKeys.BBCKEY_DELETE, 0, 1);
-				mSoftKeyboardHandler.postDelayed(new Runnable() {
-					@Override
-					public void run() {
-						bbcKeyEvent(BBCUtils.BeebKeys.BBCKEY_DELETE, 0, 0);
-					}
-				}, SOFT_UPKEY_WAIT_MS);
-				mInvisibleEditText.setText("_");
-				mInvisibleEditText.setSelection(1);
-			}
-		}
-	}
+    @Override
+    public Object onRetainCustomNonConfigurationInstance(){
+        return this;
+    }
 
 	private void l(String message) {
 		Log.d(TAG, message);
@@ -452,15 +307,17 @@ public class Beebdroid extends ActionBarActivity {
 
 	@Override
 	public void onPause() {
+        l("onPause()");
 		super.onPause();
 		mBBCMainLoopHandler.removeCallbacks(bbcEmulatorRunnable);
 	}
 
 	@Override
 	public void onStop() {
+        l("onStop()");
 		super.onStop();
 		bbcExit();
-		mAudioTrack.stop();
+		//mAudioTrack.stop();
 		mAudioPlaying = false;
 	}
 
@@ -501,11 +358,10 @@ public class Beebdroid extends ActionBarActivity {
 				return;
 			}
 			if (data.hasExtra(ExplorerActivity.INTENT_EXTRA_CONTENTS)) {
-				l("intent has string extra");
-				final String basicString = data.getStringExtra(ExplorerActivity.INTENT_EXTRA_CONTENTS);
-				l("Basic string:\n" + basicString);
-				mBasicSource = basicString;
-				processBasicSourceCode();
+				//Not supported:
+				//l("intent has string extra");
+				//final String basicString = data.getStringExtra(ExplorerActivity.INTENT_EXTRA_CONTENTS);
+				//l("Basic string:\n" + basicString);
 			} else if (data.hasExtra(ExplorerActivity.INTENT_EXTRA_FILEPATH)) {
 				l("intent has filepath extra");
 				String filePath = data.getStringExtra(ExplorerActivity.INTENT_EXTRA_FILEPATH);
@@ -529,9 +385,6 @@ public class Beebdroid extends ActionBarActivity {
 
 	private void initKeyboardRemapping() {
         L.l("initKeyboardRemapping()");
-        if(mInvisibleEditText != null) {
-            mInvisibleEditText.setVisibility(View.GONE);
-        }
 		SharedPreferences prefs = getSharedPreferences(BBC_MICRO_PREFS, MODE_PRIVATE);
 		KeyMap[] keys = mBBCUtils.getKeyMaps();
 		mRemapMap = new HashMap<Integer, Integer>();
@@ -545,18 +398,6 @@ public class Beebdroid extends ActionBarActivity {
 					mRemapMap.put(remappedKeyCode, bbcKeyCode);
 				}
 			}
-		}
-	}
-
-	private void processBasicSourceCode() {
-		char character = mBasicSource.charAt(0);
-		character = Character.toLowerCase(character);
-		mCharactersList.add(character);
-		mBasicSource = mBasicSource.substring(1, mBasicSource.length());
-		if(mBasicSource.length() == 0){
-			mProcessingBasic = false;
-			long basicInputMS = System.currentTimeMillis() - mStartBasicInput;
-			l("Basic loading took " + (basicInputMS/1000) + "seconds");
 		}
 	}
 
@@ -622,7 +463,6 @@ public class Beebdroid extends ActionBarActivity {
 			startActivityForResult(webCatalogueIntent, ACTIVITY_RESULT_WEB_CATALOGUE);
 			break;
 		case R.id.action_reset:
-			mBasicSource = "";
 			mDiskLoaded = false;
 			bbcBreak(0);
 			break;
@@ -651,9 +491,27 @@ public class Beebdroid extends ActionBarActivity {
 		 }
 	}
 
+    //This method is broken on Lollipop and/or with the folio case for Nexus 9...
 	private boolean isHardwareKeyboardAvailable() {
-        boolean hasHardwareKeys = getResources().getConfiguration().keyboard != Configuration.KEYBOARD_NOKEYS;
+        int keyboardConfig = getResources().getConfiguration().keyboard;
+        boolean hasHardwareKeys = keyboardConfig == Configuration.KEYBOARD_QWERTY;
         L.l("hasHardwareKeys = " + hasHardwareKeys);
 		return hasHardwareKeys;
 	}
+
+    private void hideToolbar(){
+        l("Hiding Toolbar...");
+        getSupportActionBar().hide();
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        mShowingToolbar = false;
+    }
+
+    private void showToolbar(){
+        l("Showing toolbar...");
+        getSupportActionBar().show();
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+        mShowingToolbar = true;
+    }
 }

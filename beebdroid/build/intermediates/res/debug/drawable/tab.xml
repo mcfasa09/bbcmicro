@@ -3,4 +3,4 @@
 	<item android:drawable="@drawable/tab1" android:state_selected="true"	/>
 	<item android:drawable="@drawable/tab1" />
 	
-</selector><!-- From: file:/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/src/main/res/drawable/tab.xml -->
+</selector><!-- From: file:/Users/primer/Documents/github/BBCMicro/bbcmicro/beebdroid/src/main/res/drawable/tab.xml -->

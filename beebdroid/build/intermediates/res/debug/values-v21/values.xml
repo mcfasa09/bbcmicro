@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values-v21/values.xml -->
+    <!-- From: file:/Users/primer/Documents/github/BBCMicro/bbcmicro/beebdroid/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values-v21/values.xml -->
     <eat-comment/>
     <style name="Base.TextAppearance.AppCompat" parent="android:TextAppearance.Material"/>
     <style name="Base.TextAppearance.AppCompat.Body1" parent="android:TextAppearance.Material.Body1"/>
@@ -253,7 +253,7 @@
         <item name="popupPromptView">@layout/abc_simple_dropdown_hint</item>
     </style>
     <style name="Base.Widget.AppCompat.Toolbar.Button.Navigation" parent="android:Widget.Material.Toolbar.Button.Navigation"/>
-    <!-- From: file:/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/build/intermediates/exploded-aar/com.afollestad/material-dialogs/0.3.0/res/values-v21/values.xml -->
+    <!-- From: file:/Users/primer/Documents/github/BBCMicro/bbcmicro/beebdroid/build/intermediates/exploded-aar/com.afollestad/material-dialogs/0.3.0/res/values-v21/values.xml -->
     <eat-comment/>
     <style name="MD_Dark" parent="android:Theme.Material.Dialog.Alert">
         <item name="md_divider">@color/md_divider_white</item>
@@ -263,7 +263,7 @@
         <item name="md_divider">@color/md_divider_black</item>
         <item name="md_selector">?android:selectableItemBackground</item>
     </style>
-    <!-- From: file:/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/res/values-v21/values.xml -->
+    <!-- From: file:/Users/primer/Documents/github/BBCMicro/bbcmicro/beebdroid/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values-v21/values.xml -->
     <eat-comment/>
     <style name="Platform.AppCompat" parent="android:Theme.Material">
         <item name="android:windowNoTitle">true</item>

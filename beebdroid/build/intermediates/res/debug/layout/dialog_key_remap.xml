@@ -37,4 +37,4 @@
         android:text="Remap Code: none"
         android:textColor="#666"
         android:textSize="18sp" />
-</LinearLayout><!-- From: file:/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/src/main/res/layout/dialog_key_remap.xml -->
+</LinearLayout><!-- From: file:/Users/primer/Documents/github/BBCMicro/bbcmicro/beebdroid/src/main/res/layout/dialog_key_remap.xml -->

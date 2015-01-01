@@ -219,17 +219,6 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
         public static final int buttonBarStyle=0x7f01007d;
-        /** <p>Must be one or more (separated by '|') of the following constant values.</p>
-<table>
-<colgroup align="left" />
-<colgroup align="left" />
-<colgroup align="left" />
-<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
-<tr><td><code>top</code></td><td>0x30</td><td></td></tr>
-<tr><td><code>bottom</code></td><td>0x50</td><td></td></tr>
-</table>
-         */
-        public static final int buttonGravity=0x7f0100ad;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -244,10 +233,18 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
         public static final int closedHandle=0x7f010046;
+        /** <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int collapseContentDescription=0x7f0100ae;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static final int collapseIcon=0x7f0100ae;
+        public static final int collapseIcon=0x7f0100ad;
         /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
 <p>This may also be a reference to a resource (in the form
@@ -1448,9 +1445,9 @@ containing a value of this type.
         public static final int tab_text_selector=0x7f020053;
     }
     public static final class id {
-        public static final int about_view=0x7f08004f;
-        public static final int about_view_web=0x7f080050;
-        public static final int action_about=0x7f08007f;
+        public static final int about_view=0x7f08004e;
+        public static final int about_view_web=0x7f08004f;
+        public static final int action_about=0x7f08007e;
         public static final int action_bar=0x7f080035;
         public static final int action_bar_activity_content=0x7f080000;
         public static final int action_bar_container=0x7f080034;
@@ -1459,90 +1456,89 @@ containing a value of this type.
         public static final int action_bar_subtitle=0x7f080023;
         public static final int action_bar_title=0x7f080022;
         public static final int action_context_bar=0x7f080036;
-        public static final int action_disk_popup_shortcut=0x7f080080;
-        public static final int action_hide_actionbar=0x7f08007c;
+        public static final int action_disk_popup_shortcut=0x7f08007f;
+        public static final int action_hide_actionbar=0x7f08007b;
         public static final int action_menu_divider=0x7f080002;
         public static final int action_menu_presenter=0x7f080003;
         public static final int action_mode_bar=0x7f080032;
         public static final int action_mode_bar_stub=0x7f080031;
         public static final int action_mode_close_button=0x7f080024;
-        public static final int action_open_local=0x7f08007a;
-        public static final int action_reset=0x7f08007d;
-        public static final int action_settings=0x7f08007e;
-        public static final int action_web_catalogue=0x7f08007b;
-        public static final int action_wipe=0x7f080081;
+        public static final int action_open_local=0x7f080079;
+        public static final int action_reset=0x7f08007c;
+        public static final int action_settings=0x7f08007d;
+        public static final int action_web_catalogue=0x7f08007a;
+        public static final int action_wipe=0x7f080080;
         public static final int activity_chooser_view_content=0x7f080025;
         public static final int always=0x7f080016;
         public static final int beeb=0x7f080046;
         public static final int beginning=0x7f080013;
         public static final int bottom=0x7f08001b;
-        public static final int buttonDefaultFrame=0x7f080071;
-        public static final int buttonDefaultNegative=0x7f080073;
-        public static final int buttonDefaultNeutral=0x7f080072;
-        public static final int buttonDefaultPositive=0x7f080074;
-        public static final int buttonStackedFrame=0x7f080075;
-        public static final int buttonStackedNegative=0x7f080077;
-        public static final int buttonStackedNeutral=0x7f080078;
-        public static final int buttonStackedPositive=0x7f080076;
+        public static final int buttonDefaultFrame=0x7f080070;
+        public static final int buttonDefaultNegative=0x7f080072;
+        public static final int buttonDefaultNeutral=0x7f080071;
+        public static final int buttonDefaultPositive=0x7f080073;
+        public static final int buttonStackedFrame=0x7f080074;
+        public static final int buttonStackedNegative=0x7f080076;
+        public static final int buttonStackedNeutral=0x7f080077;
+        public static final int buttonStackedPositive=0x7f080075;
         public static final int checkbox=0x7f08002d;
         public static final int collapseActionView=0x7f080017;
-        public static final int content=0x7f080069;
-        public static final int contentScrollView=0x7f080068;
-        public static final int control=0x7f080079;
-        public static final int customViewDivider=0x7f080070;
-        public static final int customViewFrame=0x7f08006c;
-        public static final int customViewScroll=0x7f08006b;
-        public static final int customViewScrollParent=0x7f08006a;
+        public static final int content=0x7f080068;
+        public static final int contentScrollView=0x7f080067;
+        public static final int control=0x7f080078;
+        public static final int customViewDivider=0x7f08006f;
+        public static final int customViewFrame=0x7f08006b;
+        public static final int customViewScroll=0x7f08006a;
+        public static final int customViewScrollParent=0x7f080069;
         public static final int decor_content_parent=0x7f080033;
         public static final int default_activity_button=0x7f080028;
         public static final int dialog=0x7f08001f;
         public static final int disableHome=0x7f08000c;
-        public static final int disk_select_list=0x7f080054;
+        public static final int disk_select_list=0x7f080053;
         public static final int dropdown=0x7f080020;
         public static final int edit_query=0x7f080037;
         public static final int end=0x7f080014;
         public static final int expand_activities_button=0x7f080026;
         public static final int expanded_menu=0x7f08002c;
-        public static final int file_list=0x7f08004c;
-        public static final int filename_edit=0x7f08004a;
-        public static final int filename_table=0x7f080049;
-        public static final int fiskur_logo=0x7f08004e;
-        public static final int gnu_view=0x7f080052;
+        public static final int file_list=0x7f08004b;
+        public static final int filename_edit=0x7f080049;
+        public static final int filename_table=0x7f080048;
+        public static final int fiskur_logo=0x7f08004d;
+        public static final int gnu_view=0x7f080051;
         public static final int home=0x7f080004;
         public static final int homeAsUp=0x7f08000d;
         public static final int icon=0x7f08002a;
-        public static final int iconCustomView=0x7f08006e;
+        public static final int iconCustomView=0x7f08006d;
         public static final int ifRoom=0x7f080018;
         public static final int image=0x7f080027;
-        public static final int invisible_edit=0x7f080047;
-        public static final int keyboard_remap_clear_button=0x7f08005c;
-        public static final int keyboard_remap_from_label=0x7f08005a;
-        public static final int keyboard_remap_set_button=0x7f08005d;
-        public static final int keyboard_remap_to_label=0x7f08005b;
+        public static final int keyboard_remap_clear_button=0x7f08005b;
+        public static final int keyboard_remap_from_label=0x7f080059;
+        public static final int keyboard_remap_set_button=0x7f08005c;
+        public static final int keyboard_remap_to_label=0x7f08005a;
         public static final int left=0x7f08001c;
         public static final int listMode=0x7f080009;
         public static final int list_item=0x7f080029;
-        public static final int list_row_charcter_label=0x7f080063;
-        public static final int list_row_keycode_label=0x7f080064;
-        public static final int list_row_keycode_remap_label=0x7f080065;
-        public static final int logo_layout=0x7f08004d;
-        public static final int mainFrame=0x7f080066;
+        public static final int list_row_charcter_label=0x7f080062;
+        public static final int list_row_keycode_label=0x7f080063;
+        public static final int list_row_keycode_remap_label=0x7f080064;
+        public static final int logo_layout=0x7f08004c;
+        public static final int mainFrame=0x7f080065;
         public static final int material_toolbar=0x7f080044;
         public static final int middle=0x7f080015;
         public static final int never=0x7f080019;
-        public static final int no_disks_available_label=0x7f080053;
+        public static final int no_disks_available_label=0x7f080052;
         public static final int none=0x7f08000e;
         public static final int normal=0x7f08000a;
-        public static final int progress=0x7f08004b;
+        public static final int progress=0x7f08004a;
         public static final int progress_bar=0x7f080045;
         public static final int progress_circular=0x7f080005;
         public static final int progress_horizontal=0x7f080006;
         public static final int radio=0x7f08002f;
-        public static final int remap_clear_button=0x7f080058;
-        public static final int remap_key_text_view=0x7f080055;
-        public static final int remap_scan_code_remap_text_view=0x7f080057;
-        public static final int remap_scan_code_text_view=0x7f080056;
-        public static final int remap_set_button=0x7f080059;
+        public static final int remap_clear_button=0x7f080057;
+        public static final int remap_key_text_view=0x7f080054;
+        public static final int remap_scan_code_remap_text_view=0x7f080056;
+        public static final int remap_scan_code_text_view=0x7f080055;
+        public static final int remap_set_button=0x7f080058;
         public static final int right=0x7f08001d;
         public static final int root=0x7f080043;
         public static final int search_badge=0x7f080039;
@@ -1555,27 +1551,27 @@ containing a value of this type.
         public static final int search_plate=0x7f08003d;
         public static final int search_src_text=0x7f08003e;
         public static final int search_voice_btn=0x7f080042;
-        public static final int settings_key_remap_label=0x7f080061;
-        public static final int settings_keymap_list=0x7f080062;
+        public static final int settings_key_remap_label=0x7f080060;
+        public static final int settings_keymap_list=0x7f080061;
         public static final int shortcut=0x7f08002e;
-        public static final int shortcut_clear_button=0x7f08005f;
-        public static final int shortcut_keycode_label=0x7f08005e;
-        public static final int shortcut_set_button=0x7f080060;
+        public static final int shortcut_clear_button=0x7f08005e;
+        public static final int shortcut_keycode_label=0x7f08005d;
+        public static final int shortcut_set_button=0x7f08005f;
         public static final int showCustom=0x7f08000f;
         public static final int showHome=0x7f080010;
         public static final int showTitle=0x7f080011;
         public static final int split_action_bar=0x7f080007;
         public static final int submit_area=0x7f080040;
         public static final int tabMode=0x7f08000b;
-        public static final int thanks_view=0x7f080051;
+        public static final int thanks_view=0x7f080050;
         public static final int title=0x7f08002b;
-        public static final int titleCustomView=0x7f08006f;
-        public static final int titleFrame=0x7f080067;
-        public static final int titleFrameCustomView=0x7f08006d;
+        public static final int titleCustomView=0x7f08006e;
+        public static final int titleFrame=0x7f080066;
+        public static final int titleFrameCustomView=0x7f08006c;
         public static final int top=0x7f08001e;
         public static final int up=0x7f080008;
         public static final int useLogo=0x7f080012;
-        public static final int web_view=0x7f080048;
+        public static final int web_view=0x7f080047;
         public static final int withText=0x7f08001a;
         public static final int wrap_content=0x7f080021;
     }
@@ -1647,23 +1643,24 @@ containing a value of this type.
         public static final int abc_searchview_description_voice=0x7f0a000c;
         public static final int abc_shareactionprovider_share_with=0x7f0a000d;
         public static final int abc_shareactionprovider_share_with_application=0x7f0a000e;
-        public static final int action_settings=0x7f0a000f;
-        public static final int filename_edit_hint=0x7f0a0010;
-        public static final int hello_world=0x7f0a0011;
-        public static final int keyboard_remap_label=0x7f0a0012;
-        public static final int ok_button=0x7f0a0013;
-        public static final int set_shortcut_label=0x7f0a0014;
-        public static final int settings_remap_label=0x7f0a0015;
-        public static final int title_activity_catlogue=0x7f0a0016;
-        public static final int title_activity_explorer=0x7f0a0017;
-        public static final int title_activity_files=0x7f0a0018;
-        public static final int title_activity_fiskur_about=0x7f0a0019;
-        public static final int title_activity_game_select=0x7f0a001a;
-        public static final int title_activity_google_drive=0x7f0a001b;
-        public static final int title_activity_key_remap=0x7f0a001c;
-        public static final int title_activity_keyboard_remap=0x7f0a001d;
-        public static final int title_activity_set_shortcut=0x7f0a001e;
-        public static final int title_activity_settings=0x7f0a001f;
+        public static final int abc_toolbar_collapse_description=0x7f0a000f;
+        public static final int action_settings=0x7f0a0010;
+        public static final int filename_edit_hint=0x7f0a0011;
+        public static final int hello_world=0x7f0a0012;
+        public static final int keyboard_remap_label=0x7f0a0013;
+        public static final int ok_button=0x7f0a0014;
+        public static final int set_shortcut_label=0x7f0a0015;
+        public static final int settings_remap_label=0x7f0a0016;
+        public static final int title_activity_catlogue=0x7f0a0017;
+        public static final int title_activity_explorer=0x7f0a0018;
+        public static final int title_activity_files=0x7f0a0019;
+        public static final int title_activity_fiskur_about=0x7f0a001a;
+        public static final int title_activity_game_select=0x7f0a001b;
+        public static final int title_activity_google_drive=0x7f0a001c;
+        public static final int title_activity_key_remap=0x7f0a001d;
+        public static final int title_activity_keyboard_remap=0x7f0a001e;
+        public static final int title_activity_set_shortcut=0x7f0a001f;
+        public static final int title_activity_settings=0x7f0a0020;
     }
     public static final class style {
         /**  API 11 theme customizations can go here. 
@@ -5050,7 +5047,7 @@ containing a value of this type.
            <tr><th>Attribute</th><th>Description</th></tr>
            <tr><td><code>{@link #Toolbar_android_gravity android:gravity}</code></td><td></td></tr>
            <tr><td><code>{@link #Toolbar_android_minHeight android:minHeight}</code></td><td></td></tr>
-           <tr><td><code>{@link #Toolbar_buttonGravity com.fiskur.bbcmicro:buttonGravity}</code></td><td></td></tr>
+           <tr><td><code>{@link #Toolbar_collapseContentDescription com.fiskur.bbcmicro:collapseContentDescription}</code></td><td></td></tr>
            <tr><td><code>{@link #Toolbar_collapseIcon com.fiskur.bbcmicro:collapseIcon}</code></td><td></td></tr>
            <tr><td><code>{@link #Toolbar_contentInsetEnd com.fiskur.bbcmicro:contentInsetEnd}</code></td><td></td></tr>
            <tr><td><code>{@link #Toolbar_contentInsetLeft com.fiskur.bbcmicro:contentInsetLeft}</code></td><td></td></tr>
@@ -5073,7 +5070,7 @@ containing a value of this type.
            </table>
            @see #Toolbar_android_gravity
            @see #Toolbar_android_minHeight
-           @see #Toolbar_buttonGravity
+           @see #Toolbar_collapseContentDescription
            @see #Toolbar_collapseIcon
            @see #Toolbar_contentInsetEnd
            @see #Toolbar_contentInsetLeft
@@ -5115,22 +5112,19 @@ containing a value of this type.
         */
         public static final int Toolbar_android_minHeight = 1;
         /**
-          <p>This symbol is the offset where the {@link com.fiskur.bbcmicro.R.attr#buttonGravity}
+          <p>This symbol is the offset where the {@link com.fiskur.bbcmicro.R.attr#collapseContentDescription}
           attribute's value can be found in the {@link #Toolbar} array.
 
 
-          <p>Must be one or more (separated by '|') of the following constant values.</p>
-<table>
-<colgroup align="left" />
-<colgroup align="left" />
-<colgroup align="left" />
-<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
-<tr><td><code>top</code></td><td>0x30</td><td></td></tr>
-<tr><td><code>bottom</code></td><td>0x50</td><td></td></tr>
-</table>
-          @attr name com.fiskur.bbcmicro:buttonGravity
+          <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.fiskur.bbcmicro:collapseContentDescription
         */
-        public static final int Toolbar_buttonGravity = 18;
+        public static final int Toolbar_collapseContentDescription = 19;
         /**
           <p>This symbol is the offset where the {@link com.fiskur.bbcmicro.R.attr#collapseIcon}
           attribute's value can be found in the {@link #Toolbar} array.
@@ -5140,7 +5134,7 @@ containing a value of this type.
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           @attr name com.fiskur.bbcmicro:collapseIcon
         */
-        public static final int Toolbar_collapseIcon = 19;
+        public static final int Toolbar_collapseIcon = 18;
         /**
           <p>This symbol is the offset where the {@link com.fiskur.bbcmicro.R.attr#contentInsetEnd}
           attribute's value can be found in the {@link #Toolbar} array.

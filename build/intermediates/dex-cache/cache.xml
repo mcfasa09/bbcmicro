@@ -2,46 +2,46 @@
 <items version="2" >
 
     <item
-        jar="/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.0/classes.jar"
+        jar="/Users/primer/adt-bundle-mac-x86_64-20130729/sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
         jumboMode="false"
         revision="21.1.1"
-        sha1="95fd37732ec852e99f07eeb516a3650172f1d136">
-        <dex dex="/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/build/intermediates/pre-dexed/debug/classes-9e74c05800f0e52e4f4cc8b7d8e1081e4767c141.jar" />
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="/Users/primer/Documents/github/BBCMicro/bbcmicro/beebdroid/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-ff0892d6d48620c861a6481dab078014d4fc56d4.jar" />
     </item>
     <item
-        jar="/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/build/intermediates/exploded-aar/com.afollestad/material-dialogs/0.3.0/classes.jar"
+        jar="/Users/primer/Documents/github/BBCMicro/bbcmicro/beebdroid/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="/Users/primer/Documents/github/BBCMicro/bbcmicro/beebdroid/build/intermediates/pre-dexed/debug/classes-eec7d73c046a4618441f2fe25d2c20e8e0dda102.jar" />
+    </item>
+    <item
+        jar="/Users/primer/Documents/github/BBCMicro/bbcmicro/beebdroid/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="/Users/primer/Documents/github/BBCMicro/bbcmicro/beebdroid/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-beab67b59351a477ba4b5dc59f3813e31b5325d7.jar" />
+    </item>
+    <item
+        jar="/Users/primer/Documents/github/BBCMicro/bbcmicro/beebdroid/build/intermediates/exploded-aar/com.afollestad/material-dialogs/0.3.0/classes.jar"
         jumboMode="false"
         revision="21.1.1"
         sha1="4523a57658d80bf5ad025858f1730d435e5699b4">
-        <dex dex="/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/build/intermediates/pre-dexed/debug/classes-77b4135a32f388aa228a5d597d3260f263ecf9d0.jar" />
+        <dex dex="/Users/primer/Documents/github/BBCMicro/bbcmicro/beebdroid/build/intermediates/pre-dexed/debug/classes-6646e60105db1e2f5b9d63135b8ea7fef8a39b1c.jar" />
     </item>
     <item
-        jar="/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/build/intermediates/exploded-aar/BBCMicroMaterialAndroidStudioProject/volley/unspecified/classes.jar"
+        jar="/Users/primer/Documents/github/BBCMicro/bbcmicro/beebdroid/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
         jumboMode="false"
         revision="21.1.1"
-        sha1="c0bc40fdf11f5a00e105fefe0f5a972206611928">
-        <dex dex="/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/build/intermediates/pre-dexed/debug/classes-589f29fc7954f3bf043cca9695af39e89bb0e1b4.jar" />
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="/Users/primer/Documents/github/BBCMicro/bbcmicro/beebdroid/build/intermediates/pre-dexed/debug/classes-b41cc232fc9a6d514e7b1b7b023bbd8450e379b5.jar" />
     </item>
     <item
-        jar="/Users/jonathan.fisher/Development/Android23/sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.0/support-annotations-21.0.0.jar"
+        jar="/Users/primer/Documents/github/BBCMicro/bbcmicro/beebdroid/build/intermediates/exploded-aar/bbcmicro/volley/unspecified/classes.jar"
         jumboMode="false"
         revision="21.1.1"
-        sha1="1a578b9607b36266c63d43a4fa0ab5664dbe911e">
-        <dex dex="/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/build/intermediates/pre-dexed/debug/support-annotations-21.0.0-e869a2cf20849bab669b59e263061293a1ed462d.jar" />
-    </item>
-    <item
-        jar="/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.0/libs/internal_impl-21.0.0.jar"
-        jumboMode="false"
-        revision="21.1.1"
-        sha1="1609e6d42d0480b0f4188e2c29f75388fa12a8f0">
-        <dex dex="/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/build/intermediates/pre-dexed/debug/internal_impl-21.0.0-a67b176406d600babe35a5efe40feccddb0f111c.jar" />
-    </item>
-    <item
-        jar="/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.0/classes.jar"
-        jumboMode="false"
-        revision="21.1.1"
-        sha1="686344a780033e4ba22b926cd225f8d4941247e6">
-        <dex dex="/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/build/intermediates/pre-dexed/debug/classes-3fe1977d911ce399cd7e2bc452f0a8d110d0206b.jar" />
+        sha1="b6daeb69b3cf5cabb7818bd1abe9f55c41b97950">
+        <dex dex="/Users/primer/Documents/github/BBCMicro/bbcmicro/beebdroid/build/intermediates/pre-dexed/debug/classes-cafcf36d137ad61b2dac87308a3f58a56137771b.jar" />
     </item>
 
 </items>

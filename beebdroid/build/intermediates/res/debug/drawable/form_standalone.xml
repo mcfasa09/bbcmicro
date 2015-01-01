@@ -3,4 +3,4 @@
 	<item android:state_pressed="true" android:drawable="@drawable/form_standalone_pressed" />
 	<item android:state_focused="true" android:drawable="@drawable/form_standalone_focused" />
 	<item android:drawable="@drawable/form_standalone_normal" />
-</selector><!-- From: file:/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/src/main/res/drawable/form_standalone.xml -->
+</selector><!-- From: file:/Users/primer/Documents/github/BBCMicro/bbcmicro/beebdroid/src/main/res/drawable/form_standalone.xml -->

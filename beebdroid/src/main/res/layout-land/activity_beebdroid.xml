@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/root"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#000" >
+    android:background="#000"
+    android:orientation="vertical" >
 
     <android.support.v7.widget.Toolbar
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -14,22 +15,22 @@
         android:background="?attr/colorPrimary"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
-    
-     <ProgressBar 
+
+    <ProgressBar
         android:id="@+id/progress_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#000"
-        android:layout_marginTop="-6dp" 
+        android:layout_marginTop="-6dp"
         android:visibility="gone"
         style="@android:style/Widget.Holo.ProgressBar.Horizontal"
         />
 
     <view
+        class="com.littlefluffytoys.beebdroid.BeebView"
         android:id="@+id/beeb"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
-        class="com.littlefluffytoys.beebdroid.BeebView" />
-</RelativeLayout>
+        android:layout_height="0dp"
+        android:layout_weight="272"
+        />
+</LinearLayout>

@@ -4,4 +4,4 @@
     <item android:state_pressed="true" android:drawable="@drawable/md_item_selected" />
     <item android:drawable="@drawable/md_transparent" />
 
-</selector><!-- From: file:/Users/aidanfollestad/Android%20Projects/MaterialDialogs/library/src/main/res/drawable/md_selector.xml --><!-- From: file:/Users/jonathan.fisher/Documents/Fiskur/BBCMicroMaterial/BBCMicroMaterialAndroidStudioProject/beebdroid/build/intermediates/exploded-aar/com.afollestad/material-dialogs/0.3.0/res/drawable/md_selector.xml -->
+</selector><!-- From: file:/Users/aidanfollestad/Android%20Projects/MaterialDialogs/library/src/main/res/drawable/md_selector.xml --><!-- From: file:/Users/primer/Documents/github/BBCMicro/bbcmicro/beebdroid/build/intermediates/exploded-aar/com.afollestad/material-dialogs/0.3.0/res/drawable/md_selector.xml -->
