@@ -21,10 +21,16 @@
         android:title="Reset"/>
      
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_global_mapping"
         android:orderInCategory="130"
         android:showAsAction="never"
-        android:title="Settings"/>
+        android:title="Global Key Mapping"/>
+
+    <item
+        android:id="@+id/action_game_mapping"
+        android:orderInCategory="135"
+        android:showAsAction="never"
+        android:title="Game Key Mapping"/>
     
     <item
         android:id="@+id/action_about"

@@ -1447,7 +1447,7 @@ containing a value of this type.
     public static final class id {
         public static final int about_view=0x7f08004e;
         public static final int about_view_web=0x7f08004f;
-        public static final int action_about=0x7f08007e;
+        public static final int action_about=0x7f08007f;
         public static final int action_bar=0x7f080035;
         public static final int action_bar_activity_content=0x7f080000;
         public static final int action_bar_container=0x7f080034;
@@ -1456,7 +1456,9 @@ containing a value of this type.
         public static final int action_bar_subtitle=0x7f080023;
         public static final int action_bar_title=0x7f080022;
         public static final int action_context_bar=0x7f080036;
-        public static final int action_disk_popup_shortcut=0x7f08007f;
+        public static final int action_disk_popup_shortcut=0x7f080080;
+        public static final int action_game_mapping=0x7f08007e;
+        public static final int action_global_mapping=0x7f08007d;
         public static final int action_hide_actionbar=0x7f08007b;
         public static final int action_menu_divider=0x7f080002;
         public static final int action_menu_presenter=0x7f080003;
@@ -1465,9 +1467,8 @@ containing a value of this type.
         public static final int action_mode_close_button=0x7f080024;
         public static final int action_open_local=0x7f080079;
         public static final int action_reset=0x7f08007c;
-        public static final int action_settings=0x7f08007d;
         public static final int action_web_catalogue=0x7f08007a;
-        public static final int action_wipe=0x7f080080;
+        public static final int action_wipe=0x7f080081;
         public static final int activity_chooser_view_content=0x7f080025;
         public static final int always=0x7f080016;
         public static final int beeb=0x7f080046;

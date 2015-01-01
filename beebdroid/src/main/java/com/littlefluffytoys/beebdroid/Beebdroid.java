@@ -57,14 +57,15 @@ public class Beebdroid extends ActionBarActivity {
 	private static final String TAG = "Beebdroid";
 
     private boolean mShowingToolbar = false;
+    private Menu mMenu = null;
 
-	// Constants
 	public static final String BBC_MICRO_PREFS = "fiskur_bbc_miro_prefs";
 	private static final int ACTIVITY_RESULT_FILE_EXPLORER = 9000;
 	private static final int ACTIVITY_RESULT_WEB_CATALOGUE = 9001;
 	private static final int ACTIVITY_RESULT_SETTINGS = 9002;
 	private static final int ACTIVITY_RESULT_LOAD_DISK = 9003;
 	private static final int EMULATOR_CYCLE_MS = 20;
+
 
 	// JNI interface
 	public native void bbcInit(ByteBuffer mem, ByteBuffer roms, byte[] audiob, int flags);
@@ -321,6 +322,8 @@ public class Beebdroid extends ActionBarActivity {
 		mAudioPlaying = false;
 	}
 
+
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
@@ -330,6 +333,9 @@ public class Beebdroid extends ActionBarActivity {
 			}
 			if(data.hasExtra(CatlogueActivity.EXTRA_ZIP_PATH)){
 				String zipPath = data.getStringExtra(CatlogueActivity.EXTRA_ZIP_PATH);
+
+                updateGameMappingMenuItem(zipPath);
+
 				ZipInputStream in = null;
 				try {
 					InputStream input = new FileInputStream(zipPath);
@@ -448,8 +454,18 @@ public class Beebdroid extends ActionBarActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
+        mMenu = menu;
 		return true;
 	}
+
+    private void updateGameMappingMenuItem(String zipPath){
+        if(mMenu == null){
+            return;
+        }
+        String diskName = zipPath.substring(zipPath.lastIndexOf("/") + 1, zipPath.indexOf(".zip"));
+        MenuItem gameMappingMenuItem = mMenu.findItem(R.id.action_game_mapping);
+        gameMappingMenuItem.setTitle("" + diskName + " Key Mapping");
+    }
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -466,10 +482,14 @@ public class Beebdroid extends ActionBarActivity {
 			mDiskLoaded = false;
 			bbcBreak(0);
 			break;
-		case R.id.action_settings:
-			Intent settingsIntent = new Intent(Beebdroid.this, SettingsActivity.class);
-			startActivityForResult(settingsIntent, ACTIVITY_RESULT_SETTINGS);
+		case R.id.action_global_mapping:
+			Intent globalMappingIntent = new Intent(Beebdroid.this, SettingsActivity.class);
+			startActivityForResult(globalMappingIntent, ACTIVITY_RESULT_SETTINGS);
 			break;
+        case R.id.action_game_mapping:
+            Intent gameMappingIntent = new Intent(Beebdroid.this, SettingsActivity.class);
+            startActivityForResult(gameMappingIntent, ACTIVITY_RESULT_SETTINGS);
+            break;
 		case R.id.action_hide_actionbar:
 			if (getSupportActionBar().isShowing()) {
 				getSupportActionBar().hide();
@@ -500,7 +520,6 @@ public class Beebdroid extends ActionBarActivity {
 	}
 
     private void hideToolbar(){
-        l("Hiding Toolbar...");
         getSupportActionBar().hide();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
@@ -508,7 +527,6 @@ public class Beebdroid extends ActionBarActivity {
     }
 
     private void showToolbar(){
-        l("Showing toolbar...");
         getSupportActionBar().show();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
