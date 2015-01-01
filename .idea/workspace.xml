@@ -65,16 +65,16 @@
       <file leaf-file-name="RemapKeysActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/beebdroid/src/main/java/com/fiskur/bbcmicro/RemapKeysActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.032967035" vertical-offset="285" max-vertical-offset="3090">
-              <caret line="20" column="22" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="22" />
+            <state vertical-scroll-proportion="0.1978022" vertical-offset="735" max-vertical-offset="3090">
+              <caret line="55" column="34" selection-start-line="55" selection-start-column="34" selection-end-line="55" selection-end-column="34" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2984#3017#0" expanded="true" />
-                <element signature="e#5736#6181#0" expanded="true" />
-                <element signature="e#6166#6167#0" expanded="true" />
-                <element signature="e#6598#6631#0" expanded="true" />
-                <element signature="e#7965#8430#0" expanded="true" />
-                <element signature="e#8411#8412#0" expanded="true" />
+                <element signature="e#3019#3052#0" expanded="true" />
+                <element signature="e#5771#6216#0" expanded="true" />
+                <element signature="e#6201#6202#0" expanded="true" />
+                <element signature="e#6633#6666#0" expanded="true" />
+                <element signature="e#8000#8465#0" expanded="true" />
+                <element signature="e#8446#8447#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1986,7 +1986,7 @@
     <property name="MemberChooser.showClasses" value="true" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="recentsLimit" value="5" />
-    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="TA993012U7" />
+    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="HT4AEJT09320" />
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="DebugDev" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../bbcmicro.keystore" />
     <property name="ExportApk.ApkPath" value="$PROJECT_DIR$" />
@@ -2199,7 +2199,7 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" x="100" y="123" width="1166" height="541" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1856" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1856" sideWeight="0.27492446" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.328" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -2217,7 +2217,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.67749244" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.328" sideWeight="0.36555892" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1856" sideWeight="0.72507554" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1856" sideWeight="0.72507554" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24973376" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -2272,12 +2272,12 @@
           <caret line="23" column="48" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="48" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2984#3017#0" expanded="true" />
-            <element signature="e#5736#6181#0" expanded="true" />
-            <element signature="e#6166#6167#0" expanded="true" />
-            <element signature="e#6598#6631#0" expanded="true" />
-            <element signature="e#7965#8430#0" expanded="true" />
-            <element signature="e#8411#8412#0" expanded="true" />
+            <element signature="e#3019#3052#0" expanded="true" />
+            <element signature="e#5771#6216#0" expanded="true" />
+            <element signature="e#6201#6202#0" expanded="true" />
+            <element signature="e#6633#6666#0" expanded="true" />
+            <element signature="e#8000#8465#0" expanded="true" />
+            <element signature="e#8446#8447#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2692,16 +2692,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/beebdroid/src/main/java/com/fiskur/bbcmicro/RemapKeysActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.032967035" vertical-offset="285" max-vertical-offset="3090">
-          <caret line="20" column="22" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="22" />
+        <state vertical-scroll-proportion="0.1978022" vertical-offset="735" max-vertical-offset="3090">
+          <caret line="55" column="34" selection-start-line="55" selection-start-column="34" selection-end-line="55" selection-end-column="34" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2984#3017#0" expanded="true" />
-            <element signature="e#5736#6181#0" expanded="true" />
-            <element signature="e#6166#6167#0" expanded="true" />
-            <element signature="e#6598#6631#0" expanded="true" />
-            <element signature="e#7965#8430#0" expanded="true" />
-            <element signature="e#8411#8412#0" expanded="true" />
+            <element signature="e#3019#3052#0" expanded="true" />
+            <element signature="e#5771#6216#0" expanded="true" />
+            <element signature="e#6201#6202#0" expanded="true" />
+            <element signature="e#6633#6666#0" expanded="true" />
+            <element signature="e#8000#8465#0" expanded="true" />
+            <element signature="e#8446#8447#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -108,7 +108,7 @@ data
 ADDED from AndroidManifest.xml:43:17
 	android:scheme
 		ADDED from AndroidManifest.xml:43:23
-activity#com.fiskur.bbcmicro.SettingsActivity
+activity#com.fiskur.bbcmicro.RemapKeysActivity
 ADDED from AndroidManifest.xml:50:9
 	android:label
 		ADDED from AndroidManifest.xml:52:13

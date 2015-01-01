@@ -53,7 +53,7 @@ public class RemapKeysActivity extends ActionBarActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        if(getIntent().getExtras().containsKey(EXTRA_GAME_TITLE)){
+        if(getIntent().getExtras() != null && getIntent().getExtras().containsKey(EXTRA_GAME_TITLE)){
             mGameTitle = getIntent().getStringExtra(EXTRA_GAME_TITLE);
             mPrefs = getSharedPreferences(Beebdroid.BBC_MICRO_PREFS + mGameTitle.toUpperCase(), MODE_PRIVATE);
         }else{
