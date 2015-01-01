@@ -51,6 +51,7 @@ public class Beebdroid extends ActionBarActivity {
     private boolean mShowingToolbar = false;
     private Menu mMenu = null;
     private String mGameTitle = null;
+    private boolean mPaused = false;
 
 	public static final String BBC_MICRO_PREFS = "fiskur_bbc_micro_prefs";
 	private static final int ACTIVITY_RESULT_FILE_EXPLORER = 9000;
@@ -206,7 +207,10 @@ public class Beebdroid extends ActionBarActivity {
 			}
 
 			// BBC cycle
-			bbcRun();
+            if(!mPaused){
+                bbcRun();
+            }
+
 		}
 	};
 
@@ -310,7 +314,7 @@ public class Beebdroid extends ActionBarActivity {
         l("onStop()");
 		super.onStop();
 		bbcExit();
-		//mAudioTrack.stop();
+		mAudioTrack.stop();
 		mAudioPlaying = false;
 	}
 
@@ -477,6 +481,14 @@ public class Beebdroid extends ActionBarActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+        case R.id.action_pause:
+                mPaused = !mPaused;
+                if(mPaused){
+                    item.setTitle("Continue");
+                }else{
+                    item.setTitle("Pause");
+                }
+                break;
 		case R.id.action_open_local:
 			Intent fileExplorerIntent = new Intent(Beebdroid.this, ExplorerActivity.class);
 			startActivityForResult(fileExplorerIntent, ACTIVITY_RESULT_FILE_EXPLORER);

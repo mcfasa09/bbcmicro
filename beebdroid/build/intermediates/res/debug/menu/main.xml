@@ -1,41 +1,47 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_pause"
+        android:orderInCategory="80"
+        app:showAsAction="always"
+        android:title="Pause"/>
     <item
         android:id="@+id/action_open_local"
         android:orderInCategory="80"
-        android:showAsAction="never"
+        app:showAsAction="never"
         android:title="Open File"/>
     <item
         android:id="@+id/action_web_catalogue"
         android:orderInCategory="90"
-        android:showAsAction="never"
+        app:showAsAction="never"
         android:title="Open Web Catalogue"/>
     <item
         android:id="@+id/action_hide_actionbar"
         android:orderInCategory="120"
-        android:showAsAction="never"
+        app:showAsAction="never"
         android:title="Hide Action Bar"/>
     <item
         android:id="@+id/action_reset"
         android:orderInCategory="125"
-        android:showAsAction="never"
+        app:showAsAction="never"
         android:title="Reset"/>
      
     <item
         android:id="@+id/action_global_mapping"
         android:orderInCategory="130"
-        android:showAsAction="never"
+        app:showAsAction="never"
         android:title="Global Key Mapping"/>
 
     <item
         android:id="@+id/action_game_mapping"
         android:orderInCategory="135"
-        android:showAsAction="never"
+        app:showAsAction="never"
         android:title="Game Key Mapping"/>
     
     <item
         android:id="@+id/action_about"
         android:orderInCategory="140"
-        android:showAsAction="never"
+        app:showAsAction="never"
         android:title="About"/>
 </menu>
 <!-- From: file:/Users/primer/Documents/github/BBCMicro/bbcmicro/beebdroid/src/main/res/menu/main.xml -->
