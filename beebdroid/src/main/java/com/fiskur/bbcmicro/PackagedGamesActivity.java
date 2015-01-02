@@ -6,6 +6,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -36,43 +38,20 @@ public class PackagedGamesActivity extends ActionBarActivity {
 
         mGamesList = ListView.class.cast(findViewById(R.id.packaged_games_list));
 
-        AssetManager assetManager = getAssets();
-        l("Reading packaged games...");
-        try {
-            mGames = assetManager.list("games/highlights");
-            PackagedGamesAdapter gamesAdapter = new PackagedGamesAdapter(this, R.layout.list_row_game, mGames);
-            mGamesList.setAdapter(gamesAdapter);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        loadHighlights();
 
         mGamesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(mAll){
                     String selectedGame = mGames[position];
-                    Intent packagedGameIntent = new Intent();
-                    packagedGameIntent.putExtra(EXTRA_PACKAGED_GAME, "games/all/" + selectedGame);
-                    setResult(RESULT_OK, packagedGameIntent);
-                    PackagedGamesActivity.this.finish();
+                    gameSelected("games/all/" + selectedGame);
                 }else {
                     if (position == mGames.length) {
-                        mAll = true;
-                        AssetManager assetManager = getAssets();
-                        l("Reading ALL packaged games...");
-                        try {
-                            mGames = assetManager.list("games/all");
-                            PackagedGamesAdapter gamesAdapter = new PackagedGamesAdapter(PackagedGamesActivity.this, R.layout.list_row_game, mGames);
-                            mGamesList.setAdapter(gamesAdapter);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        loadAll();
                     } else {
                         String selectedGame = mGames[position];
-                        Intent packagedGameIntent = new Intent();
-                        packagedGameIntent.putExtra(EXTRA_PACKAGED_GAME, "games/highlights/" + selectedGame);
-                        setResult(RESULT_OK, packagedGameIntent);
-                        PackagedGamesActivity.this.finish();
+                        gameSelected("games/highlights/" + selectedGame);
                     }
                 }
             }
@@ -81,5 +60,48 @@ public class PackagedGamesActivity extends ActionBarActivity {
 
     private void l(String message){
         Log.d(TAG, message);
+    }
+
+    private void gameSelected(String gamePath){
+        Intent packagedGameIntent = new Intent();
+        packagedGameIntent.putExtra(EXTRA_PACKAGED_GAME, gamePath);
+        setResult(RESULT_OK, packagedGameIntent);
+        PackagedGamesActivity.this.finish();
+    }
+
+    private void loadHighlights(){
+        mAll = false;
+        AssetManager assetManager = getAssets();
+
+        try {
+            mGames = assetManager.list("games/highlights");
+            PackagedGamesAdapter gamesAdapter = new PackagedGamesAdapter(this, R.layout.list_row_game, mGames);
+            mGamesList.setAdapter(gamesAdapter);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadAll(){
+        mAll = true;
+        AssetManager assetManager = getAssets();
+
+        try {
+            mGames = assetManager.list("games/all");
+            PackagedGamesAdapter gamesAdapter = new PackagedGamesAdapter(PackagedGamesActivity.this, R.layout.list_row_game, mGames);
+            mGamesList.setAdapter(gamesAdapter);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(mAll) {
+            loadHighlights();
+        }else{
+            finish();
+        }
+        return true;
     }
 }

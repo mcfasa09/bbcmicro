@@ -10,11 +10,11 @@
         android:orderInCategory="80"
         app:showAsAction="never"
         android:title="Open File"/>
-    <item
-        android:id="@+id/action_web_catalogue"
-        android:orderInCategory="90"
-        app:showAsAction="never"
-        android:title="Online Catalogue"/>
+    <!--<item-->
+        <!--android:id="@+id/action_web_catalogue"-->
+        <!--android:orderInCategory="90"-->
+        <!--app:showAsAction="never"-->
+        <!--android:title="Online Catalogue"/>-->
     <item
         android:id="@+id/action_packaged_catalogue"
         android:orderInCategory="100"

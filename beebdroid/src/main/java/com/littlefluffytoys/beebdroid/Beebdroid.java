@@ -532,10 +532,10 @@ public class Beebdroid extends ActionBarActivity {
 			Intent fileExplorerIntent = new Intent(Beebdroid.this, ExplorerActivity.class);
 			startActivityForResult(fileExplorerIntent, ACTIVITY_RESULT_FILE_EXPLORER);
 			break;
-		case R.id.action_web_catalogue:
-			Intent webCatalogueIntent = new Intent(Beebdroid.this, CatlogueActivity.class);
-			startActivityForResult(webCatalogueIntent, ACTIVITY_RESULT_WEB_CATALOGUE);
-			break;
+//		case R.id.action_web_catalogue:
+//			Intent webCatalogueIntent = new Intent(Beebdroid.this, CatlogueActivity.class);
+//			startActivityForResult(webCatalogueIntent, ACTIVITY_RESULT_WEB_CATALOGUE);
+//			break;
         case R.id.action_packaged_catalogue:
             Intent packagedCatalogueIntent = new Intent(Beebdroid.this, PackagedGamesActivity.class);
             startActivityForResult(packagedCatalogueIntent, ACTIVITY_RESULT_PACKAGED_CATALOGUE);
