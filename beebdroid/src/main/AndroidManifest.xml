@@ -4,18 +4,20 @@
     android:versionCode="12"
     android:versionName="2.2.1" >
 
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="19" />
+
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <uses-sdk
-        android:minSdkVersion="14"
-        android:targetSdkVersion="19" />
-
     <uses-feature android:glEsVersion="0x00020000" >
     </uses-feature>
+
+    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
@@ -42,7 +44,6 @@
 
                 <data android:scheme="file" />
                 <data android:mimeType="*/*" />
-                <data android:pathPattern=".*\\.bas" />
                 <data android:pathPattern=".*\\.ssd" />
                 <data android:host="*" />
             </intent-filter>
@@ -72,6 +73,10 @@
         <activity
             android:name=".CatlogueActivity"
             android:label="@string/title_activity_catlogue" >
+        </activity>
+        <activity
+            android:name=".PackagedGamesActivity"
+            android:label="@string/title_activity_packaged_games" >
         </activity>
     </application>
 

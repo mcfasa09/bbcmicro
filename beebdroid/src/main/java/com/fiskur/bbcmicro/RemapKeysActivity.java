@@ -19,16 +19,14 @@ import com.fiskur.bbcmicro.BBCUtils.KeyMap;
 import com.littlefluffytoys.beebdroid.Beebdroid;
 
 public class RemapKeysActivity extends ActionBarActivity {
+    private static final String TAG = "RemapKeysActivity";
+
     public static final String EXTRA_GAME_TITLE = "com.fiskur.bbcmicro.KEYMAP_GAME_TITLE";
     public static final String PREFS_POPUP_SHORTCUT_KEYCODE = "bbcmicro_popup_shortcut_keycode";
     public static final String PREFS_CHAR_PREFIX = "remap_char_int_";
-	private static final String TAG = "RemapKeysActivity";
-	private static final int ACTIVITY_REMAP = 0;
 
 	private ListView mBBCKeyList;
 	private KeyMap[] mBBCKeyLabels;
-
-	private TextView mKeyCodeView;
 
     private MaterialDialog mDialog;
 	private int mSelectedScanCode;

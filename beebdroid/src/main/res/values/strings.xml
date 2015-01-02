@@ -12,6 +12,7 @@
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_files">Explorer</string>
     <string name="action_settings">Settings</string>
+    <string name="packaged_games_label">These games are provided in the belief they are now in the public domain, if you\'re a rights-holder and want anything removed please get in touch</string>
     <string name="settings_remap_label">If using this app with a Bluetooth keyboard you can remap the BBC micro keys here. Select the BBC key from the list then type the hardware key when the popup displays.</string>
     <string name="title_activity_fiskur_about"> About</string>
     <string name="title_activity_key_remap">Set Hardware Key</string>
@@ -26,5 +27,6 @@
     <string name="title_activity_google_drive">GoogleDriveActivity</string>
     <string name="title_activity_explorer">File Explorer</string>
     <string name="title_activity_catlogue">Web Catalogue</string>
+    <string name="title_activity_packaged_games">Packaged Games</string>
 
 </resources>

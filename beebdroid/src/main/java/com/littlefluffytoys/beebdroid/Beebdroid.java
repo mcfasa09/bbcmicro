@@ -17,6 +17,7 @@ import com.fiskur.bbcmicro.DiskSelectActivity;
 import com.fiskur.bbcmicro.ExplorerActivity;
 import com.fiskur.bbcmicro.FiskurAboutActivity;
 import com.fiskur.bbcmicro.L;
+import com.fiskur.bbcmicro.PackagedGamesActivity;
 import com.fiskur.bbcmicro.R;
 import com.fiskur.bbcmicro.RemapKeysActivity;
 
@@ -58,6 +59,7 @@ public class Beebdroid extends ActionBarActivity {
 	private static final int ACTIVITY_RESULT_WEB_CATALOGUE = 9001;
 	private static final int ACTIVITY_RESULT_SETTINGS = 9002;
 	private static final int ACTIVITY_RESULT_LOAD_DISK = 9003;
+    private static final int ACTIVITY_RESULT_PACKAGED_CATALOGUE = 9004;
 	private static final int EMULATOR_CYCLE_MS = 20;
 
 	// JNI interface
@@ -318,11 +320,44 @@ public class Beebdroid extends ActionBarActivity {
 		mAudioPlaying = false;
 	}
 
-
-
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
+        case ACTIVITY_RESULT_PACKAGED_CATALOGUE:
+            l("ACTIVITY_RESULT_PACKAGED_CATALOGUE");
+            if (data == null) {
+                l("No data");
+                return;
+            }
+            if(data.hasExtra(PackagedGamesActivity.EXTRA_PACKAGED_GAME)){
+                String game = data.getStringExtra(PackagedGamesActivity.EXTRA_PACKAGED_GAME);
+                l("Load game: " + game);
+                updateGameMappingMenuItem(game);
+                ZipInputStream in = null;
+                try {
+                    InputStream input = getAssets().open(game);
+                    in = new ZipInputStream(input);
+                    in.getNextEntry();
+                    input = in;
+                    byte[] diskBytes = BBCUtils.readInputStream(input);
+                    mDiskImageByteBuffer = ByteBuffer.allocateDirect(diskBytes.length);
+                    mDiskImageByteBuffer.put(diskBytes);
+                    bbcLoadDisc(mDiskImageByteBuffer, 1);
+                    mDiskLoaded = true;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }finally {
+                    if (in != null) {
+                        try {
+                            in.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+
+            break;
 		case ACTIVITY_RESULT_WEB_CATALOGUE:
 			if (data == null) {
 				return;
@@ -366,9 +401,7 @@ public class Beebdroid extends ActionBarActivity {
 				//final String basicString = data.getStringExtra(ExplorerActivity.INTENT_EXTRA_CONTENTS);
 				//l("Basic string:\n" + basicString);
 			} else if (data.hasExtra(ExplorerActivity.INTENT_EXTRA_FILEPATH)) {
-				l("intent has filepath extra");
 				String filePath = data.getStringExtra(ExplorerActivity.INTENT_EXTRA_FILEPATH);
-				l("Disk image to load: " + filePath);
 				loadLocalDisk(filePath, true);
 			}
 			break;
@@ -416,7 +449,6 @@ public class Beebdroid extends ActionBarActivity {
             }
         }
     }
-
 
 	private void loadLocalDisk(String path, boolean bootIt) {
 		mDiskImageByteBuffer = mBBCUtils.loadFile(new File(path));
@@ -469,11 +501,18 @@ public class Beebdroid extends ActionBarActivity {
 		return true;
 	}
 
-    private void updateGameMappingMenuItem(String zipPath){
+    private void updateGameMappingMenuItem(String game){
         if(mMenu == null){
             return;
         }
-        mGameTitle = zipPath.substring(zipPath.lastIndexOf("/") + 1, zipPath.indexOf(".zip"));
+        if(game.indexOf("/") > -1 && game.endsWith(".zip")){
+            mGameTitle = game.substring(game.lastIndexOf("/") + 1, game.indexOf(".zip"));
+        }else if(game.endsWith(".zip")){
+            mGameTitle = game.substring(0, game.indexOf(".zip"));
+        }else{
+            mGameTitle = "Unknown";
+        }
+
         MenuItem gameMappingMenuItem = mMenu.findItem(R.id.action_game_mapping);
         gameMappingMenuItem.setTitle("" + mGameTitle + " Key Mapping");
     }
@@ -497,6 +536,10 @@ public class Beebdroid extends ActionBarActivity {
 			Intent webCatalogueIntent = new Intent(Beebdroid.this, CatlogueActivity.class);
 			startActivityForResult(webCatalogueIntent, ACTIVITY_RESULT_WEB_CATALOGUE);
 			break;
+        case R.id.action_packaged_catalogue:
+            Intent packagedCatalogueIntent = new Intent(Beebdroid.this, PackagedGamesActivity.class);
+            startActivityForResult(packagedCatalogueIntent, ACTIVITY_RESULT_PACKAGED_CATALOGUE);
+            break;
 		case R.id.action_reset:
 			mDiskLoaded = false;
 			bbcBreak(0);
@@ -510,13 +553,6 @@ public class Beebdroid extends ActionBarActivity {
             gameMappingIntent.putExtra(RemapKeysActivity.EXTRA_GAME_TITLE, mGameTitle);
             startActivityForResult(gameMappingIntent, ACTIVITY_RESULT_SETTINGS);
             break;
-		case R.id.action_hide_actionbar:
-			if (getSupportActionBar().isShowing()) {
-				getSupportActionBar().hide();
-			} else {
-				getSupportActionBar().show();
-			}
-			break;
 		case R.id.action_about:
 			startActivity(new Intent(Beebdroid.this, FiskurAboutActivity.class));
 			break;

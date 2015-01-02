@@ -14,18 +14,12 @@
         android:id="@+id/action_web_catalogue"
         android:orderInCategory="90"
         app:showAsAction="never"
-        android:title="Open Web Catalogue"/>
+        android:title="Online Catalogue"/>
     <item
-        android:id="@+id/action_hide_actionbar"
-        android:orderInCategory="120"
+        android:id="@+id/action_packaged_catalogue"
+        android:orderInCategory="100"
         app:showAsAction="never"
-        android:title="Hide Action Bar"/>
-    <item
-        android:id="@+id/action_reset"
-        android:orderInCategory="125"
-        app:showAsAction="never"
-        android:title="Reset"/>
-     
+        android:title="Packaged Catalogue"/>
     <item
         android:id="@+id/action_global_mapping"
         android:orderInCategory="130"
@@ -37,10 +31,16 @@
         android:orderInCategory="135"
         app:showAsAction="never"
         android:title="Game Key Mapping"/>
+
+    <item
+        android:id="@+id/action_reset"
+        android:orderInCategory="150"
+        app:showAsAction="never"
+        android:title="Reset"/>
     
     <item
         android:id="@+id/action_about"
-        android:orderInCategory="140"
+        android:orderInCategory="160"
         app:showAsAction="never"
         android:title="About"/>
 </menu>
